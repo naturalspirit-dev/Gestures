@@ -67,7 +67,7 @@ class GesturesTest(unittest.TestCase):
     def test_current_version(self):
         """ Test for current version. """
 
-        current_version = '1.0'
+        current_version = '1.1'
         result = self.app.__version__
         self.assertEqual(result, current_version)
 

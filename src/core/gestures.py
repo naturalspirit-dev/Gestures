@@ -4,7 +4,7 @@ import keyboard as kb
 class Gestures:
 
     def __init__(self):
-        self.__version__ = '1.0'
+        self.__version__ = '1.1'
         self.abbv = ''
         self.equivalent = ''
 
