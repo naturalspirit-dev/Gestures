@@ -4,6 +4,7 @@ import keyboard as kb
 class Gestures:
 
     def __init__(self):
+        self.__version__ = '1.0'
         self.abbv = ''
         self.equivalent = ''
 
@@ -18,6 +19,20 @@ class Gestures:
         """ Display current list of gestures. """
 
         print(kb._word_listeners.items())
+
+    def add_gesture_to_keyboard(self) -> None:
+        """ Register new gesture to keyboard library. """
+
+        if self.validate_user_input():
+            kb.add_abbreviation(self.abbv, self.equivalent)
+
+    def validate_user_input(self) -> bool:
+        """ Return True if user's input passes all validations. """
+
+        argument_type = self.check_argument_type(self.abbv, self.equivalent)
+        unique_gesture = self.check_unique_gesture(self.abbv)
+
+        return argument_type and unique_gesture
 
     def check_argument_type(self, abbv, equivalent):
         """ Return True if self.abbv and self.equivalent are both str type. """
@@ -35,16 +50,3 @@ class Gestures:
         else:
             print('\'{}\' already exist.'.format(abbv))
             return False
-
-    def validate_user_input(self) -> bool:
-
-        argument_type = self.check_argument_type(self.abbv, self.equivalent)
-        unique_gesture = self.check_unique_gesture(self.abbv)
-
-        return argument_type and unique_gesture
-
-    def add_gesture_to_keyboard(self) -> None:
-        """ Register new gesture to keyboard library. """
-
-        if self.validate_user_input():
-            kb.add_abbreviation(self.abbv, self.equivalent)

@@ -64,6 +64,12 @@ class GesturesTest(unittest.TestCase):
         result = self.app.show_gestures()
         self.assertIsNone(result)
 
+    def test_current_version(self):
+        """ Test for current version. """
+
+        current_version = '1.0'
+        result = self.app.__version__
+        self.assertEqual(result, current_version)
 
 if __name__ == '__main__':
     unittest.main()
