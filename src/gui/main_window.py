@@ -48,12 +48,19 @@ class GesturesUI(QWidget):
         self.abbvLineEdit.setMaximumWidth(75)
         self.equivLineEdit.setPlaceholderText('equivalent')
         self.addPushButton.setText('&Add Gesture')
+        self.addPushButton.setEnabled(False)
         self.resize(300, 71)
         self.setWindowTitle('Gestures')
 
     def _connections(self):
 
+        self.abbvLineEdit.textChanged.connect(self.on_lineEdit_textChanged)
+        self.equivLineEdit.textChanged.connect(self.on_lineEdit_textChanged)
         self.addPushButton.clicked.connect(self.on_addPushButton_clicked)
+
+    def on_lineEdit_textChanged(self):
+
+        self.check_fields()
 
     def on_addPushButton_clicked(self):
 
@@ -68,3 +75,11 @@ class GesturesUI(QWidget):
         self.abbvLineEdit.setFocus()
         self.abbvLineEdit.clear()
         self.equivLineEdit.clear()
+
+    def check_fields(self) -> None:
+        """ Enable or disable self.addPushButton based on LineEdit's text content. """
+
+        if not self.abbvLineEdit.text() == '' and not self.equivLineEdit.text() == '':
+            self.addPushButton.setEnabled(True)
+        else:
+            self.addPushButton.setEnabled(False)
