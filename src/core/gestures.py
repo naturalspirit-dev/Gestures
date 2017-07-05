@@ -7,7 +7,15 @@ class Gestures:
         self.__version__ = '1.1'
         self.abbv = ''
         self.equivalent = ''
+        self.gestures = {}
 
+    # TODO: for testing
+    def add_gesture(self, abbv: str, equivalent: str) -> None:
+        """ Register new gesture based on user's input. """
+
+        self.gestures[abbv] = equivalent
+
+    # TODO: review if you still need this
     def get_gestures(self, abbv, equivalent) -> dict:
         """ Return gestures based on user's input. """
 
@@ -18,13 +26,17 @@ class Gestures:
     def show_gestures(self) -> None:
         """ Display current list of gestures. """
 
-        print(kb._word_listeners.items())
+        sorted_AZ = sorted(self.gestures.items())
+        print('count -> {}'.format(len(sorted_AZ)))
+        for k, v in sorted_AZ:
+            print('{0}: {1}'.format(k, v))
 
     def add_gesture_to_keyboard(self) -> None:
         """ Register new gesture to keyboard library. """
 
         if self.validate_user_input():
             kb.add_abbreviation(self.abbv, self.equivalent)
+            self.add_gesture(self.abbv, self.equivalent)
 
     def validate_user_input(self) -> bool:
         """ Return True if user's input passes all validations. """

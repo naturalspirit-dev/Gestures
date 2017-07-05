@@ -7,6 +7,7 @@ All notable changes to this project will be documented on this file.
 _Release date: TBD_
 
 * TODO
+    * Create a button that will show the list of user's gestures
     * Create a text file that will all the list of added gestures
 
 
