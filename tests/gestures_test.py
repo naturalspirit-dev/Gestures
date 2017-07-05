@@ -9,6 +9,7 @@ APP = QApplication(sys.argv)
 
 
 class GesturesTest(unittest.TestCase):
+    """ Testing the core of the application. """
 
     def setUp(self):
         from src.core.gestures import Gestures
@@ -70,6 +71,55 @@ class GesturesTest(unittest.TestCase):
         current_version = '1.1'
         result = self.app.__version__
         self.assertEqual(result, current_version)
+
+
+class GesturesUITest(unittest.TestCase):
+    """ Testing the UI of Gestures. """
+
+    def setUp(self):
+        from src.gui.main_window import GesturesUI
+        self.window = GesturesUI()
+
+    def test_check_fields_empty(self):
+        """ Test if add pushbutton is disabled, should return False. """
+
+        self.window.abbvLineEdit.setText('')
+        self.window.equivLineEdit.setText('')
+        self.window.check_fields()
+        result = self.window.addPushButton.isEnabled()
+        self.assertFalse(result)
+        print('test_check_fields_empty: {}'.format(result))
+
+    def test_check_fields_not_empty(self):
+        """ Test add pushbutton is enabled if both fiels are not empty, should return True. """
+
+        self.window.abbvLineEdit.setText('1')
+        self.window.equivLineEdit.setText('2')
+        self.window.check_fields()
+        result = self.window.addPushButton.isEnabled()
+        self.assertTrue(result)
+        print('test_check_fields_not_empty: {}'.format(result))
+
+    def test_check_fields_abbvLineEdit_empty(self):
+        """ Test add pushbutton is disabled if abbvLineEdit is empty, should return False. """
+
+        self.window.abbvLineEdit.setText('')
+        self.window.equivLineEdit.setText('2')
+        self.window.check_fields()
+        result = self.window.addPushButton.isEnabled()
+        self.assertFalse(result)
+        print('test_check_fields_abbvLineEdit_empty: {}'.format(result))
+
+    def test_check_fields_equivLineEdit_empty(self):
+        """ Test add pushbutton is disabled if equivLineEdit is empty, should return False. """
+
+        self.window.abbvLineEdit.setText('1')
+        self.window.equivLineEdit.setText('')
+        self.window.check_fields()
+        result = self.window.addPushButton.isEnabled()
+        self.assertFalse(result)
+        print('test_check_fields_equivLineEdit_empty: {}'.format(result))
+
 
 if __name__ == '__main__':
     unittest.main()
