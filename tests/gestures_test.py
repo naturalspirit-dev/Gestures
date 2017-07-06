@@ -18,7 +18,7 @@ class GesturesTest(unittest.TestCase):
     def test_add_gestures_return_result(self):
         """ Test if self.add_gestures will return a dictionary. """
 
-        result = self.app.get_gestures('xx', 'xxxxx')
+        result = self.app.get_raw_gesture('xx', 'xxxxx')
         self.assertIsInstance(result, dict)
 
     def test_check_argument_type_result(self):
@@ -39,10 +39,29 @@ class GesturesTest(unittest.TestCase):
         result = self.app.check_argument_type('jerobado', 1)
         self.assertFalse(result)
 
+    def test_add_gesture_exist(self):
+        """ Test if newly added input has been added in the local dictionary of the app. """
+
+        abbv = '@arianagrande'
+        equiv = 'Be Alright'
+        self.app.add_gesture(abbv, equiv)
+        result = abbv in self.app.gestures
+        self.assertTrue(result)
+        [print(k, v) for k, v in self.app.gestures.items()]
+
+    def test_add_gesture_none(self):
+        """ Test if newly added input does not exist in the local dictionary of the app. """
+
+        self.app.add_gesture('@jerobado', 'developing your core gift')
+        abbv = '@arianagrande'
+        result = abbv in self.app.gestures
+        [print(k, v) for k, v in self.app.gestures.items()]
+        self.assertFalse(result)
+
     def test_add_gesture_to_keyboard(self):
         """ Test if newly added gesture has been added in the keyboard library. """
 
-        self.app.get_gestures('x', 'jerobado')
+        self.app.get_raw_gesture('x', 'jerobado')
         self.app.add_gesture_to_keyboard()
         result = self.app.abbv in kb._word_listeners
         self.assertTrue(result)
@@ -54,7 +73,7 @@ class GesturesTest(unittest.TestCase):
         self.assertTrue(result)
 
     def test_check_unique_gesture_if_false(self):
-        """ Test if newly added abbreviation DO exist in the keyboard libarary. """
+        """ Test if newly added abbreviation DO exist in the keyboard library. """
 
         result = self.app.check_unique_gesture('x')
         self.assertFalse(result)
