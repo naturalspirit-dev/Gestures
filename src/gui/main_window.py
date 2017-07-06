@@ -64,8 +64,8 @@ class GesturesUI(QWidget):
 
     def on_addPushButton_clicked(self):
 
-        self.gestures.get_gestures(self.abbvLineEdit.text(),
-                                   self.equivLineEdit.text())
+        self.gestures.get_raw_gesture(self.abbvLineEdit.text(),
+                                      self.equivLineEdit.text())
         self.gestures.add_gesture_to_keyboard()
         self.gestures.show_gestures()
         self.reset_gui()

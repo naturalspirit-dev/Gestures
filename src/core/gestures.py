@@ -9,18 +9,17 @@ class Gestures:
         self.equivalent = ''
         self.gestures = {}
 
-    # TODO: for testing
     def add_gesture(self, abbv: str, equivalent: str) -> None:
         """ Register new gesture based on user's input. """
 
         self.gestures[abbv] = equivalent
 
     # TODO: review if you still need this
-    def get_gestures(self, abbv, equivalent) -> dict:
+    def get_raw_gesture(self, raw_abbv: str, raw_equivalent: str) -> dict:
         """ Return gestures based on user's input. """
 
-        self.abbv = abbv
-        self.equivalent = equivalent
+        self.abbv = raw_abbv
+        self.equivalent = raw_equivalent
         return {self.abbv: self.equivalent}
 
     def show_gestures(self) -> None:
@@ -29,7 +28,7 @@ class Gestures:
         sorted_AZ = sorted(self.gestures.items())
         print('count -> {}'.format(len(sorted_AZ)))
         for k, v in sorted_AZ:
-            print('{0}: {1}'.format(k, v))
+            print('{0:<15s}: {1}'.format(k, v))
 
     def add_gesture_to_keyboard(self) -> None:
         """ Register new gesture to keyboard library. """
@@ -46,7 +45,7 @@ class Gestures:
 
         return argument_type and unique_gesture
 
-    def check_argument_type(self, abbv, equivalent):
+    def check_argument_type(self, abbv: str, equivalent: str) -> bool:
         """ Return True if self.abbv and self.equivalent are both str type. """
 
         if isinstance(abbv, str) and isinstance(equivalent, str):
