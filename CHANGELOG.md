@@ -8,7 +8,9 @@ _Release date: TBD_
 
 * TODO
     * Create a button that will show the list of user's gestures
-    * Create a text file that will all the list of added gestures
+    * Retrieved saved gestures from shortcuts.txt
+* Highlights
+    * List of gestures are now save in a text file named "shortcuts".
 
 
 **Patch 1.0**

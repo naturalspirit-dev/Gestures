@@ -1,3 +1,5 @@
 *.pyc
 *.xml
 .idea/Gestures.iml
+tests/shortcuts.txt
+src/shortcuts.txt
