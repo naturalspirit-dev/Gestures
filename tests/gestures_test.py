@@ -91,6 +91,14 @@ class GesturesTest(unittest.TestCase):
         result = self.app.__version__
         self.assertEqual(result, current_version)
 
+    def test_write_gestures_to_file(self):
+        """ Test if newly added gesture has been written in the text file."""
+
+        abbv = 'holdmetoo'
+        equiv = 'shalalala'
+        result = self.app.write_gestures_to_file(abbv, equiv)
+        self.assertTrue(result)
+
 
 class GesturesUITest(unittest.TestCase):
     """ Testing the UI of Gestures. """
