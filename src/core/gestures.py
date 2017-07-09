@@ -36,6 +36,7 @@ class Gestures:
         if self.validate_user_input():
             kb.add_abbreviation(self.abbv, self.equivalent)
             self.add_gesture(self.abbv, self.equivalent)
+            self.write_gestures_to_file(self.abbv, self.equivalent)
 
     def validate_user_input(self) -> bool:
         """ Return True if user's input passes all validations. """
@@ -61,3 +62,17 @@ class Gestures:
         else:
             print('\'{}\' already exist.'.format(abbv))
             return False
+
+    def write_gestures_to_file(self, abbv: str, equiv: str) -> bool:
+        """ Write registered gesture into a text file named shortcuts.txt. """
+
+        with open('shortcuts.txt', 'a') as gestures_file:
+            gestures_file.write('{0:<15s}: {1}\n'.format(abbv, equiv))
+            return True
+
+    # TODO: for testing
+    def read_gestures_from_file(self, filename):
+        """ Retrieved and load saved gestures from a text file. """
+
+        # TODO: retrieved shortcuts.txt
+        pass
