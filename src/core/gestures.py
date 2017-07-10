@@ -8,6 +8,7 @@ class Gestures:
         self.abbv = ''
         self.equivalent = ''
         self.gestures = {}
+        self.read_gestures_from_file('shortcuts.txt')
 
     def add_gesture(self, abbv: str, equivalent: str) -> None:
         """ Register new gesture based on user's input. """
@@ -71,8 +72,20 @@ class Gestures:
             return True
 
     # TODO: for testing
-    def read_gestures_from_file(self, filename):
-        """ Retrieved and load saved gestures from a text file. """
+    def read_gestures_from_file(self, filename: str):
+        """ Retrieved and load saved gestures from a text file. 
+            
+            Load saved shortcuts to keyboard.    
+        """
 
         # TODO: retrieved shortcuts.txt
-        pass
+        with open(filename) as gestures_file:
+            for line in gestures_file:
+                separate = line.split(':')
+                abbv = separate[0].rstrip()
+                equiv = separate[1].lstrip().strip('\n')
+                self.abbv = abbv
+                self.equivalent = equiv
+                self.add_gesture_to_keyboard()
+        return True
+
