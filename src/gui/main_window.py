@@ -4,7 +4,9 @@ from PyQt5.QtWidgets import (QLabel,
                              QHBoxLayout,
                              QVBoxLayout,
                              QWidget)
+from PyQt5.QtCore import QSettings
 from src.core.gestures import Gestures
+from src.core import gestures
 
 
 class GesturesUI(QWidget):
@@ -12,10 +14,12 @@ class GesturesUI(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.gestures = Gestures()
+        self.abbreviations = {}
         self._widgets()
         self._layout()
         self._properties()
         self._connections()
+        self._read_settings()
 
     def _widgets(self):
 
@@ -58,16 +62,48 @@ class GesturesUI(QWidget):
         self.equivLineEdit.textChanged.connect(self.on_lineEdit_textChanged)
         self.addPushButton.clicked.connect(self.on_addPushButton_clicked)
 
+    def _read_settings(self):
+
+        settings = QSettings('GIPSC Core Team', 'Gestures')
+        self.abbreviations = settings.value('abbreviations', self.abbreviations)
+        self.reload_gestures(self.abbreviations)
+
+    def reload_gestures(self, raw_data: dict):
+
+        print('count -> {}'.format(len(raw_data.items())))
+        for k, v in raw_data.items():
+            gestures.abbreviate(k, v)
+            print(k, v)
+
     def on_lineEdit_textChanged(self):
 
         self.check_fields()
 
     def on_addPushButton_clicked(self):
 
-        self.gestures.get_raw_gesture(self.abbvLineEdit.text(),
-                                      self.equivLineEdit.text())
-        self.gestures.add_gesture_to_keyboard()
-        self.gestures.show_gestures()
+        # Get user's input
+        abbv = self.abbvLineEdit.text()
+        equiv = self.equivLineEdit.text()
+
+        # Register new abbreviation to keyboard
+        gestures.abbreviate(abbv, equiv)
+
+        # Store newly added abbreviations in a dictionary
+        self.abbreviations[self.abbvLineEdit.text()] = self.equivLineEdit.text()
+
+        # Save to settings
+        #settings.setValue('abbreviations', self.abbreviations)
+
+        # Show what was added
+        #print(abbv, equiv)
+        #print('count -> {0}'.format(len(gestures._abbreviations)))
+        #print(gestures._abbreviations)
+
+        print('count -> {0}'.format(len(self.abbreviations)))
+        for k, v in self.abbreviations.items():
+            print(k, v)
+
+        # Clear QLineEdits for re-input
         self.reset_gui()
 
     def reset_gui(self):
@@ -83,3 +119,22 @@ class GesturesUI(QWidget):
             self.addPushButton.setEnabled(True)
         else:
             self.addPushButton.setEnabled(False)
+
+    def closeEvent(self, event):
+
+        self._write_settings()
+        # if both fields are blank, don't write settings
+        #if self.abbvLineEdit.text() == '' == self.equivLineEdit.text():
+        #    event.accept()
+        #    print('exited')
+        #else:
+        #    self._write_settings()
+        #    print('settings written')
+        #pass
+
+    def _write_settings(self):
+
+        settings = QSettings('GIPSC Core Team', 'Gestures')
+        settings.setValue('abbreviations', self.abbreviations)
+        #print('on write settings', self.abbreviations)
+        #print('writing {0} items'.format(len(self.abbreviations.items())))

@@ -1,5 +1,14 @@
 import keyboard as kb
 
+_abbreviations = {}
+
+
+def abbreviate(abbv: str, equiv: str) -> None:
+    """ Register new abbreviation to the keyboard library. """
+
+    kb.add_abbreviation(abbv, equiv)
+    _abbreviations[abbv] = equiv
+
 
 class Gestures:
 
@@ -8,7 +17,7 @@ class Gestures:
         self.abbv = ''
         self.equivalent = ''
         self.gestures = {}
-        self.read_gestures_from_file('shortcuts.txt')
+        #self.read_gestures_from_file('shortcuts.txt')
 
     def add_gesture(self, abbv: str, equivalent: str) -> None:
         """ Register new gesture based on user's input. """
@@ -88,4 +97,3 @@ class Gestures:
                 self.equivalent = equiv
                 self.add_gesture_to_keyboard()
         return True
-
