@@ -91,14 +91,7 @@ class GesturesUI(QWidget):
         # Store newly added abbreviations in a dictionary
         self.abbreviations[self.abbvLineEdit.text()] = self.equivLineEdit.text()
 
-        # Save to settings
-        #settings.setValue('abbreviations', self.abbreviations)
-
-        # Show what was added
-        #print(abbv, equiv)
-        #print('count -> {0}'.format(len(gestures._abbreviations)))
-        #print(gestures._abbreviations)
-
+        # Display output for debugging
         print('count -> {0}'.format(len(self.abbreviations)))
         for k, v in self.abbreviations.items():
             print(k, v)
@@ -123,18 +116,8 @@ class GesturesUI(QWidget):
     def closeEvent(self, event):
 
         self._write_settings()
-        # if both fields are blank, don't write settings
-        #if self.abbvLineEdit.text() == '' == self.equivLineEdit.text():
-        #    event.accept()
-        #    print('exited')
-        #else:
-        #    self._write_settings()
-        #    print('settings written')
-        #pass
 
     def _write_settings(self):
 
         settings = QSettings('GIPSC Core Team', 'Gestures')
         settings.setValue('abbreviations', self.abbreviations)
-        #print('on write settings', self.abbreviations)
-        #print('writing {0} items'.format(len(self.abbreviations.items())))

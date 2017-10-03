@@ -48,6 +48,7 @@ class Gestures:
             self.add_gesture(self.abbv, self.equivalent)
             self.write_gestures_to_file(self.abbv, self.equivalent)
 
+    # [] TODO: for testing
     def validate_user_input(self) -> bool:
         """ Return True if user's input passes all validations. """
 
@@ -67,11 +68,21 @@ class Gestures:
     def check_unique_gesture(self, abbv: str) -> bool:
         """ Return True if abbv is unique (no duplicate) else return False. """
 
-        if abbv not in kb._word_listeners.keys():
-            return True
-        else:
-            print('\'{}\' already exist.'.format(abbv))
+        #return kb._word_listeners.get(abbv, False)  # value, False
+
+        exist = kb._word_listeners.get(abbv, False)
+        if exist:
+            print('abbv already exist')
             return False
+        else:
+            print('abb is unique')
+            return True
+
+        # if abbv not in kb._word_listeners.keys():
+        #     return True
+        # else:
+        #     print('\'{}\' already exist.'.format(abbv))
+        #     return False
 
     def write_gestures_to_file(self, abbv: str, equiv: str) -> bool:
         """ Write registered gesture into a text file named shortcuts.txt. """

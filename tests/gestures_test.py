@@ -69,13 +69,15 @@ class GesturesTest(unittest.TestCase):
     def test_check_unique_gesture_if_true(self):
         """ Test if newly added abbreviation DOES NOT exist in the keyboard library."""
 
-        result = self.app.check_unique_gesture('z')
+        result = self.app.check_unique_gesture('z')     # adding value that DON'T exist
+        print('test_check_unique_gesture_if_true:', result)
         self.assertTrue(result)
 
     def test_check_unique_gesture_if_false(self):
         """ Test if newly added abbreviation DO exist in the keyboard library. """
 
-        result = self.app.check_unique_gesture('x')
+        result = self.app.check_unique_gesture('x')     # adding value that DO exist
+        print('test_check_unique_gesture_if_false:', result)
         self.assertFalse(result)
 
     def test_show_gesture(self):
@@ -97,6 +99,13 @@ class GesturesTest(unittest.TestCase):
         abbv = 'holdmetoo'
         equiv = 'shalalala'
         result = self.app.write_gestures_to_file(abbv, equiv)
+        self.assertTrue(result)
+
+    def test_read_gestures_from_file_exist(self):
+        """ Test if it can read a file. """
+
+        filename = 'shortcuts.txt'
+        result = self.app.read_gestures_from_file(filename)
         self.assertTrue(result)
 
 
