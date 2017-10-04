@@ -10,6 +10,13 @@ def abbreviate(abbv: str, equiv: str) -> None:
     _abbreviations[abbv] = equiv
 
 
+def validate(abbv: str) -> bool:
+    """ Validate user input before adding it as a hotkey/gesture. """
+
+    return abbv not in kb._word_listeners.keys()
+
+
+# NOTE: Main window is now using this class, only the functions above
 class Gestures:
 
     def __init__(self):

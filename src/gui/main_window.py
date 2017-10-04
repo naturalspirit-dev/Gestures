@@ -85,25 +85,30 @@ class GesturesUI(QWidget):
         abbv = self.abbvLineEdit.text()
         equiv = self.equivLineEdit.text()
 
-        # Register new abbreviation to keyboard
-        gestures.abbreviate(abbv, equiv)
+        # Perform input validation
+        if gestures.validate(abbv):
+            # Register new abbreviation to keyboard
+            gestures.abbreviate(abbv, equiv)
 
-        # Store newly added abbreviations in a dictionary
-        self.abbreviations[self.abbvLineEdit.text()] = self.equivLineEdit.text()
+            # Store newly added abbreviations in a dictionary
+            self.abbreviations[self.abbvLineEdit.text()] = self.equivLineEdit.text()
 
-        # Display output for debugging
-        print('count -> {0}'.format(len(self.abbreviations)))
-        for k, v in self.abbreviations.items():
-            print(k, v)
-
-        # Clear QLineEdits for re-input
-        self.reset_gui()
+            self.display_output()   # Display output for debugging
+            self.reset_gui()        # Clear QLineEdits for re-input
+        else:
+            print('abbreviation already exist')
 
     def reset_gui(self):
 
         self.abbvLineEdit.setFocus()
         self.abbvLineEdit.clear()
         self.equivLineEdit.clear()
+
+    def display_output(self):
+
+        print('count -> {0}'.format(len(self.abbreviations)))
+        for k, v in self.abbreviations.items():
+            print(k, v)
 
     def check_fields(self) -> None:
         """ Enable or disable self.addPushButton based on LineEdit's text content. """
