@@ -96,7 +96,7 @@ class GesturesUI(QWidget):
             self.display_output()   # Display output for debugging
             self.reset_gui()        # Clear QLineEdits for re-input
         else:
-            print('abbreviation already exist')
+            print('Abbreviation already exist. Try again')
 
     def reset_gui(self):
 
