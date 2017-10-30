@@ -16,6 +16,39 @@ def validate(abbv: str) -> bool:
     return abbv not in kb._word_listeners.keys()
 
 
+class Gesture:
+
+    def __init__(self):
+
+        self.kind = 'core'
+
+    def add_gesture(self, *args):
+
+        pass
+
+    def remove_gesture(self, *args):
+
+        pass
+
+
+class KeyboardGesture(Gesture):
+
+    def __init__(self):
+
+        super().__init__()
+        self.kind = 'keyboard'
+
+    def add_gesture(self, abbv, equiv):
+
+        kb.add_abbreviation(abbv, equiv)
+
+    # [] TODO: implement next
+    def remove_gesture(self):
+
+        pass
+
+
+# [] TODO: for deletion but check first
 # NOTE: Main window is now using this class, only the functions above
 class Gestures:
 
