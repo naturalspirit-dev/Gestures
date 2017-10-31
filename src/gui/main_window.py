@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QLabel,
                              QVBoxLayout,
                              QWidget)
 from PyQt5.QtCore import QSettings
-from src.core.gestures import Gestures
+from src.core.gestures import KeyboardGesture
 from src.core import gestures
 
 
@@ -13,7 +13,7 @@ class GesturesUI(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.gestures = Gestures()
+        self.gesture = KeyboardGesture()
         self.abbreviations = {}
         self._widgets()
         self._layout()
@@ -72,7 +72,7 @@ class GesturesUI(QWidget):
 
         print('count -> {}'.format(len(raw_data.items())))
         for k, v in raw_data.items():
-            gestures.abbreviate(k, v)
+            self.gesture.add_gesture(k, v)
             print(k, v)
 
     def on_lineEdit_textChanged(self):
@@ -85,13 +85,14 @@ class GesturesUI(QWidget):
         abbv = self.abbvLineEdit.text()
         equiv = self.equivLineEdit.text()
 
+        # [] TODO: try...except here
         # Perform input validation
         if gestures.validate(abbv):
             # Register new abbreviation to keyboard
-            gestures.abbreviate(abbv, equiv)
+            print(type(self.gesture.add_gesture(abbv, equiv)))
 
             # Store newly added abbreviations in a dictionary
-            self.abbreviations[self.abbvLineEdit.text()] = self.equivLineEdit.text()
+            self.abbreviations[abbv] = equiv
 
             self.display_output()   # Display output for debugging
             self.reset_gui()        # Clear QLineEdits for re-input

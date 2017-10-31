@@ -3,6 +3,7 @@ import keyboard as kb
 _abbreviations = {}
 
 
+# [x] TODO: for deletion, successfully reimplemented this method in KeyboardGesture class
 def abbreviate(abbv: str, equiv: str) -> None:
     """ Register new abbreviation to the keyboard library. """
 
@@ -32,20 +33,22 @@ class Gesture:
 
 
 class KeyboardGesture(Gesture):
+    """ Currently handles abbreviation as gestures. """
 
-    def __init__(self):
+    def __init__(self) -> None:
 
         super().__init__()
         self.kind = 'keyboard'
 
-    def add_gesture(self, abbv, equiv):
+    def add_gesture(self, abbv: str, equiv: str) -> 'function':
+        """ Add abbreviation to be stored in keyboard library. """
 
-        kb.add_abbreviation(abbv, equiv)
+        return kb.add_abbreviation(abbv, equiv)
 
-    # [] TODO: implement next
-    def remove_gesture(self):
+    def remove_gesture(self, abbv: str) -> dict:
+        """ Remove user defined abbreviations in the keyboard library. """
 
-        pass
+        return kb.remove_abbreviation(abbv)
 
 
 # [] TODO: for deletion but check first
