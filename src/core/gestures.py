@@ -1,15 +1,5 @@
 import keyboard as kb
 
-_abbreviations = {}
-
-
-# [x] TODO: for deletion, successfully reimplemented this method in KeyboardGesture class
-def abbreviate(abbv: str, equiv: str) -> None:
-    """ Register new abbreviation to the keyboard library. """
-
-    kb.add_abbreviation(abbv, equiv)
-    _abbreviations[abbv] = equiv
-
 
 def validate(abbv: str) -> bool:
     """ Validate user input before adding it as a hotkey/gesture. """
