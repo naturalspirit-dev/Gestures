@@ -8,10 +8,10 @@ from PyQt5.QtWidgets import (QLabel,
 from PyQt5.QtCore import (QSettings,
                           Qt)
 from src.core.gestures import KeyboardGesture
-from src.core import gestures
 
 
-class GesturesUI(QWidget):
+class GesturesWindow(QWidget):
+    """ Gestures' main user interface. """
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -29,6 +29,7 @@ class GesturesUI(QWidget):
         self.abbvLineEdit = QLineEdit()
         self.equivLineEdit = QLineEdit()
         self.addPushButton = QPushButton()
+        self.updatePushButton = QPushButton()
         self.removePushButton = QPushButton()
 
     def _layout(self):
@@ -41,6 +42,7 @@ class GesturesUI(QWidget):
         second_layer = QHBoxLayout()
         second_layer.addStretch()
         second_layer.addWidget(self.addPushButton)
+        second_layer.addWidget(self.updatePushButton)
         second_layer.addWidget(self.removePushButton)
 
         combine_vertically = QVBoxLayout()
@@ -55,9 +57,10 @@ class GesturesUI(QWidget):
         self.abbvLineEdit.setPlaceholderText('abbreviation')
         self.abbvLineEdit.setMaximumWidth(75)
         self.equivLineEdit.setPlaceholderText('equivalent')
-        self.addPushButton.setText('&Add Gesture')
+        self.addPushButton.setText('&Add')
         self.addPushButton.setEnabled(False)
-        self.removePushButton.setText('&Remove Gesture')
+        self.updatePushButton.setText('&Update')
+        self.removePushButton.setText('&Remove')
         self.resize(300, 71)
         self.setWindowTitle('Gestures')
 
@@ -66,6 +69,7 @@ class GesturesUI(QWidget):
         self.abbvLineEdit.textChanged.connect(self.on_lineEdit_textChanged)
         self.equivLineEdit.textChanged.connect(self.on_lineEdit_textChanged)
         self.addPushButton.clicked.connect(self.on_addPushButton_clicked)
+        self.updatePushButton.clicked.connect(self.on_updatePushButton_clicked)
         self.removePushButton.clicked.connect(self.on_removePushButton_clicked)
 
     def _read_settings(self):
@@ -84,6 +88,7 @@ class GesturesUI(QWidget):
     def on_lineEdit_textChanged(self):
 
         self.check_fields()
+        self.abbreviations.update()
 
     def on_addPushButton_clicked(self):
 
@@ -94,7 +99,7 @@ class GesturesUI(QWidget):
             equiv = self.equivLineEdit.text()
 
             # Perform input validation
-            gestures.validate(abbv)
+            #gestures.validate(abbv)
 
             # Register new abbreviation to keyboard
             self.gesture.add_gesture(abbv, equiv)
@@ -115,6 +120,16 @@ class GesturesUI(QWidget):
         self.abbvLineEdit.setFocus()
         self.abbvLineEdit.clear()
         self.equivLineEdit.clear()
+
+    def on_updatePushButton_clicked(self):
+        """ Event handler that update an existing gesture. """
+
+        # [] TODO: make this happen
+        # get gesture to update: abbv, equiv
+        # check if existing
+        # if not, perform updating of gesture
+        # else, try again
+        pass
 
     def on_removePushButton_clicked(self):
         """ Display an input dialog that will accept a gesture to remove. """

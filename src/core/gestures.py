@@ -17,6 +17,10 @@ class Gesture:
 
         pass
 
+    def update_gesture(self, *args):
+
+        pass
+
     def remove_gesture(self, *args):
 
         pass
@@ -31,12 +35,17 @@ class KeyboardGesture(Gesture):
         self.kind = 'keyboard'
 
     def add_gesture(self, abbv: str, equiv: str) -> 'function':
-        """ Add abbreviation to be stored in keyboard library. """
+        """ Add gesture in the keyboard library. """
 
         return kb.add_abbreviation(abbv, equiv)
 
+    def update_gesture(self, new_abbv: str, new_equiv: str) -> 'function':
+        """ Update/amend existing gesture in the keyboard library. """
+
+        return kb.add_abbreviation(new_abbv, new_equiv)
+
     def remove_gesture(self, abbv: str) -> dict:
-        """ Remove user defined abbreviations in the keyboard library. """
+        """ Remove existing gesture in the keyboard library. """
 
         return kb.remove_abbreviation(abbv)
 
