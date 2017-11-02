@@ -13,9 +13,10 @@ _Release date: 2017-12-01 (tentative)_
     * Added GNU GPL v3 as license for Gestures
 
 * Things to do
-    - [ ] Restrict the user on entering existing gestures
+    - [x] Restrict the user on entering existing gestures
     - [ ] Create a button that will show the list of user's gestures
     - [x] Add GPLv3 as license for Gestures
+    - [ ] Updating of existing gestures
 
 
 **Patch 1.0**
