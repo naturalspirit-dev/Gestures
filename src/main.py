@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import QApplication
 APP = QApplication(sys.argv)
 
 if __name__ == '__main__':
-    from src.gui.main_window import GesturesUI
-    window = GesturesUI()
+    from src.gui.main_window import GesturesWindow
+    window = GesturesWindow()
     window.show()
     APP.exec()
