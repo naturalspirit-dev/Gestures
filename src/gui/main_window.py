@@ -61,7 +61,7 @@ class GesturesWindow(QWidget):
         self.addPushButton.setEnabled(False)
         self.updatePushButton.setText('&Update')
         self.removePushButton.setText('&Remove')
-        self.resize(300, 71)
+        self.resize(349, 71)
         self.setWindowTitle('Gestures')
 
     def _connections(self):
@@ -128,12 +128,36 @@ class GesturesWindow(QWidget):
         # check if existing
         # if not, perform updating of gesture
         # else, try again
+
         try:
             from src.gui.dialogs.update import UpdateGestureDialog
 
             dialog = UpdateGestureDialog(self)
             if dialog.exec():
-                print('update!!')
+                try:
+                    # get input
+                    print(f'getting input')
+                    current_abbv = dialog.current_abbvLineEdit.text()
+                    current_equiv = dialog.current_equivLineEdit.text()
+                    new_abbv = dialog.new_abbvLineEdit.text()
+                    new_equiv = dialog.new_equivLineEdit.text()
+
+                    # remove current gesture
+                    print(f'removing {current_abbv}')
+                    del self.abbreviations[current_abbv]
+                    self.gesture.remove_gesture(current_abbv)
+
+                    # add new gesture
+                    print(f'adding {new_abbv}')
+                    self.gesture.update_gesture(new_abbv, new_equiv)
+                    self.abbreviations[new_abbv] = new_equiv
+
+                    # report what happend
+                    print('updated!!')
+                    self.display_output()
+
+                except ValueError as e:
+                    print(f'{e}')
 
         except Exception as e:
             print(e)
@@ -154,7 +178,7 @@ class GesturesWindow(QWidget):
 
     def display_output(self):
 
-        print('count -> {0}'.format(len(self.abbreviations)))
+        print('\ncount -> {0}'.format(len(self.abbreviations)))
         for k, v in self.abbreviations.items():
             print(k, v)
 
@@ -174,3 +198,8 @@ class GesturesWindow(QWidget):
 
         settings = QSettings('GIPSC Core Team', 'Gestures')
         settings.setValue('abbreviations', self.abbreviations)
+
+    def resizeEvent(self, event):
+
+        #print(f'{self.width()} x {self.height()}')
+        pass

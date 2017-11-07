@@ -38,6 +38,7 @@ class UpdateGestureDialog(QDialog):
         self.new_abbvLineEdit.setPlaceholderText('abbreviation')
         self.new_equivLineEdit.setPlaceholderText('equivalent')
         self.okPushButton.setText('&OK')
+        self.setWindowTitle('Update Gesture')
 
     def _layout(self):
 
@@ -61,4 +62,4 @@ class UpdateGestureDialog(QDialog):
 
     def _connections(self):
 
-        pass
+        self.okPushButton.clicked.connect(self.accept)
