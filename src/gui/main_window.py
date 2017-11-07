@@ -92,14 +92,10 @@ class GesturesWindow(QWidget):
 
     def on_addPushButton_clicked(self):
 
-        # [x] TODO: try...except here
         try:
             # Get user's input
             abbv = self.abbvLineEdit.text()
             equiv = self.equivLineEdit.text()
-
-            # Perform input validation
-            #gestures.validate(abbv)
 
             # Register new abbreviation to keyboard
             self.gesture.add_gesture(abbv, equiv)
@@ -125,11 +121,22 @@ class GesturesWindow(QWidget):
         """ Event handler that update an existing gesture. """
 
         # [] TODO: make this happen
-        # get gesture to update: abbv, equiv
+        # GUI design:
+        #   > dialog with the list of all existing gestures
+        # get existing gesture to update: abbv, equiv
+        # get new gesture
         # check if existing
         # if not, perform updating of gesture
         # else, try again
-        pass
+        try:
+            from src.gui.dialogs.update import UpdateGestureDialog
+
+            dialog = UpdateGestureDialog(self)
+            if dialog.exec():
+                print('update!!')
+
+        except Exception as e:
+            print(e)
 
     def on_removePushButton_clicked(self):
         """ Display an input dialog that will accept a gesture to remove. """
