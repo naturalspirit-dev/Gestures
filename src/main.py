@@ -1,9 +1,8 @@
-""" Gestures: an application for people who loved to type
+""" Gestures: an application for people who just loved to type
 
     Interface: GUI (PyQt5)
-    Language: Python 3.5.2
+    Language: Python 3.6.3
     Created: 25 Jun 2017
-    Next release date (NRD): TBD
  """
 
 import sys

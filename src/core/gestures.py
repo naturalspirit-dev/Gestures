@@ -35,12 +35,12 @@ class KeyboardGesture(Gesture):
         self.kind = 'keyboard'
 
     def add_gesture(self, abbv: str, equiv: str) -> 'function':
-        """ Add gesture in the keyboard library. """
+        """ Add new gesture in the keyboard library. """
 
         return kb.add_abbreviation(abbv, equiv)
 
     def update_gesture(self, new_abbv: str, new_equiv: str) -> 'function':
-        """ Update/amend existing gesture in the keyboard library. """
+        """ Update/amend an existing gesture in the keyboard library. """
 
         return kb.add_abbreviation(new_abbv, new_equiv)
 
