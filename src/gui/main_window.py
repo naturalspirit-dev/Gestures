@@ -120,40 +120,26 @@ class GesturesWindow(QWidget):
     def on_updatePushButton_clicked(self):
         """ Event handler that update an existing gesture. """
 
-        # [] TODO: make this happen
-        # GUI design:
-        #   > dialog with the list of all existing gestures
-        # get existing gesture to update: abbv, equiv
-        # get new gesture
-        # check if existing
-        # if not, perform updating of gesture
-        # else, try again
-
         try:
             from src.gui.dialogs.update import UpdateGestureDialog
-
             dialog = UpdateGestureDialog(self)
             if dialog.exec():
                 try:
                     # get input
-                    print(f'getting input')
                     current_abbv = dialog.current_abbvLineEdit.text()
                     current_equiv = dialog.current_equivLineEdit.text()
                     new_abbv = dialog.new_abbvLineEdit.text()
                     new_equiv = dialog.new_equivLineEdit.text()
 
                     # remove current gesture
-                    print(f'removing {current_abbv}')
                     del self.abbreviations[current_abbv]
                     self.gesture.remove_gesture(current_abbv)
 
                     # add new gesture
-                    print(f'adding {new_abbv}')
                     self.gesture.update_gesture(new_abbv, new_equiv)
                     self.abbreviations[new_abbv] = new_equiv
 
                     # report what happend
-                    print('updated!!')
                     self.display_output()
 
                 except ValueError as e:
