@@ -1,12 +1,6 @@
 import keyboard as kb
 
 
-def validate(abbv: str) -> bool:
-    """ Validate user input before adding it as a hotkey/gesture. """
-
-    return abbv not in kb._word_listeners.keys()
-
-
 class Gesture:
 
     def __init__(self):
