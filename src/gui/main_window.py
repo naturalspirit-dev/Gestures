@@ -4,12 +4,14 @@ from PyQt5.QtWidgets import (QLabel,
                              QHBoxLayout,
                              QVBoxLayout,
                              QWidget,
-                             QInputDialog)
+                             QInputDialog,
+                             QListView)
 from PyQt5.QtCore import (QSettings,
                           Qt)
 from src.core.gestures import KeyboardGesture
 
 
+# [] TODO: create add.py for the 'Add' dialog
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
 
@@ -25,6 +27,7 @@ class GesturesWindow(QWidget):
 
     def _widgets(self):
 
+        self.gesturesListView = QListView()
         self.colonLabel = QLabel()
         self.abbvLineEdit = QLineEdit()
         self.equivLineEdit = QLineEdit()
@@ -34,22 +37,26 @@ class GesturesWindow(QWidget):
 
     def _layout(self):
 
+        button_layout = QVBoxLayout()
+        button_layout.addWidget(self.addPushButton)
+        button_layout.addWidget(self.updatePushButton)
+        button_layout.addWidget(self.removePushButton)
+        button_layout.addStretch(1)
+
         first_layer = QHBoxLayout()
-        first_layer.addWidget(self.abbvLineEdit)
-        first_layer.addWidget(self.colonLabel)
-        first_layer.addWidget(self.equivLineEdit)
+        first_layer.addWidget(self.gesturesListView)
+        first_layer.addLayout(button_layout)
 
         second_layer = QHBoxLayout()
-        second_layer.addStretch()
-        second_layer.addWidget(self.addPushButton)
-        second_layer.addWidget(self.updatePushButton)
-        second_layer.addWidget(self.removePushButton)
+        second_layer.addWidget(self.abbvLineEdit)
+        second_layer.addWidget(self.colonLabel)
+        second_layer.addWidget(self.equivLineEdit)
 
-        combine_vertically = QVBoxLayout()
-        combine_vertically.addLayout(first_layer)
-        combine_vertically.addLayout(second_layer)
+        stack_layers = QVBoxLayout()
+        stack_layers.addLayout(first_layer)
+        stack_layers.addLayout(second_layer)
 
-        self.setLayout(combine_vertically)
+        self.setLayout(stack_layers)
 
     def _properties(self):
 
@@ -61,7 +68,7 @@ class GesturesWindow(QWidget):
         self.addPushButton.setEnabled(False)
         self.updatePushButton.setText('&Update')
         self.removePushButton.setText('&Remove')
-        self.resize(349, 71)
+        self.resize(445, 222)   # width, height
         self.setWindowTitle('Gestures')
 
     def _connections(self):
