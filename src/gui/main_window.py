@@ -11,7 +11,7 @@ from PyQt5.QtCore import (QSettings,
 from src.core.gestures import KeyboardGesture
 
 
-# [x] TODO: create add.py for the 'Add' dialog
+# [] TODO: start coding that shinny ListView
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
 
@@ -95,10 +95,7 @@ class GesturesWindow(QWidget):
 
         except ValueError:
             # [] TODO: add a message box to display the message below
-            print(f'Abbreviation already exist. Try again.')
-
-        except Exception as e:
-            print(f'Gestures: {type(e)}{e}.')
+            print(f'\'{abbv}\' already exist. Try again.')
 
     def on_updatePushButton_clicked(self):
         """ Event handler that update an existing gesture. """
@@ -106,46 +103,48 @@ class GesturesWindow(QWidget):
         try:
             from src.gui.dialogs.update import UpdateGestureDialog
             dialog = UpdateGestureDialog(self)
+
             if dialog.exec():
-                try:
-                    # get input
-                    current_abbv = dialog.current_abbvLineEdit.text()
-                    current_equiv = dialog.current_equivLineEdit.text()
-                    new_abbv = dialog.new_abbvLineEdit.text()
-                    new_equiv = dialog.new_equivLineEdit.text()
+                # Get input
+                new_abbv = dialog.new_abbvLineEdit.text()
+                new_equiv = dialog.new_equivLineEdit.text()
 
-                    # remove current gesture
-                    del self.abbreviations[current_abbv]
-                    self.gesture.remove_gesture(current_abbv)
+                # Remove current gesture
+                self.gesture.remove_gesture(new_abbv)
+                del self.abbreviations[new_abbv]
 
-                    # add new gesture
-                    self.gesture.update_gesture(new_abbv, new_equiv)
-                    self.abbreviations[new_abbv] = new_equiv
+                # Add new gesture
+                self.gesture.add_gesture(new_abbv, new_equiv)
+                self.abbreviations[new_abbv] = new_equiv
 
-                    # report what happend
-                    self.display_output()
+                # Report what happend
+                self.display_output()
 
-                except ValueError as e:
-                    print(f'{e}')
-
-        except Exception as e:
-            print(e)
+        except ValueError:
+            # [] TODO: add a message box to display the message below
+            print(f'No existing gesture found for \'{new_abbv}\'. Try again.')
 
     # [] TODO: create 'Remove' dialog
     def on_removePushButton_clicked(self):
         """ Display an input dialog that will accept a gesture to remove. """
 
         try:
-            user_input = QInputDialog.getText(self, 'Remove Gesture', 'Gesture to remove:', QLineEdit.Normal)
-            user_gesture = user_input[0]
-            if not user_gesture == '':
-                del self.abbreviations[user_gesture]                # remove first internal list of gestures
-                self.gesture.remove_gesture(user_gesture)           # perform removal of gesture
-                print(f'[GES]: \'{user_gesture}\' now removed.')    # display result
+            from src.gui.dialogs.remove import RemoveGestureDialog
+            dialog = RemoveGestureDialog(self)
+
+            if dialog.exec():
+                # Get user input
+                gesture_to_remove = dialog.removeLineEdit.text()
+
+                # Remove gesture
+                self.gesture.remove_gesture(gesture_to_remove)           # raise ValueError when this fails
+                del self.abbreviations[gesture_to_remove]                # remove internal list of gestures
+
                 self.display_output()
 
-        except Exception as e:  # KeyError: no gesture found
-            print(e)
+        except ValueError:
+            # [] TODO: add a message box to display the message below
+            print(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
 
     def display_output(self):
 
