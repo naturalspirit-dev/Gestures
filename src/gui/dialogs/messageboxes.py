@@ -13,6 +13,3 @@ UpdateMessageBox.setIcon(QMessageBox.Information)
 RemoveMessageBox = QMessageBox()
 RemoveMessageBox.setWindowTitle('Remove Gesture Message')
 RemoveMessageBox.setIcon(QMessageBox.Information)
-
-
-

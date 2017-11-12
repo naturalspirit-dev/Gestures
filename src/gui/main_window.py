@@ -4,17 +4,19 @@ from PyQt5.QtWidgets import (QLabel,
                              QHBoxLayout,
                              QVBoxLayout,
                              QWidget,
-                             QInputDialog,
-                             QListView)
+                             QTableView)
 from PyQt5.QtCore import (QSettings,
                           Qt)
 from src.core.gestures import KeyboardGesture
 from src.gui.dialogs.messageboxes import (AddMessageBox,
                                           UpdateMessageBox,
                                           RemoveMessageBox)
+from src.resources.constant import (RECORD,
+                                    TEMP_HEADER)
+from src.resources.models import GestureTableModel
 
 
-# [] TODO: start coding that shinny ListView
+# [x] TODO: start coding that shinny ListView
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
 
@@ -31,7 +33,8 @@ class GesturesWindow(QWidget):
 
     def _widgets(self):
 
-        self.gesturesListView = QListView()
+        self.gesturesTableView = QTableView()
+        self.gesturesTableModel = GestureTableModel()
         self.addPushButton = QPushButton()
         self.updatePushButton = QPushButton()
         self.removePushButton = QPushButton()
@@ -45,7 +48,7 @@ class GesturesWindow(QWidget):
         button_layout.addStretch(1)
 
         first_layer = QHBoxLayout()
-        first_layer.addWidget(self.gesturesListView)
+        first_layer.addWidget(self.gesturesTableView)
         first_layer.addLayout(button_layout)
 
         stack_layers = QVBoxLayout()
@@ -54,6 +57,7 @@ class GesturesWindow(QWidget):
 
     def _properties(self):
 
+        self.gesturesTableView.setModel(self.gesturesTableModel)
         self.addPushButton.setText('&Add')
         self.updatePushButton.setText('&Update')
         self.removePushButton.setText('&Remove')
@@ -78,6 +82,17 @@ class GesturesWindow(QWidget):
         for k, v in raw_data.items():
             self.gesture.add_gesture(k, v)
             print(k, v)
+            self.update_gesture_tableview(k, v)
+
+    def update_gesture_tableview(self, gesture, equivalent):
+        """ Insert one row at a time in the GestureTableView. """
+
+        # TEST: Displaying to the TableView
+        TEMP_HEADER['gesture'] = gesture
+        TEMP_HEADER['equivalent'] = equivalent
+        RECORD.append(list(TEMP_HEADER.values()))
+        self.gesturesTableModel.insertRows(len(RECORD), 1)
+        self.gesturesTableView.setModel(self.gesturesTableModel)
 
     def on_addPushButton_clicked(self):
 
@@ -96,8 +111,9 @@ class GesturesWindow(QWidget):
                 self.abbreviations[abbv] = equiv
                 self.display_output()   # Display output for debugging
 
+                self.update_gesture_tableview(abbv, equiv)
+
         except ValueError:
-            # [x] TODO: add a message box to display the message below
             print(f'\'{abbv}\' already exist. Try again.')
             AddMessageBox.setText(f'\'{abbv}\' already exist. Try again.')
             AddMessageBox.show()
@@ -126,15 +142,14 @@ class GesturesWindow(QWidget):
                 self.display_output()
 
         except ValueError:
-            # [x] TODO: add a message box to display the message below
             print(f'No existing gesture found for \'{new_abbv}\'. Try again.')
             UpdateMessageBox.setText(f'No existing gesture found for \'{new_abbv}\'. Try again.')
             UpdateMessageBox.show()
 
-    # [x] TODO: create 'Remove' dialog
     def on_removePushButton_clicked(self):
         """ Display an input dialog that will accept a gesture to remove. """
 
+        # [] TODO: try removing the selected gesture in the tableview
         try:
             from src.gui.dialogs.remove import RemoveGestureDialog
             dialog = RemoveGestureDialog(self)
@@ -150,7 +165,6 @@ class GesturesWindow(QWidget):
                 self.display_output()
 
         except ValueError:
-            # [x] TODO: add a message box to display the message below
             print(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
             RemoveMessageBox.setText(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
             RemoveMessageBox.show()
