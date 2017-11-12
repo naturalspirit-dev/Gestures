@@ -9,6 +9,9 @@ from PyQt5.QtWidgets import (QLabel,
 from PyQt5.QtCore import (QSettings,
                           Qt)
 from src.core.gestures import KeyboardGesture
+from src.gui.dialogs.messageboxes import (AddMessageBox,
+                                          UpdateMessageBox,
+                                          RemoveMessageBox)
 
 
 # [] TODO: start coding that shinny ListView
@@ -80,7 +83,7 @@ class GesturesWindow(QWidget):
 
         try:
             from src.gui.dialogs.add import AddGestureDialog
-            dialog = AddGestureDialog()
+            dialog = AddGestureDialog(self)
             if dialog.exec():
                 # Get user's input
                 abbv = dialog.abbvLineEdit.text()
@@ -94,8 +97,10 @@ class GesturesWindow(QWidget):
                 self.display_output()   # Display output for debugging
 
         except ValueError:
-            # [] TODO: add a message box to display the message below
+            # [x] TODO: add a message box to display the message below
             print(f'\'{abbv}\' already exist. Try again.')
+            AddMessageBox.setText(f'\'{abbv}\' already exist. Try again.')
+            AddMessageBox.show()
 
     def on_updatePushButton_clicked(self):
         """ Event handler that update an existing gesture. """
@@ -121,10 +126,12 @@ class GesturesWindow(QWidget):
                 self.display_output()
 
         except ValueError:
-            # [] TODO: add a message box to display the message below
+            # [x] TODO: add a message box to display the message below
             print(f'No existing gesture found for \'{new_abbv}\'. Try again.')
+            UpdateMessageBox.setText(f'No existing gesture found for \'{new_abbv}\'. Try again.')
+            UpdateMessageBox.show()
 
-    # [] TODO: create 'Remove' dialog
+    # [x] TODO: create 'Remove' dialog
     def on_removePushButton_clicked(self):
         """ Display an input dialog that will accept a gesture to remove. """
 
@@ -143,8 +150,10 @@ class GesturesWindow(QWidget):
                 self.display_output()
 
         except ValueError:
-            # [] TODO: add a message box to display the message below
+            # [x] TODO: add a message box to display the message below
             print(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
+            RemoveMessageBox.setText(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
+            RemoveMessageBox.show()
 
     def display_output(self):
 
