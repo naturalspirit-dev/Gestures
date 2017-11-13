@@ -40,3 +40,9 @@ class GestureTableModel(QAbstractTableModel):
         self.beginInsertRows(parent, position, position + rows - 1)
         self.endInsertRows()
         return True
+
+    def removeRows(self, position, rows, parent=QModelIndex()):
+
+        self.beginRemoveRows(parent, position, position + rows - 1)
+        self.endRemoveRows()
+        return True

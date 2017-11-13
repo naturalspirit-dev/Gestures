@@ -149,7 +149,7 @@ class GesturesWindow(QWidget):
     def on_removePushButton_clicked(self):
         """ Display an input dialog that will accept a gesture to remove. """
 
-        # [] TODO: try removing the selected gesture in the tableview
+        # [x] TODO: try removing the selected gesture in the tableview
         try:
             from src.gui.dialogs.remove import RemoveGestureDialog
             dialog = RemoveGestureDialog(self)
@@ -164,12 +164,22 @@ class GesturesWindow(QWidget):
 
                 self.display_output()
 
+                # Clear the Gesture TableView first
+                self.gesturesTableModel.removeRows(0, len(RECORD))
+                self.gesturesTableView.setModel(self.gesturesTableModel)
+                RECORD.clear()
+
+                # Start re-inserting the updated gestures
+                for gesture, equivalent in self.abbreviations.items():
+                    self.update_gesture_tableview(gesture, equivalent)
+
         except ValueError:
             print(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
             RemoveMessageBox.setText(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
             RemoveMessageBox.show()
 
     def display_output(self):
+        """ Display output in the command line. For debugging purposes. """
 
         print('\ncount -> {0}'.format(len(self.abbreviations)))
         for k, v in self.abbreviations.items():
