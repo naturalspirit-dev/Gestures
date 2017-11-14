@@ -23,9 +23,27 @@ class GestureTableModel(QAbstractTableModel):
 
         row = index.row()
         col = index.column()
+
         if role == Qt.DisplayRole:
             value = RECORD[row][col]
             return value
+
+        if role == Qt.EditRole:
+            return RECORD[row][col]
+
+    def setData(self, index, value, role=Qt.DisplayRole):
+
+        if role == Qt.EditRole:
+            row = index.row()
+            col = index.column()
+            RECORD[row][col] = value
+            print(f'on data() -> {RECORD}')
+            self.dataChanged.emit(index, index, [])
+            return True
+
+    def flags(self, index):
+
+        return Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
     def columnCount(self, parent):
 

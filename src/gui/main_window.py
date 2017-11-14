@@ -16,7 +16,6 @@ from src.resources.constant import (RECORD,
 from src.resources.models import GestureTableModel
 
 
-# [x] TODO: start coding that shinny ListView
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
 
@@ -69,6 +68,16 @@ class GesturesWindow(QWidget):
         self.addPushButton.clicked.connect(self.on_addPushButton_clicked)
         self.updatePushButton.clicked.connect(self.on_updatePushButton_clicked)
         self.removePushButton.clicked.connect(self.on_removePushButton_clicked)
+        self.gesturesTableModel.dataChanged.connect(self.on_something_happen)
+
+    # [] TODO: you need to deep work the update button
+    def on_something_happen(self):
+
+        index = self.gesturesTableView.currentIndex()
+        row = index.row()
+        col = index.column()
+        data = index.data()
+        print(f'on_something_happen: dataChanged? {row, col, data}')
 
     def _read_settings(self):
 
@@ -149,7 +158,6 @@ class GesturesWindow(QWidget):
     def on_removePushButton_clicked(self):
         """ Display an input dialog that will accept a gesture to remove. """
 
-        # [x] TODO: try removing the selected gesture in the tableview
         try:
             from src.gui.dialogs.remove import RemoveGestureDialog
             dialog = RemoveGestureDialog(self)
