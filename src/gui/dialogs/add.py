@@ -49,6 +49,7 @@ class AddGestureDialog(QDialog):
         self.okPushButton.setText('&OK')
         self.okPushButton.setEnabled(False)
         self.setWindowTitle('Add Gesture')
+        self.resize(310, 71)
 
     def _connections(self):
 
