@@ -24,6 +24,7 @@ class GesturesWindow(QWidget):
         super().__init__(parent)
         self.gesture = KeyboardGesture()
         self.abbreviations = {}
+        self.data_before_editing = ''
         self._widgets()
         self._layout()
         self._properties()
@@ -68,7 +69,14 @@ class GesturesWindow(QWidget):
         self.addPushButton.clicked.connect(self.on_addPushButton_clicked)
         self.updatePushButton.clicked.connect(self.on_updatePushButton_clicked)
         self.removePushButton.clicked.connect(self.on_removePushButton_clicked)
+        self.gesturesTableView.doubleClicked.connect(self.on_gesturesTableView_activated)
         self.gesturesTableModel.dataChanged.connect(self.on_something_happen)
+
+    def on_gesturesTableView_activated(self):
+
+        index = self.gesturesTableView.currentIndex()
+        self.data_before_editing = index.data()
+        #print(f'current data {self.data_before_editing}')
 
     # [] TODO: you need to deep work the update button
     def on_something_happen(self):
@@ -76,8 +84,18 @@ class GesturesWindow(QWidget):
         index = self.gesturesTableView.currentIndex()
         row = index.row()
         col = index.column()
-        data = index.data()
-        print(f'on_something_happen: dataChanged? {row, col, data}')
+        new_data = index.data()
+        #print(f'on_something_happen: dataChanged? {row, col, new_data}')
+        #print(f'on_something_happen: RECORD {RECORD}')
+        #print(f'{self.abbreviations}')
+        print(f'previous_data: {self.data_before_editing}, new_data: {new_data}')
+        # Get key of edited data -> this will update only the 'equivalent'
+        for k, v in self.abbreviations.items():
+            if self.data_before_editing in (k, v):
+                print(f'your key is {k}')
+                break
+
+
 
     def _read_settings(self):
 

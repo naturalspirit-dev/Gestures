@@ -37,7 +37,7 @@ class GestureTableModel(QAbstractTableModel):
             row = index.row()
             col = index.column()
             RECORD[row][col] = value
-            print(f'on data() -> {RECORD}')
+            #print(f'on data() -> {RECORD}')
             self.dataChanged.emit(index, index, [])
             return True
 
