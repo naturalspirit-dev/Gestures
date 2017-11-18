@@ -23,9 +23,9 @@ class GesturesWindow(QWidget):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-        self.gesture = KeyboardGesture()
+        self.keyboardGesture = KeyboardGesture()
         self.abbreviations = {}
-        self.data_before_editing = ''
+        self.selectedData = ''
         self._widgets()
         self._layout()
         self._properties()
@@ -73,39 +73,42 @@ class GesturesWindow(QWidget):
         self.addPushButton.clicked.connect(self.on_addPushButton_clicked)
         self.updatePushButton.clicked.connect(self.on_updatePushButton_clicked)
         self.removePushButton.clicked.connect(self.on_removePushButton_clicked)
-        self.gesturesTableView.activated.connect(self.on_gesturesTableView_activated)
-        self.gesturesTableView.clicked.connect(self.on_gesturesTableView_activated)
-        self.gesturesTableView.doubleClicked.connect(self.on_gesturesTableView_activated)
-        self.gesturesItemSelectionModel.selectionChanged.connect(self.on_gesturesTableView_activated)
-        self.gesturesTableModel.dataChanged.connect(self.on_something_happen)
 
-    def on_gesturesTableView_activated(self):
+        # When the user interacts with the table using the tab or arrow keys
+        self.gesturesTableView.activated.connect(self.updateSelectedData)
+        self.gesturesTableView.clicked.connect(self.updateSelectedData)
+        self.gesturesTableView.doubleClicked.connect(self.updateSelectedData)
+        self.gesturesItemSelectionModel.selectionChanged.connect(self.updateSelectedData)
+
+        # When the user edit a cell in the table
+        self.gesturesTableModel.dataChanged.connect(self.on_gesturesTableModel_dataChanged)
+
+    def updateSelectedData(self):
 
         index = self.gesturesTableView.currentIndex()
-        self.data_before_editing = index.data()
+        self.selectedData = index.data()
 
-    # [x] TODO: check behaviour of doubleclick signal via mouse -> no problem
-    # [x] TODO: check behaviour of direct editing the cell via keyboard -> no problem
-    def on_something_happen(self):
+    def on_gesturesTableModel_dataChanged(self):
 
         index = self.gesturesTableView.currentIndex()
         new_data = index.data()
+
         # Get key of edited data -> this will update only the 'equivalent'
         for k, v in self.abbreviations.items():
-            if self.data_before_editing in (k, v):
+            if self.selectedData in (k, v):
                 print(f'your key is {k}')
 
-                # remove current gesture
-                self.gesture.remove_gesture(k)
+                # remove current keyboardGesture
+                self.keyboardGesture.remove_gesture(k)
                 del self.abbreviations[k]
 
-                # Add new gesture
+                # Add new keyboardGesture
                 # check if data to be edited is the key
-                if self.data_before_editing == k:
-                    self.gesture.add_gesture(new_data, v)
+                if self.selectedData == k:
+                    self.keyboardGesture.add_gesture(new_data, v)
                     self.abbreviations[new_data] = v
                 else:
-                    self.gesture.add_gesture(k, new_data)
+                    self.keyboardGesture.add_gesture(k, new_data)
                     self.abbreviations[k] = new_data
 
                 # Report what happend
@@ -122,7 +125,7 @@ class GesturesWindow(QWidget):
 
         print('count -> {}'.format(len(raw_data.items())))
         for k, v in raw_data.items():
-            self.gesture.add_gesture(k, v)
+            self.keyboardGesture.add_gesture(k, v)
             print(k, v)
             self.update_gesture_tableview(k, v)
 
@@ -131,7 +134,7 @@ class GesturesWindow(QWidget):
 
         # TEST: Displaying to the TableView
         TEMP_HEADER['gesture'] = gesture
-        TEMP_HEADER['equivalent'] = equivalent
+        TEMP_HEADER['meaning'] = equivalent
         RECORD.append(list(TEMP_HEADER.values()))
         self.gesturesTableModel.insertRows(len(RECORD), 1)
         self.gesturesTableView.setModel(self.gesturesTableModel)
@@ -147,7 +150,7 @@ class GesturesWindow(QWidget):
                 equiv = dialog.equivLineEdit.text()
 
                 # Register new abbreviation to keyboard
-                self.gesture.add_gesture(abbv, equiv)
+                self.keyboardGesture.add_gesture(abbv, equiv)
 
                 # Store newly added abbreviations in a dictionary
                 self.abbreviations[abbv] = equiv
@@ -161,7 +164,7 @@ class GesturesWindow(QWidget):
             AddMessageBox.show()
 
     def on_updatePushButton_clicked(self):
-        """ Event handler that update an existing gesture. """
+        """ Event handler that update an existing keyboardGesture. """
 
         try:
             from src.gui.dialogs.update import UpdateGestureDialog
@@ -172,16 +175,24 @@ class GesturesWindow(QWidget):
                 new_abbv = dialog.new_abbvLineEdit.text()
                 new_equiv = dialog.new_equivLineEdit.text()
 
-                # Remove current gesture
-                self.gesture.remove_gesture(new_abbv)
-                del self.abbreviations[new_abbv]
+                # Remove current keyboardGesture
+                self.keyboardGesture.remove_gesture(new_abbv)
 
-                # Add new gesture
-                self.gesture.add_gesture(new_abbv, new_equiv)
+                # Add new keyboardGesture
+                self.keyboardGesture.add_gesture(new_abbv, new_equiv)
                 self.abbreviations[new_abbv] = new_equiv
 
                 # Report what happend
                 self.display_output()
+
+                # Clear the Gesture TableView first
+                self.gesturesTableModel.removeRows(0, len(RECORD))
+                self.gesturesTableView.setModel(self.gesturesTableModel)
+                RECORD.clear()
+
+                # Start re-inserting the updated gestures
+                for gesture, equivalent in self.abbreviations.items():
+                    self.update_gesture_tableview(gesture, equivalent)
 
         except ValueError:
             print(f'No existing gesture found for \'{new_abbv}\'. Try again.')
@@ -189,7 +200,7 @@ class GesturesWindow(QWidget):
             UpdateMessageBox.show()
 
     def on_removePushButton_clicked(self):
-        """ Display an input dialog that will accept a gesture to remove. """
+        """ Display an input dialog that will accept a keyboardGesture to remove. """
 
         try:
             from src.gui.dialogs.remove import RemoveGestureDialog
@@ -199,9 +210,9 @@ class GesturesWindow(QWidget):
                 # Get user input
                 gesture_to_remove = dialog.removeLineEdit.text()
 
-                # Remove gesture
-                self.gesture.remove_gesture(gesture_to_remove)           # raise ValueError when this fails
-                del self.abbreviations[gesture_to_remove]                # remove internal list of gestures
+                # Remove keyboardGesture
+                self.keyboardGesture.remove_gesture(gesture_to_remove)  # raise ValueError when this fails
+                del self.abbreviations[gesture_to_remove]               # remove internal list of gestures
 
                 self.display_output()
 
