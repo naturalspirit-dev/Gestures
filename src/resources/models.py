@@ -11,7 +11,7 @@ class GestureTableModel(QAbstractTableModel):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-        self.header = ['Gesture', 'Equivalent']
+        self.header = ['Gesture', 'Meaning']
 
     def headerData(self, section, orientation, role):
 
@@ -37,7 +37,6 @@ class GestureTableModel(QAbstractTableModel):
             row = index.row()
             col = index.column()
             RECORD[row][col] = value
-            #print(f'on data() -> {RECORD}')
             self.dataChanged.emit(index, index, [])
             return True
 
