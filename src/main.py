@@ -8,6 +8,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 
+sys.path.append('..')
 APP = QApplication(sys.argv)
 
 if __name__ == '__main__':
