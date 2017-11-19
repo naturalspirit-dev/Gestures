@@ -28,11 +28,13 @@ class UpdateGestureDialog(QDialog):
     def _properties(self):
 
         self.existingLabel.setText('Existing Gesture to update:')
-        self.new_abbvLineEdit.setPlaceholderText('abbreviation')
-        self.new_equivLineEdit.setPlaceholderText('equivalent')
+        self.new_abbvLineEdit.setPlaceholderText('Gesture')
+        self.new_abbvLineEdit.setMaximumWidth(75)
+        self.new_equivLineEdit.setPlaceholderText('Meaning')
         self.okPushButton.setText('&OK')
         self.okPushButton.setEnabled(False)
         self.setWindowTitle('Update Gesture')
+        self.resize(310, 71)
 
     def _layout(self):
 

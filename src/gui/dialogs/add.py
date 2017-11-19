@@ -21,6 +21,7 @@ class AddGestureDialog(QDialog):
 
     def _widgets(self):
 
+        self.newLabel = QLabel()
         self.abbvLineEdit = QLineEdit()
         self.equivLineEdit = QLineEdit()
         self.okPushButton = QPushButton()
@@ -28,24 +29,29 @@ class AddGestureDialog(QDialog):
     def _layout(self):
 
         first_layer = QHBoxLayout()
-        first_layer.addWidget(self.abbvLineEdit)
-        first_layer.addWidget(self.equivLineEdit)
+        first_layer.addWidget(self.newLabel)
 
         second_layer = QHBoxLayout()
-        second_layer.addStretch(1)
-        second_layer.addWidget(self.okPushButton)
+        second_layer.addWidget(self.abbvLineEdit)
+        second_layer.addWidget(self.equivLineEdit)
+
+        third_layer = QHBoxLayout()
+        third_layer.addStretch(1)
+        third_layer.addWidget(self.okPushButton)
 
         stack_layers = QVBoxLayout()
         stack_layers.addLayout(first_layer)
         stack_layers.addLayout(second_layer)
+        stack_layers.addLayout(third_layer)
 
         self.setLayout(stack_layers)
 
     def _properties(self):
 
-        self.abbvLineEdit.setPlaceholderText('abbreviation')
+        self.newLabel.setText('Add new Gesture:')
+        self.abbvLineEdit.setPlaceholderText('Gesture')
         self.abbvLineEdit.setMaximumWidth(75)
-        self.equivLineEdit.setPlaceholderText('equivalent')
+        self.equivLineEdit.setPlaceholderText('Meaning')
         self.okPushButton.setText('&OK')
         self.okPushButton.setEnabled(False)
         self.setWindowTitle('Add Gesture')
