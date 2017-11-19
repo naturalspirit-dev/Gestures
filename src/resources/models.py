@@ -3,7 +3,10 @@
 from PyQt5.QtCore import (Qt,
                           QModelIndex,
                           QAbstractTableModel)
-from src.resources.constant import RECORD
+from src.resources.constant import (GesturesData)
+
+gestures = GesturesData()
+RECORD = gestures.RECORD
 
 
 class GestureTableModel(QAbstractTableModel):
@@ -11,7 +14,7 @@ class GestureTableModel(QAbstractTableModel):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-        self.header = ['Gesture', 'Meaning']
+        self.header = gestures.HEADERS
 
     def headerData(self, section, orientation, role):
 

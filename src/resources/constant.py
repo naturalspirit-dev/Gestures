@@ -1,3 +1,8 @@
 
 TEMP_HEADER = {}
-RECORD = []
+
+
+class GesturesData:
+
+    HEADERS = ['Gesture', 'Meaning']
+    RECORD = []

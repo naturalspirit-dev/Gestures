@@ -4,7 +4,8 @@ from PyQt5.QtWidgets import (QLabel,
                              QHBoxLayout,
                              QVBoxLayout,
                              QWidget,
-                             QTableView)
+                             QTableView,
+                             QHeaderView)
 from PyQt5.QtCore import (QSettings,
                           Qt,
                           QItemSelectionModel)
@@ -12,9 +13,11 @@ from src.core.gestures import KeyboardGesture
 from src.gui.dialogs.messageboxes import (AddMessageBox,
                                           UpdateMessageBox,
                                           RemoveMessageBox)
-from src.resources.constant import (RECORD,
-                                    TEMP_HEADER)
+from src.resources.constant import (TEMP_HEADER,
+                                    GesturesData)
 from src.resources.models import GestureTableModel
+
+RECORD = GesturesData.RECORD
 
 
 class GesturesWindow(QWidget):
@@ -35,31 +38,36 @@ class GesturesWindow(QWidget):
     def _widgets(self):
 
         self.gesturesTableView = QTableView()
+        #self.gesturesHeaderView = QHeaderView()
         self.gesturesItemSelectionModel = QItemSelectionModel()
         self.gesturesTableModel = GestureTableModel()
+        self.countLabel = QLabel()
         self.addPushButton = QPushButton()
         self.updatePushButton = QPushButton()
         self.removePushButton = QPushButton()
 
     def _layout(self):
 
-        button_layout = QVBoxLayout()
-        button_layout.addWidget(self.addPushButton)
-        button_layout.addWidget(self.updatePushButton)
-        button_layout.addWidget(self.removePushButton)
-        button_layout.addStretch(1)
+        right_layout = QVBoxLayout()
+        right_layout.addWidget(self.addPushButton)
+        right_layout.addWidget(self.updatePushButton)
+        right_layout.addWidget(self.removePushButton)
+        right_layout.addStretch(1)
 
-        first_layer = QHBoxLayout()
-        first_layer.addWidget(self.gesturesTableView)
-        first_layer.addLayout(button_layout)
+        left_layout = QVBoxLayout()
+        left_layout.addWidget(self.gesturesTableView)
+        left_layout.addWidget(self.countLabel)
 
-        stack_layers = QVBoxLayout()
-        stack_layers.addLayout(first_layer)
-        self.setLayout(stack_layers)
+        combine_layout = QHBoxLayout()
+        combine_layout.addLayout(left_layout)
+        combine_layout.addLayout(right_layout)
+        self.setLayout(combine_layout)
 
     def _properties(self):
 
         self.gesturesTableView.setModel(self.gesturesTableModel)
+        horizontalHeaderView = self.gesturesTableView.horizontalHeader()
+        horizontalHeaderView.setStretchLastSection(True)
         self.gesturesItemSelectionModel.setModel(self.gesturesTableModel)
         self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
         self.addPushButton.setText('&Add')
@@ -94,22 +102,20 @@ class GesturesWindow(QWidget):
         new_data = index.data()
 
         # Get key of edited data -> this will update only the 'equivalent'
-        for k, v in self.abbreviations.items():
-            if self.selectedData in (k, v):
-                print(f'your key is {k}')
-
+        for gesture, meaning in self.abbreviations.items():
+            if self.selectedData in (gesture, meaning):
                 # remove current keyboardGesture
-                self.keyboardGesture.remove_gesture(k)
-                del self.abbreviations[k]
+                self.keyboardGesture.remove_gesture(gesture)
+                del self.abbreviations[gesture]
 
                 # Add new keyboardGesture
                 # check if data to be edited is the key
-                if self.selectedData == k:
-                    self.keyboardGesture.add_gesture(new_data, v)
-                    self.abbreviations[new_data] = v
+                if self.selectedData == gesture:
+                    self.keyboardGesture.add_gesture(new_data, meaning)
+                    self.abbreviations[new_data] = meaning
                 else:
-                    self.keyboardGesture.add_gesture(k, new_data)
-                    self.abbreviations[k] = new_data
+                    self.keyboardGesture.add_gesture(gesture, new_data)
+                    self.abbreviations[gesture] = new_data
 
                 # Report what happend
                 self.display_output()
@@ -123,7 +129,9 @@ class GesturesWindow(QWidget):
 
     def reload_gestures(self, raw_data: dict):
 
-        print('count -> {}'.format(len(raw_data.items())))
+        active_gestures = len(raw_data)
+        self.countLabel.setText(f'Active: {active_gestures}')
+        print(f'Active: {active_gestures}')
         for k, v in raw_data.items():
             self.keyboardGesture.add_gesture(k, v)
             print(k, v)
@@ -233,7 +241,9 @@ class GesturesWindow(QWidget):
     def display_output(self):
         """ Display output in the command line. For debugging purposes. """
 
-        print('\ncount -> {0}'.format(len(self.abbreviations)))
+        active_gestures = len(self.abbreviations)
+        self.countLabel.setText(f'Active: {active_gestures}')
+        print(f'\nActive: {active_gestures}')
         for k, v in self.abbreviations.items():
             print(k, v)
 
