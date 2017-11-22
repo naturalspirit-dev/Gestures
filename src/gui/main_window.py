@@ -1,13 +1,10 @@
 from PyQt5.QtWidgets import (QLabel,
-                             QLineEdit,
                              QPushButton,
                              QHBoxLayout,
                              QVBoxLayout,
                              QWidget,
-                             QTableView,
-                             QHeaderView)
+                             QTableView)
 from PyQt5.QtCore import (QSettings,
-                          Qt,
                           QItemSelectionModel)
 from src.core.gestures import KeyboardGesture
 from src.gui.dialogs.messageboxes import (AddMessageBox,
@@ -20,6 +17,8 @@ from src.resources.models import GestureTableModel
 RECORD = GesturesData.RECORD
 
 
+# [] TODO: add an Easter egg -> 'remove them all' that will remove all the gestures in the table
+# [] TODO: last column does not stretch after using the Add, Update and Remove button
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
 
@@ -38,7 +37,6 @@ class GesturesWindow(QWidget):
     def _widgets(self):
 
         self.gesturesTableView = QTableView()
-        #self.gesturesHeaderView = QHeaderView()
         self.gesturesItemSelectionModel = QItemSelectionModel()
         self.gesturesTableModel = GestureTableModel()
         self.countLabel = QLabel()
@@ -66,14 +64,13 @@ class GesturesWindow(QWidget):
     def _properties(self):
 
         self.gesturesTableView.setModel(self.gesturesTableModel)
-        horizontalHeaderView = self.gesturesTableView.horizontalHeader()
-        horizontalHeaderView.setStretchLastSection(True)
         self.gesturesItemSelectionModel.setModel(self.gesturesTableModel)
+        self.gesturesTableView.horizontalHeader().setStretchLastSection(True)
         self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
         self.addPushButton.setText('&Add')
         self.updatePushButton.setText('&Update')
         self.removePushButton.setText('&Remove')
-        self.resize(445, 222)   # width, height
+        self.resize(409, 364)   # width, height
         self.setWindowTitle('Gestures')
 
     def _connections(self):
@@ -93,39 +90,60 @@ class GesturesWindow(QWidget):
 
     def updateSelectedData(self):
 
-        index = self.gesturesTableView.currentIndex()
-        self.selectedData = index.data()
+        self.selectedData = self.gesturesTableView.currentIndex().data()
 
     def on_gesturesTableModel_dataChanged(self):
 
         index = self.gesturesTableView.currentIndex()
-        new_data = index.data()
+        row = index.row()
+        col = index.column()
+        new_data = self.gesturesTableView.currentIndex().data()
 
-        # Get key of edited data -> this will update only the 'equivalent'
-        for gesture, meaning in self.abbreviations.items():
-            if self.selectedData in (gesture, meaning):
-                # remove current keyboardGesture
-                self.keyboardGesture.remove_gesture(gesture)
-                del self.abbreviations[gesture]
+        try:
+            # # Check first if the new_data is an existing gesture
+            if new_data in self.abbreviations.keys():
+                RECORD[row][col] = self.selectedData
+                raise ValueError
 
-                # Add new keyboardGesture
-                # check if data to be edited is the key
-                if self.selectedData == gesture:
-                    self.keyboardGesture.add_gesture(new_data, meaning)
-                    self.abbreviations[new_data] = meaning
-                else:
-                    self.keyboardGesture.add_gesture(gesture, new_data)
-                    self.abbreviations[gesture] = new_data
+            # Get key of edited data -> this will update only the 'equivalent'
+            for gesture, meaning in self.abbreviations.items():
+                if self.selectedData in (gesture, meaning):
+                    # Remove current keyboardGesture
+                    self.keyboardGesture.remove_gesture(gesture)
+                    del self.abbreviations[gesture]
 
-                # Report what happend
-                self.display_output()
-                break
+                    # Add new keyboardGesture
+                    # check if data to be edited is the key
+                    if self.selectedData == gesture:
+                        self.keyboardGesture.add_gesture(new_data, meaning)
+                        self.abbreviations[new_data] = meaning
+                    else:
+                        self.keyboardGesture.add_gesture(gesture, new_data)
+                        self.abbreviations[gesture] = new_data
+
+                    # Report what happend
+                    self.display_output()
+                    break
+
+        except ValueError as e:
+            print(f'\'{new_data}\' already exist. Try again.')
+            UpdateMessageBox.setText(f'\'{new_data}\' already exist. Try again.')
+            UpdateMessageBox.show()
 
     def _read_settings(self):
 
         settings = QSettings('GIPSC Core Team', 'Gestures')
+        self.restoreGeometry(settings.value('gestures_geometry', self.saveGeometry()))
         self.abbreviations = settings.value('abbreviations', self.abbreviations)
         self.reload_gestures(self.abbreviations)
+        self.resize_gesturesTableView_cells()
+
+    def resize_gesturesTableView_cells(self):
+        """ Resize the rows and columns of the gesturesTableView. """
+
+        self.gesturesTableView.resizeRowsToContents()
+        self.gesturesTableView.resizeColumnsToContents()
+        self.gesturesTableView.horizontalHeader().setStretchLastSection(True)
 
     def reload_gestures(self, raw_data: dict):
 
@@ -140,12 +158,11 @@ class GesturesWindow(QWidget):
     def update_gesture_tableview(self, gesture, equivalent):
         """ Insert one row at a time in the GestureTableView. """
 
-        # TEST: Displaying to the TableView
         TEMP_HEADER['gesture'] = gesture
         TEMP_HEADER['meaning'] = equivalent
         RECORD.append(list(TEMP_HEADER.values()))
         self.gesturesTableModel.insertRows(len(RECORD), 1)
-        self.gesturesTableView.setModel(self.gesturesTableModel)
+        self.resize_gesturesTableView_cells()
 
     def on_addPushButton_clicked(self):
 
@@ -244,7 +261,8 @@ class GesturesWindow(QWidget):
         active_gestures = len(self.abbreviations)
         self.countLabel.setText(f'Active: {active_gestures}')
         print(f'\nActive: {active_gestures}')
-        for k, v in self.abbreviations.items():
+        sorted_items = sorted(self.abbreviations.items())
+        for k, v in sorted_items:
             print(k, v)
 
     def closeEvent(self, event):
@@ -255,8 +273,9 @@ class GesturesWindow(QWidget):
 
         settings = QSettings('GIPSC Core Team', 'Gestures')
         settings.setValue('abbreviations', self.abbreviations)
+        settings.setValue('gestures_geometry', self.saveGeometry())
 
     def resizeEvent(self, event):
 
-        #print(f'{self.width()} x {self.height()}')
+        print(f'{self.width()} x {self.height()}')
         pass
