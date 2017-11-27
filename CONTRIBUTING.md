@@ -2,8 +2,8 @@
 First of all, thank you for considering to contribute in this volunteer project. If you're ready, let's get started.
 
 1. [Requirements](#requirements)
-2. [Development Workflow](#development)
-3. [Submitting Pull Request](#submitting)
+2. [Development Workflow](#development-workflow)
+3. [Submitting Pull Request](#submitting-pull-requests)
 4. [Reminders](#reminders)
 
 ## Requirements
