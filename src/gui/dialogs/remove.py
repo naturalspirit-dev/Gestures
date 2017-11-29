@@ -1,4 +1,4 @@
-# Remove dialog UI
+# Main User Interface of the 'Remove' dialog
 
 from PyQt5.QtWidgets import (QDialog,
                              QLineEdit,

@@ -137,7 +137,7 @@ class GesturesUITest(unittest.TestCase):
         print('test_check_fields_not_empty: {}'.format(result))
 
     def test_check_fields_abbvLineEdit_empty(self):
-        """ Test add pushbutton is disabled if abbvLineEdit is empty, should return False. """
+        """ Test add pushbutton is disabled if gestureLineEdit is empty, should return False. """
 
         self.window.abbvLineEdit.setText('')
         self.window.equivLineEdit.setText('2')
@@ -147,7 +147,7 @@ class GesturesUITest(unittest.TestCase):
         print('test_check_fields_abbvLineEdit_empty: {}'.format(result))
 
     def test_check_fields_equivLineEdit_empty(self):
-        """ Test add pushbutton is disabled if equivLineEdit is empty, should return False. """
+        """ Test add pushbutton is disabled if meaningLineEdit is empty, should return False. """
 
         self.window.abbvLineEdit.setText('1')
         self.window.equivLineEdit.setText('')

@@ -1,4 +1,4 @@
-# Update Gesture Dialog
+# Main User Interface of the 'Update' dialog
 
 from PyQt5.QtWidgets import (QDialog,
                              QLabel,
@@ -21,16 +21,16 @@ class UpdateGestureDialog(QDialog):
     def _widgets(self):
 
         self.existingLabel = QLabel()
-        self.new_abbvLineEdit = QLineEdit()
-        self.new_equivLineEdit = QLineEdit()
+        self.new_gestureLineEdit = QLineEdit()
+        self.new_meaningLineEdit = QLineEdit()
         self.okPushButton = QPushButton()
 
     def _properties(self):
 
         self.existingLabel.setText('Existing Gesture to update:')
-        self.new_abbvLineEdit.setPlaceholderText('Gesture')
-        self.new_abbvLineEdit.setMaximumWidth(75)
-        self.new_equivLineEdit.setPlaceholderText('Meaning')
+        self.new_gestureLineEdit.setPlaceholderText('Gesture')
+        self.new_gestureLineEdit.setMaximumWidth(75)
+        self.new_meaningLineEdit.setPlaceholderText('Meaning')
         self.okPushButton.setText('&OK')
         self.okPushButton.setEnabled(False)
         self.setWindowTitle('Update Gesture')
@@ -42,8 +42,8 @@ class UpdateGestureDialog(QDialog):
         first_layer.addWidget(self.existingLabel)
 
         second_layer = QHBoxLayout()
-        second_layer.addWidget(self.new_abbvLineEdit)
-        second_layer.addWidget(self.new_equivLineEdit)
+        second_layer.addWidget(self.new_gestureLineEdit)
+        second_layer.addWidget(self.new_meaningLineEdit)
 
         third_layer = QHBoxLayout()
         third_layer.addStretch()
@@ -58,8 +58,8 @@ class UpdateGestureDialog(QDialog):
 
     def _connections(self):
 
-        self.new_abbvLineEdit.textChanged.connect(self.on_LineEdit_textChanged)
-        self.new_equivLineEdit.textChanged.connect(self.on_LineEdit_textChanged)
+        self.new_gestureLineEdit.textChanged.connect(self.on_LineEdit_textChanged)
+        self.new_meaningLineEdit.textChanged.connect(self.on_LineEdit_textChanged)
         self.okPushButton.clicked.connect(self.accept)
 
     def on_LineEdit_textChanged(self):
@@ -69,7 +69,7 @@ class UpdateGestureDialog(QDialog):
     def check_LineEdit(self) -> None:
         """ Enable or disable self.addPushButton based on LineEdit's text content. """
 
-        if not self.new_abbvLineEdit.text() == '' and not self.new_equivLineEdit.text() == '':
+        if not self.new_gestureLineEdit.text() == '' and not self.new_meaningLineEdit.text() == '':
             self.okPushButton.setEnabled(True)
         else:
             self.okPushButton.setEnabled(False)
