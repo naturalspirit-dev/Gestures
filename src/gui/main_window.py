@@ -1,5 +1,6 @@
 # Main User Interface of Gestures
 
+import webbrowser as wb
 import keyboard as kb
 from PyQt5.QtWidgets import (QLabel,
                              QPushButton,
@@ -22,7 +23,7 @@ RECORD = GesturesData.RECORD
 
 # [] TODO: add an Easter egg -> 'remove them all' that will remove all the gestures in the table
 # [] TODO: last column does not stretch after using the Add, Update and Remove button
-# [x] TODO: call an executable
+# [x] TODO: call an executable -> you can't use the gestures after executing an executable, it seems to 'block' keyboard
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
 
@@ -119,10 +120,10 @@ class GesturesWindow(QWidget):
                     # Add new keyboardGesture
                     # check if data to be edited is the key
                     if self.selectedData == gesture:
-                        self.has_question_mark(new_data, meaning)
+                        self.determine_gesture(new_data, meaning)
                         self.abbreviations[new_data] = meaning
                     else:
-                        self.has_question_mark(gesture, new_data)
+                        self.determine_gesture(gesture, new_data)
                         self.abbreviations[gesture] = new_data
 
                     # Report what happend
@@ -155,7 +156,7 @@ class GesturesWindow(QWidget):
         self.countLabel.setText(f'Active: {active_gestures}')
         print(f'Active: {active_gestures}')
         for k, v in raw_data.items():
-            self.has_question_mark(k, v)
+            self.determine_gesture(k, v)
             print(k, v)
             self.update_gesture_tableview(k, v)
 
@@ -178,8 +179,8 @@ class GesturesWindow(QWidget):
                 abbv = dialog.abbvLineEdit.text()
                 equiv = dialog.equivLineEdit.text()
 
-                # Check if equiv has a question mark, this will determine what callback to use
-                self.has_question_mark(abbv, equiv)
+                # Determine what kind of gesture to add
+                self.determine_gesture(abbv, equiv)
 
                 # Store newly added abbreviations in a dictionary
                 self.abbreviations[abbv] = equiv
@@ -192,18 +193,29 @@ class GesturesWindow(QWidget):
             AddMessageBox.setText(f'\'{abbv}\' already exist. Try again.')
             AddMessageBox.show()
 
+    def determine_gesture(self, gesture, meaning):
+        """ Determine what kindo of gesture to add base on the given meaning of the user. """
+
+        if 'https://' in meaning or 'http://' in meaning:
+            self.has_http(gesture, meaning)
+        elif '?' in meaning:
+            self.has_question_mark(gesture, meaning)
+        else:   # Do the default adding of gesture
+            self.keyboardGesture.add_gesture(gesture, meaning)
+
+    def has_http(self, abbv, equiv):
+
+        callback = lambda: wb.open_new_tab(equiv)
+        kb.add_word_listener(abbv, callback)
+
     # TODO: this will be renamed in the near future, I just need to make this work first
     def has_question_mark(self, abbv, equiv):
-        """ Check if equiv has a question mark (?). """
+        """ Force entry that question mark! """
 
         # Force keyboard to write the question mark '?' instead of slash '/', see ISSUE #84 of boppreh/keyboard
-        if '?' in equiv:
-            replacement = '\b' * (len(abbv) + 1) + equiv
-            callback = lambda: kb.write(replacement, restore_state_after=False, exact=True)
-            kb.add_word_listener(abbv, callback, match_suffix=False, timeout=2)
-        else:
-            # Use default add_gesture
-            self.keyboardGesture.add_gesture(abbv, equiv)
+        replacement = '\b' * (len(abbv) + 1) + equiv
+        callback = lambda: kb.write(replacement, restore_state_after=False, exact=True)
+        kb.add_word_listener(abbv, callback, match_suffix=False, timeout=2)
 
     def on_updatePushButton_clicked(self):
         """ Event handler that update an existing keyboardGesture. """
@@ -220,9 +232,7 @@ class GesturesWindow(QWidget):
                 # Remove current keyboardGesture
                 self.keyboardGesture.remove_gesture(new_abbv)
 
-                # Add new keyboardGesture
-                # Check if new_equiv has question mark
-                self.has_question_mark(new_abbv, new_equiv)
+                self.determine_gesture(new_abbv, new_equiv)
                 self.abbreviations[new_abbv] = new_equiv
 
                 # Report what happend
