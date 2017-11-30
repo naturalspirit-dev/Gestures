@@ -26,10 +26,8 @@ def perform_dependency_check() -> None:
 def valid_license() -> bool:
     """ Check if license expired. """
 
-    from datetime import datetime
-    d_day = datetime(2017, 11, 30, 0, 0)  # License validity date
-    current_day = datetime.today()
-    return d_day <= current_day
+    # [] TODO: What is the best way to limit its usage?
+    return False
 
 
 if valid_license():   # Gestures' end of usage

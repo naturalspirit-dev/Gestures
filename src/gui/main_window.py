@@ -15,13 +15,13 @@ from src.gui.dialogs.messageboxes import (AddMessageBox,
                                           UpdateMessageBox,
                                           RemoveMessageBox)
 from src.resources.constant import (TEMP_HEADER,
-                                    GesturesData)
+                                    GesturesData,
+                                    __appname__)
 from src.resources.models import GestureTableModel
 
 RECORD = GesturesData.RECORD
 
 
-# [] TODO: add an Easter egg -> 'remove them all' that will remove all the gestures in the table
 # [] TODO: last column does not stretch after using the Add, Update and Remove button
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
@@ -30,6 +30,7 @@ class GesturesWindow(QWidget):
 
         super().__init__(parent)
         self.keyboardGesture = KeyboardGesture()
+        self.settings = QSettings()
         self.gestures = {}     # This will hold all the existing gestures
         self.selectedData = ''
         self._widgets()
@@ -75,7 +76,7 @@ class GesturesWindow(QWidget):
         self.updatePushButton.setText('&Update')
         self.removePushButton.setText('&Remove')
         self.resize(409, 364)   # width, height
-        self.setWindowTitle('Gestures')
+        self.setWindowTitle(__appname__)
 
     def _connections(self):
 
@@ -102,6 +103,7 @@ class GesturesWindow(QWidget):
         row = index.row()
         col = index.column()
         new_data = self.gesturesTableView.currentIndex().data()
+        #new_data = index.data()
 
         try:
             # # Check first if the new_data is an existing gesture
@@ -129,17 +131,15 @@ class GesturesWindow(QWidget):
                     self.display_output()
                     break
 
-        except ValueError as e:
+        except ValueError:
             print(f'\'{new_data}\' already exist. Try again.')
             UpdateMessageBox.setText(f'\'{new_data}\' already exist. Try again.')
             UpdateMessageBox.show()
 
     def _read_settings(self):
 
-        settings = QSettings('GIPSC Core Team', 'Gestures')
-        self.restoreGeometry(settings.value('gestures_geometry', self.saveGeometry()))
-        #self.gestures = settings.value('gestures', self.gestures)
-        self.gestures = settings.value('abbreviations', self.gestures)
+        self.restoreGeometry(self.settings.value('gestures_geometry', self.saveGeometry()))
+        self.gestures = self.settings.value('abbreviations', self.gestures)
         self.reload_gestures(self.gestures)
         self.resize_gesturesTableView_cells()
 
@@ -157,8 +157,8 @@ class GesturesWindow(QWidget):
         print(f'Active: {active_gestures}')
         for gesture, meaning in gestures.items():
             self.determine_gesture(gesture, meaning)
-            print(gesture, meaning)
             self.update_gesture_tableview(gesture, meaning)
+            print(gesture, meaning)
 
     def update_gesture_tableview(self, gesture, meaning):
         """ Insert one row at a time in the GestureTableView. """
@@ -243,8 +243,8 @@ class GesturesWindow(QWidget):
                 self.clear_gestures_tableview()
 
                 # Start re-inserting the updated gestures
-                for gesture, equivalent in self.gestures.items():
-                    self.update_gesture_tableview(gesture, equivalent)
+                for gesture, meaning in self.gestures.items():
+                    self.update_gesture_tableview(gesture, meaning)
 
         except ValueError:
             print(f'No existing gesture found for \'{new_gesture}\'. Try again.')
@@ -264,7 +264,7 @@ class GesturesWindow(QWidget):
 
                 # Remove keyboardGesture
                 self.keyboardGesture.remove_gesture(gesture_to_remove)  # raise ValueError when this fails
-                del self.gestures[gesture_to_remove]               # remove internal list of gestures
+                del self.gestures[gesture_to_remove]                    # remove internal list of gestures
 
                 self.display_output()
 
@@ -272,8 +272,8 @@ class GesturesWindow(QWidget):
                 self.clear_gestures_tableview()
 
                 # Start re-inserting the updated gestures
-                for gesture, equivalent in self.gestures.items():
-                    self.update_gesture_tableview(gesture, equivalent)
+                for gesture, meaning in self.gestures.items():
+                    self.update_gesture_tableview(gesture, meaning)
 
         except ValueError:
             print(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
@@ -304,10 +304,8 @@ class GesturesWindow(QWidget):
 
     def _write_settings(self):
 
-        settings = QSettings('GIPSC Core Team', 'Gestures')
-        #settings.setValue('gestures', self.gestures)
-        settings.setValue('abbreviations', self.gestures)
-        settings.setValue('gestures_geometry', self.saveGeometry())
+        self.settings.setValue('abbreviations', self.gestures)
+        self.settings.setValue('gestures_geometry', self.saveGeometry())
 
     def resizeEvent(self, event):
 

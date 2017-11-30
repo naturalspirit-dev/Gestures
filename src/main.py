@@ -10,7 +10,10 @@ import sys
 from PyQt5.QtWidgets import QApplication
 
 sys.path.append('..')
+
 APP = QApplication(sys.argv)
+APP.setOrganizationName('GIPSC Core Team')
+APP.setApplicationName('Gestures')
 
 if __name__ == '__main__':
     from src.gui.main_window import GesturesWindow
