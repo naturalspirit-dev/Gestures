@@ -1,7 +1,8 @@
 # Main User Interface of Gestures
 
-import webbrowser as wb
 import keyboard as kb
+import pyautogui as pag
+import webbrowser as wb
 from PyQt5.QtWidgets import (QLabel,
                              QPushButton,
                              QHBoxLayout,
@@ -199,6 +200,7 @@ class GesturesWindow(QWidget):
         if 'https://' in meaning or 'http://' in meaning:
             self.has_http(gesture, meaning)
         elif '?' in meaning:
+            print(meaning)
             self.has_question_mark(gesture, meaning)
         else:
             # Do the default adding of gesture
@@ -211,12 +213,11 @@ class GesturesWindow(QWidget):
         kb.add_word_listener(gesture, callback)
 
     def has_question_mark(self, gesture, meaning):
-        """ Force entry that question mark! """
+        """ Method that will correctly typed the '?' by using PyAutoGUI's typewrite() function. """
 
-        # Force keyboard to write the question mark '?' instead of slash '/', see ISSUE #84 of boppreh/keyboard
-        replacement = '\b' * (len(gesture) + 1) + meaning
-        callback = lambda: kb.write(replacement, restore_state_after=False, exact=True)
-        kb.add_word_listener(gesture, callback, match_suffix=False, timeout=2)
+        meaning = '\b' * (len(gesture) + 1) + meaning
+        callback = lambda: pag.typewrite(meaning)
+        kb.add_word_listener(gesture, callback)
 
     def on_updatePushButton_clicked(self):
         """ Event handler that update an existing keyboardGesture. """
