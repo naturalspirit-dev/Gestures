@@ -2,6 +2,15 @@ CHANGELOG
 ---------
 All notable changes to this project will be documented on this file.
 
+**Patch 1.1.1**
+
+_Release date: 2017-12-26_
+
+* Bug fixes
+    * Fixed a bug that enables the program to correctly 'typed' the question mark (?) character.
+    * Fixed a bug that doesn't remove the _gesture_ after triggering it by a space.
+
+
 **Patch 1.1**
 
 _Release date: 2017-12-01_
