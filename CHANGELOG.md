@@ -2,6 +2,15 @@ CHANGELOG
 ---------
 All notable changes to this project will be documented on this file.
 
+**Patch 1.2**
+
+_Release date: [TBA]_
+
+* Things to do
+    - [ ] BUG: fix left alt value error
+    - [ ] UI: make it run in the system tray
+
+
 **Patch 1.1.1**
 
 _Release date: 2017-12-26_
