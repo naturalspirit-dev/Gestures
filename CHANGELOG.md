@@ -9,6 +9,9 @@ _Release date: [TBA]_
 * Things to do
     - [ ] BUG: fix left alt value error
     - [ ] UI: make it run in the system tray
+    - [ ] IMPROVEMENT: self.settings should be updated on the go
+    - [ ] FEEDBACK: sorting of the two columns (Gestures and Meaning)
+    - [ ] FEEDBACK: auto-sort when gestures are updated 
 
 
 **Patch 1.1.1**
