@@ -23,6 +23,20 @@ from src.resources.models import GestureTableModel
 RECORD = GesturesData.RECORD
 
 
+# TEST: adding a method to 'listen' to any key pressed to catch an existing value error
+def key_listener(event):
+
+    try:
+        if event.event_type == 'down':
+            print(f'key: {event.name}')
+
+    except Exception as e:
+        print(f'An error has occurred, last known key: {event.name} \n Type: {type(e)} - {e}')
+
+
+kb.hook(key_listener)
+
+
 # [] TODO: last column does not stretch after using the Add, Update and Remove button
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
@@ -32,8 +46,8 @@ class GesturesWindow(QWidget):
         super().__init__(parent)
         self.keyboardGesture = KeyboardGesture()
         self.settings = QSettings()
-        self.gestures = {}     # This will hold all the existing gestures
-        self.selectedData = ''
+        self.gestures = {}      # This will hold all the existing gestures
+        self.selectedData = ''  # TODO: this can be remove
         self._widgets()
         self._layout()
         self._properties()
@@ -86,15 +100,15 @@ class GesturesWindow(QWidget):
         self.removePushButton.clicked.connect(self.on_removePushButton_clicked)
 
         # When the user interacts with the table using the tab or arrow keys
-        self.gesturesTableView.activated.connect(self.updateSelectedData)
-        self.gesturesTableView.clicked.connect(self.updateSelectedData)
-        self.gesturesTableView.doubleClicked.connect(self.updateSelectedData)
-        self.gesturesItemSelectionModel.selectionChanged.connect(self.updateSelectedData)
+        self.gesturesTableView.activated.connect(self.update_selectedData)
+        self.gesturesTableView.clicked.connect(self.update_selectedData)
+        self.gesturesTableView.doubleClicked.connect(self.update_selectedData)
+        self.gesturesItemSelectionModel.selectionChanged.connect(self.update_selectedData)
 
         # When the user edit a cell in the table
         self.gesturesTableModel.dataChanged.connect(self.on_gesturesTableModel_dataChanged)
 
-    def updateSelectedData(self):
+    def update_selectedData(self):
 
         self.selectedData = self.gesturesTableView.currentIndex().data()
 
@@ -103,8 +117,7 @@ class GesturesWindow(QWidget):
         index = self.gesturesTableView.currentIndex()
         row = index.row()
         col = index.column()
-        new_data = self.gesturesTableView.currentIndex().data()
-        #new_data = index.data()
+        new_data = index.data()
 
         try:
             # # Check first if the new_data is an existing gesture
@@ -139,6 +152,7 @@ class GesturesWindow(QWidget):
 
     def _read_settings(self):
 
+        # TODO: transfer gestures_geometry to constant.py
         self.restoreGeometry(self.settings.value('gestures_geometry', self.saveGeometry()))
         self.gestures = self.settings.value('abbreviations', self.gestures)
         self.reload_gestures(self.gestures)
