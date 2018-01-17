@@ -23,20 +23,6 @@ from src.resources.models import GestureTableModel
 RECORD = GesturesData.RECORD
 
 
-# TEST: adding a method to 'listen' to any key pressed to catch an existing value error
-def key_listener(event):
-
-    try:
-        if event.event_type == 'down':
-            print(f'key: {event.name}')
-
-    except Exception as e:
-        print(f'An error has occurred, last known key: {event.name} \n Type: {type(e)} - {e}')
-
-
-kb.hook(key_listener)
-
-
 # [] TODO: last column does not stretch after using the Add, Update and Remove button
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
@@ -326,3 +312,7 @@ class GesturesWindow(QWidget):
 
         #print(f'{self.width()} x {self.height()}')
         pass
+
+    def hook_something(self, something):
+
+        kb.hook(something)
