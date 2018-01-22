@@ -10,14 +10,16 @@ from PyQt5.QtWidgets import (QLabel,
                              QWidget,
                              QTableView)
 from PyQt5.QtCore import (QSettings,
-                          QItemSelectionModel)
+                          QItemSelectionModel,
+                          QSortFilterProxyModel)
 from src.core.gestures import KeyboardGesture
 from src.gui.dialogs.messageboxes import (AddMessageBox,
                                           UpdateMessageBox,
                                           RemoveMessageBox)
-from src.resources.constant import (TEMP_HEADER,
+from src.resources.constant import (__appname__,
                                     GesturesData,
-                                    __appname__)
+                                    SETTINGS_GEOMETRY,
+                                    TEMP_HEADER)
 from src.resources.models import GestureTableModel
 
 RECORD = GesturesData.RECORD
@@ -33,7 +35,7 @@ class GesturesWindow(QWidget):
         self.keyboardGesture = KeyboardGesture()
         self.settings = QSettings()
         self.gestures = {}      # This will hold all the existing gestures
-        self.selectedData = ''  # TODO: this can be remove
+        #self.selectedData = ''  # TODO: this can be remove
         self._widgets()
         self._layout()
         self._properties()
@@ -45,6 +47,7 @@ class GesturesWindow(QWidget):
         self.gesturesTableView = QTableView()
         self.gesturesItemSelectionModel = QItemSelectionModel()
         self.gesturesTableModel = GestureTableModel()
+        self.gesturesSortFilterProxyModel = QSortFilterProxyModel()
         self.countLabel = QLabel()
         self.addPushButton = QPushButton()
         self.updatePushButton = QPushButton()
@@ -69,7 +72,15 @@ class GesturesWindow(QWidget):
 
     def _properties(self):
 
+        # create first the main model
+        # feed filterModel with main model
+
+        #self.gesturesSortFilterProxyModel.setSourceModel(self.gesturesTableModel)
         self.gesturesTableView.setModel(self.gesturesTableModel)
+        self.gesturesTableView.setAlternatingRowColors(True)
+        self.gesturesTableView.setShowGrid(False)
+        #self.gesturesTableView.setModel(self.gesturesSortFilterProxyModel)
+        #self.gesturesTableView.setSortingEnabled(True)
         self.gesturesItemSelectionModel.setModel(self.gesturesTableModel)
         self.gesturesTableView.horizontalHeader().setStretchLastSection(True)
         self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
@@ -138,8 +149,7 @@ class GesturesWindow(QWidget):
 
     def _read_settings(self):
 
-        # TODO: transfer gestures_geometry to constant.py
-        self.restoreGeometry(self.settings.value('gestures_geometry', self.saveGeometry()))
+        self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY, self.saveGeometry()))
         self.gestures = self.settings.value('abbreviations', self.gestures)
         self.reload_gestures(self.gestures)
         self.resize_gesturesTableView_cells()
@@ -306,7 +316,7 @@ class GesturesWindow(QWidget):
     def _write_settings(self):
 
         self.settings.setValue('abbreviations', self.gestures)
-        self.settings.setValue('gestures_geometry', self.saveGeometry())
+        self.settings.setValue(SETTINGS_GEOMETRY, self.saveGeometry())
 
     def resizeEvent(self, event):
 
