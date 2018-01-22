@@ -7,6 +7,8 @@ __author__ = 'mokachokokarbon'
 
 TEMP_HEADER = {}
 
+SETTINGS_GEOMETRY = f'{__appname__}_geometry'
+
 
 class GesturesData:
 
