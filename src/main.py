@@ -7,9 +7,9 @@
  """
 
 import sys
+sys.path.append('..')
 from PyQt5.QtWidgets import QApplication
 
-sys.path.append('..')
 
 APP = QApplication(sys.argv)
 APP.setOrganizationName('GIPSC Core Team')
@@ -31,8 +31,17 @@ def key_listener(event):
 
 
 if __name__ == '__main__':
-    from src.gui.main_window import GesturesWindow
-    window = GesturesWindow()
-    window.hook_something(key_listener)  # if this thing does not catch the error, wrap this if block in try...except
-    window.show()
-    APP.exec()
+    # TEST: # wrapping this block of code to catch that ValueError
+    try:
+        from src.gui.main.main_ui import GesturesWindow
+        window = GesturesWindow()
+        window.hook_something(key_listener)
+        window.show()
+        APP.exec()
+
+    except ValueError as e:
+        print('under __main__')
+        print(f'ValueError catched! last known key: {event.name} \n Type: {type(e)} - {e}')
+
+    except Exception as e:
+        print(f'An error has occurred, last known key: {event.name} \n Type: {type(e)} - {e}')
