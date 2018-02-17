@@ -73,14 +73,16 @@ class GesturesWindow(QWidget):
     def _properties(self):
 
         # create first the main model
-        # feed filterModel with main model
 
-        #self.gesturesSortFilterProxyModel.setSourceModel(self.gesturesTableModel)
-        self.gesturesTableView.setModel(self.gesturesTableModel)
+        # feed filterModel with main model
+        self.gesturesSortFilterProxyModel.setSourceModel(self.gesturesTableModel)
+
+        self.gesturesTableView.setModel(self.gesturesSortFilterProxyModel)
+        #self.gesturesTableView.setModel(self.gesturesTableModel)
         self.gesturesTableView.setAlternatingRowColors(True)
+        self.gesturesTableView.setSortingEnabled(True)
         self.gesturesTableView.setShowGrid(False)
-        #self.gesturesTableView.setModel(self.gesturesSortFilterProxyModel)
-        #self.gesturesTableView.setSortingEnabled(True)
+
         self.gesturesItemSelectionModel.setModel(self.gesturesTableModel)
         self.gesturesTableView.horizontalHeader().setStretchLastSection(True)
         self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
