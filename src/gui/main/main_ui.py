@@ -1,7 +1,6 @@
 # Main User Interface of Gestures
 
 import keyboard as kb
-import pyautogui as pag
 import webbrowser as wb
 from PyQt5.QtWidgets import (QLabel,
                              QPushButton,
@@ -11,7 +10,8 @@ from PyQt5.QtWidgets import (QLabel,
                              QTableView)
 from PyQt5.QtCore import (QSettings,
                           QItemSelectionModel,
-                          QSortFilterProxyModel)
+                          QSortFilterProxyModel,
+                          Qt)
 from src.core.gestures import KeyboardGesture
 from src.gui.dialogs.messageboxes import (AddMessageBox,
                                           UpdateMessageBox,
@@ -35,12 +35,12 @@ class GesturesWindow(QWidget):
         self.keyboardGesture = KeyboardGesture()
         self.settings = QSettings()
         self.gestures = {}      # This will hold all the existing gestures
-        #self.selectedData = ''  # TODO: this can be remove
         self._widgets()
         self._layout()
+        self._read_settings()
         self._properties()
         self._connections()
-        self._read_settings()
+        self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY, self.saveGeometry()))
 
     def _widgets(self):
 
@@ -78,14 +78,15 @@ class GesturesWindow(QWidget):
         self.gesturesSortFilterProxyModel.setSourceModel(self.gesturesTableModel)
 
         self.gesturesTableView.setModel(self.gesturesSortFilterProxyModel)
-        #self.gesturesTableView.setModel(self.gesturesTableModel)
+        #self.gesturesTableView.setModel(self.gesturesTableModel)        # this is the original
         self.gesturesTableView.setAlternatingRowColors(True)
         self.gesturesTableView.setSortingEnabled(True)
+        self.gesturesTableView.sortByColumn(1, Qt.AscendingOrder)
         self.gesturesTableView.setShowGrid(False)
 
-        self.gesturesItemSelectionModel.setModel(self.gesturesTableModel)
-        self.gesturesTableView.horizontalHeader().setStretchLastSection(True)
-        self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
+        #self.gesturesItemSelectionModel.setModel(self.gesturesTableModel)
+        #self.gesturesTableView.horizontalHeader().setStretchLastSection(True)
+        #self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
         self.addPushButton.setText('&Add')
         self.updatePushButton.setText('&Update')
         self.removePushButton.setText('&Remove')
@@ -151,7 +152,7 @@ class GesturesWindow(QWidget):
 
     def _read_settings(self):
 
-        self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY, self.saveGeometry()))
+        #self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY, self.saveGeometry()))
         self.gestures = self.settings.value('abbreviations', self.gestures)
         self.reload_gestures(self.gestures)
         self.resize_gesturesTableView_cells()
@@ -211,9 +212,6 @@ class GesturesWindow(QWidget):
 
         if 'https://' in meaning or 'http://' in meaning:
             self.has_http(gesture, meaning)
-        elif '?' in meaning:
-            print(meaning)
-            self.has_question_mark(gesture, meaning)
         else:
             # Do the default adding of gesture
             self.keyboardGesture.add_gesture(gesture, meaning)
@@ -222,13 +220,6 @@ class GesturesWindow(QWidget):
         """ Method that will open a website in a new tab of the default web browser. """
 
         callback = lambda: wb.open_new_tab(meaning)
-        kb.add_word_listener(gesture, callback)
-
-    def has_question_mark(self, gesture, meaning):
-        """ Method that will correctly typed the '?' by using PyAutoGUI's typewrite() function. """
-
-        meaning = '\b' * (len(gesture) + 1) + meaning
-        callback = lambda: pag.typewrite(meaning)
         kb.add_word_listener(gesture, callback)
 
     def on_updatePushButton_clicked(self):

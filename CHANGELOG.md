@@ -4,10 +4,16 @@ All notable changes to this project will be documented on this file.
 
 **Patch 1.2**
 
-_Release date: [TBA]_
+_Release date: [1 Aug 2018]_
+
+
+* Libraries
+    * Updated _keyboard_ to latest version (0.13.2)
 
 * Things to do
+    - [ ] QUESTION MARK: remove pyautogui implementation 
     - [ ] BUG: fix left alt value error
+    - [ ] UI: fix initial running, list of gestures not showing
     - [ ] UI: make it run in the system tray
     - [ ] UI: find a suitable icon
     - [ ] IMPROVEMENT: self.settings should be updated on the go
