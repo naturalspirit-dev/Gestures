@@ -4,21 +4,26 @@ All notable changes to this project will be documented on this file.
 
 **Patch 1.2**
 
-_Release date: [1 Aug 2018]_
+_Release date: 1 Sep 2018_
 
+* What's new
+    * Gestures and Meaning column can now be sorted
 
-* Libraries
-    * Updated _keyboard_ to latest version (0.13.2)
+* Upgrade
+    * Updated _keyboard_ 0.13.2
+    * Updated _PyQt_ to 5.11.2
+    * Updated _Python_ to 3.6.6
 
 * Things to do
-    - [ ] QUESTION MARK: remove pyautogui implementation 
+    - [x] QUESTION MARK: remove pyautogui implementation
+    - [x] TOOLS: update to latest versions (keyboard, Python, PyQt) 
     - [ ] BUG: fix left alt value error
-    - [ ] UI: fix initial running, list of gestures not showing
     - [ ] UI: make it run in the system tray
     - [ ] UI: find a suitable icon
     - [ ] IMPROVEMENT: self.settings should be updated on the go
-    - [ ] FEEDBACK: sorting of the two columns (Gestures and Meaning)
-    - [ ] FEEDBACK: auto-sort when gestures are updated 
+    - [ ] FEEDBACK: auto-sort when gestures are updated
+    - [ ] REMOVE BUTTON: disable and enable when a gesture in the Gesture column is selected (2) should not ask what gesture to delete
+    - [ ] REMOVE BUTTON: self-destruct when no existing gestures is remove  
 
 
 **Patch 1.1.1**

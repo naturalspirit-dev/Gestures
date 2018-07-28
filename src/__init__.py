@@ -11,15 +11,17 @@ def perform_dependency_check() -> None:
     from PyQt5.QtCore import QT_VERSION_STR
     from PyQt5.Qt import PYQT_VERSION_STR
     from sip import SIP_VERSION_STR
-    from src.resources.constant import __version__
+    from src.resources.constant import (__version__,
+                                        KEYBOARD_VERSION)
 
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
     logging.info(f'[GESTURES]: Gestures version {__version__}')
     logging.info(f'[GESTURES]: Python version {sys.version[:5]}')
-    logging.info(f'[GESTURES]: Qt version {QT_VERSION_STR}')
     logging.info(f'[GESTURES]: PyQt version {PYQT_VERSION_STR}')
+    logging.info(f'[GESTURES]: keyboard version {KEYBOARD_VERSION}')
+    logging.info(f'[GESTURES]: Qt version {QT_VERSION_STR}')
     logging.info(f'[GESTURES]: SIP version {SIP_VERSION_STR}')
 
 
