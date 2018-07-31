@@ -112,6 +112,11 @@ class GesturesWindow(QWidget):
 
         self.selectedData = self.gesturesTableView.currentIndex().data()
 
+    def update_settings(self):
+        """ Update gestures dict for every add, update and delete. """
+
+        self.settings.setValue('abbreviations', self.gestures)
+
     def on_gesturesTableModel_dataChanged(self):
 
         index = self.gesturesTableView.currentIndex()
@@ -120,7 +125,7 @@ class GesturesWindow(QWidget):
         new_data = index.data()
 
         try:
-            # # Check first if the new_data is an existing gesture
+            # Check first if the new_data is an existing gesture
             if new_data in self.gestures.keys():
                 RECORD[row][col] = self.selectedData
                 raise ValueError
@@ -141,7 +146,7 @@ class GesturesWindow(QWidget):
                         self.determine_gesture(gesture, new_data)
                         self.gestures[gesture] = new_data
 
-                    # Report what happend
+                    self.update_settings()
                     self.display_output()
                     break
 
@@ -198,6 +203,7 @@ class GesturesWindow(QWidget):
 
                 # Store newly added gestures in a dictionary
                 self.gestures[gesture] = meaning
+                self.update_settings()
                 self.display_output()   # Display output for debugging
 
                 self.update_gesture_tableview(gesture, meaning)
@@ -240,7 +246,7 @@ class GesturesWindow(QWidget):
                 self.determine_gesture(new_gesture, new_meaning)
                 self.gestures[new_gesture] = new_meaning
 
-                # Report what happend
+                self.update_settings()
                 self.display_output()
 
                 # Clear the Gesture TableView first
@@ -270,6 +276,7 @@ class GesturesWindow(QWidget):
                 self.keyboardGesture.remove_gesture(gesture_to_remove)  # raise ValueError when this fails
                 del self.gestures[gesture_to_remove]                    # remove internal list of gestures
 
+                self.update_settings()
                 self.display_output()
 
                 # Clear the Gesture TableView first
@@ -310,6 +317,12 @@ class GesturesWindow(QWidget):
 
         self.settings.setValue('abbreviations', self.gestures)
         self.settings.setValue(SETTINGS_GEOMETRY, self.saveGeometry())
+
+    def keyPressEvent(self, event):
+
+        # 'Ctrl+Q: quit the app'
+        if event.modifiers() & Qt.ControlModifier and event.key() == Qt.Key_Q:
+            self.close()
 
     def resizeEvent(self, event):
 
