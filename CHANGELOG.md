@@ -16,11 +16,12 @@ _Release date: 1 Sep 2018_
 
 * Things to do
     - [x] QUESTION MARK: remove pyautogui implementation
-    - [x] TOOLS: update to latest versions (keyboard, Python, PyQt) 
-    - [ ] BUG: fix left alt value error
+    - [x] TOOLS: update to latest versions (keyboard, Python, PyQt)
+    - [x] SHORTCUT: add 'Ctrl+Q' to quit the app 
+    - [x] BUG: fix left alt value error
     - [ ] UI: make it run in the system tray
     - [ ] UI: find a suitable icon
-    - [ ] IMPROVEMENT: self.settings should be updated on the go
+    - [x] IMPROVEMENT: self.settings should be updated on the go
     - [ ] FEEDBACK: auto-sort when gestures are updated
     - [ ] REMOVE BUTTON: disable and enable when a gesture in the Gesture column is selected (2) should not ask what gesture to delete
     - [ ] REMOVE BUTTON: self-destruct when no existing gestures is remove  
