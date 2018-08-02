@@ -77,8 +77,8 @@ class GesturesWindow(QWidget):
         # feed filterModel with main model
         self.gesturesSortFilterProxyModel.setSourceModel(self.gesturesTableModel)
 
-        self.gesturesTableView.setModel(self.gesturesSortFilterProxyModel)
-        #self.gesturesTableView.setModel(self.gesturesTableModel)        # this is the original
+        #self.gesturesTableView.setModel(self.gesturesSortFilterProxyModel)
+        self.gesturesTableView.setModel(self.gesturesTableModel)        # this is the original
         self.gesturesTableView.setAlternatingRowColors(True)
         self.gesturesTableView.setSortingEnabled(True)
         self.gesturesTableView.sortByColumn(1, Qt.AscendingOrder)
@@ -110,12 +110,22 @@ class GesturesWindow(QWidget):
 
     def update_selectedData(self):
 
-        self.selectedData = self.gesturesTableView.currentIndex().data()
+        # self.selectedData = self.gesturesTableView.currentIndex().data()
+        # print(f'row: {row}x col: {col} -> new_data: {new_data}')
+        index = self.gesturesTableView.currentIndex()
+        row = index.row()
+        col = index.column()
+        self.selectedData = index.data()
+        print(f'row: {row} x col: {col} -> selectedData: {self.selectedData}')
 
     def update_settings(self):
         """ Update gestures dict for every add, update and delete. """
 
         self.settings.setValue('abbreviations', self.gestures)
+
+    def selection_changed(self):
+
+        print('x')
 
     def on_gesturesTableModel_dataChanged(self):
 
@@ -123,6 +133,7 @@ class GesturesWindow(QWidget):
         row = index.row()
         col = index.column()
         new_data = index.data()
+        print(f'row: {row}x col: {col} -> new_data: {new_data}')
 
         try:
             # Check first if the new_data is an existing gesture
@@ -286,8 +297,8 @@ class GesturesWindow(QWidget):
                 for gesture, meaning in self.gestures.items():
                     self.update_gesture_tableview(gesture, meaning)
 
-        except ValueError:
-            print(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
+        except (KeyError, ValueError) as e:
+            print(f'No existing gesture found for \'{gesture_to_remove}\'. Try again. -> type: {type(e)}')
             RemoveMessageBox.setText(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
             RemoveMessageBox.show()
 

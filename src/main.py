@@ -15,15 +15,18 @@ APP = QApplication(sys.argv)
 APP.setOrganizationName('GIPSC Core Team')
 APP.setApplicationName('Gestures')
 
+KEYPRESS_COUNT = 0
+
 
 def key_listener(event):
 
+    global KEYPRESS_COUNT
     if event.event_type == 'down':
-        print(f'key: {event.name}')
+        KEYPRESS_COUNT += 1
+        print(f'[{KEYPRESS_COUNT}] key: {event.name}')
 
 
 if __name__ == '__main__':
-    # [x] TODO: remove try...except, left alt bug already solved
     from src.gui.main.main_ui import GesturesWindow
     window = GesturesWindow()
     window.hook_something(key_listener)
