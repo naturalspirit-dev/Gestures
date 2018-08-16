@@ -25,9 +25,9 @@ _Release date: 1 Sep 2018_
     - [ ] FEEDBACK: auto-sort when gestures are updated
     - [ ] REMOVE BUTTON: disable and enable when a gesture in the Gesture column is selected (2) should not ask what gesture to delete
     - [x] REMOVE BUTTON: self-destruct when no existing gestures is remove
+    - [x] UPDATE: not reflecting after updating either gesture or meaning
     - [ ] GESTURESTABLE: should retain the previous value of the cell editing
-    - [ ] UPDATE: not reflecting after updating either gesture or meaning
-    - [ ] GESTURESTABLE: get selectedData via using the arrow keys
+    - [x] GESTURESTABLE: get selectedData via using the arrow keys
 
 
 **Patch 1.1.1**
