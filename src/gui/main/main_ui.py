@@ -16,6 +16,7 @@ from src.core.gestures import KeyboardGesture
 from src.gui.dialogs.messageboxes import (AddMessageBox,
                                           UpdateMessageBox,
                                           RemoveMessageBox)
+from src.gui.widgets.tableview import GesturesTableView
 from src.resources.constant import (__appname__,
                                     GesturesData,
                                     SETTINGS_GEOMETRY,
@@ -44,7 +45,8 @@ class GesturesWindow(QWidget):
 
     def _widgets(self):
 
-        self.gesturesTableView = QTableView()
+        # self.gesturesTableView = QTableView()
+        self.gesturesTableView = GesturesTableView()
         self.gesturesItemSelectionModel = QItemSelectionModel()
         self.gesturesTableModel = GestureTableModel()
         self.gesturesSortFilterProxyModel = QSortFilterProxyModel()
@@ -77,11 +79,10 @@ class GesturesWindow(QWidget):
         # feed filterModel with main model
         self.gesturesSortFilterProxyModel.setSourceModel(self.gesturesTableModel)
 
-        #self.gesturesTableView.setModel(self.gesturesSortFilterProxyModel)
-        self.gesturesTableView.setModel(self.gesturesTableModel)        # this is the original
+        self.gesturesTableView.setModel(self.gesturesSortFilterProxyModel)
         self.gesturesTableView.setAlternatingRowColors(True)
         self.gesturesTableView.setSortingEnabled(True)
-        self.gesturesTableView.sortByColumn(1, Qt.AscendingOrder)
+        self.gesturesTableView.sortByColumn(0, Qt.AscendingOrder)
         self.gesturesTableView.setShowGrid(False)
 
         #self.gesturesItemSelectionModel.setModel(self.gesturesTableModel)
@@ -115,25 +116,27 @@ class GesturesWindow(QWidget):
         index = self.gesturesTableView.currentIndex()
         row = index.row()
         col = index.column()
-        self.selectedData = index.data()
-        print(f'row: {row} x col: {col} -> selectedData: {self.selectedData}')
+        # self.selectedData = index.data()
+        self.selectedData = self.gesturesTableView.current_data
+        # print(f'row x col: {row} x {col} -> previous_data: {self.selectedData}')
+        print(f'update_selectedData -> {self.gesturesTableView.current_data} x {self.gesturesTableView.previous_data}')
 
     def update_settings(self):
         """ Update gestures dict for every add, update and delete. """
 
         self.settings.setValue('abbreviations', self.gestures)
 
-    def selection_changed(self):
-
-        print('x')
-
     def on_gesturesTableModel_dataChanged(self):
 
+        # [] TODO: whew! you solve the problem at last! so far updating directly in the TableView is good without any error.
+        # Beautify the code when you come back from vacation.
         index = self.gesturesTableView.currentIndex()
         row = index.row()
         col = index.column()
         new_data = index.data()
-        print(f'row: {row}x col: {col} -> new_data: {new_data}')
+        self.selectedData = self.gesturesTableView.current_data     # This solve your freaking problem so far
+        print(f'on_dataChanged: new data -> {new_data}\n\tselected data -> {self.selectedData}')
+        # print(f'on_dataChanged: new data -> {new_data}\n\tselected data -> {self.gesturesTableView.current_data}')
 
         try:
             # Check first if the new_data is an existing gesture
@@ -141,11 +144,15 @@ class GesturesWindow(QWidget):
                 RECORD[row][col] = self.selectedData
                 raise ValueError
 
+            print(f'selectedData before for loop: {self.selectedData}')
             # Get key of edited data -> this will update only the 'meaning'
             for gesture, meaning in self.gestures.items():
+
                 if self.selectedData in (gesture, meaning):
+                    print(f'"{self.selectedData}" found in ({gesture}, {meaning})')
                     # Remove current keyboardGesture
                     self.keyboardGesture.remove_gesture(gesture)
+                    print(f'deleting {self.gestures[gesture]}')
                     del self.gestures[gesture]
 
                     # Add new keyboardGesture
@@ -153,13 +160,17 @@ class GesturesWindow(QWidget):
                     if self.selectedData == gesture:
                         self.determine_gesture(new_data, meaning)
                         self.gestures[new_data] = meaning
+                        print('your editing a key')
                     else:
                         self.determine_gesture(gesture, new_data)
                         self.gestures[gesture] = new_data
+                        print('your editing a meaning')
 
                     self.update_settings()
                     self.display_output()
                     break
+                else:
+                    print(f'{self.selectedData} not found in self.gestures')
 
         except ValueError:
             print(f'\'{new_data}\' already exist. Try again.')
