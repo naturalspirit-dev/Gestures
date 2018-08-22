@@ -34,6 +34,7 @@ class GesturesWindow(QWidget):
 
         super().__init__(parent)
         self.keyboardGesture = KeyboardGesture()
+        self.selectedData = None
         self.settings = QSettings()
         self.gestures = {}      # This will hold all the existing gestures
         self._widgets()
@@ -74,8 +75,6 @@ class GesturesWindow(QWidget):
 
     def _properties(self):
 
-        # create first the main model
-
         # feed filterModel with main model
         self.gesturesSortFilterProxyModel.setSourceModel(self.gesturesTableModel)
 
@@ -85,9 +84,6 @@ class GesturesWindow(QWidget):
         self.gesturesTableView.sortByColumn(0, Qt.AscendingOrder)
         self.gesturesTableView.setShowGrid(False)
 
-        #self.gesturesItemSelectionModel.setModel(self.gesturesTableModel)
-        #self.gesturesTableView.horizontalHeader().setStretchLastSection(True)
-        #self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
         self.addPushButton.setText('&Add')
         self.updatePushButton.setText('&Update')
         self.removePushButton.setText('&Remove')
@@ -104,21 +100,13 @@ class GesturesWindow(QWidget):
         self.gesturesTableView.activated.connect(self.update_selectedData)
         self.gesturesTableView.clicked.connect(self.update_selectedData)
         self.gesturesTableView.doubleClicked.connect(self.update_selectedData)
-        self.gesturesItemSelectionModel.selectionChanged.connect(self.update_selectedData)
 
-        # When the user edit a cell in the table
+        # This will trigger after (1) pressing 'enter', (2) navigation keys (3) or selecting a different cell
         self.gesturesTableModel.dataChanged.connect(self.on_gesturesTableModel_dataChanged)
 
     def update_selectedData(self):
 
-        # self.selectedData = self.gesturesTableView.currentIndex().data()
-        # print(f'row: {row}x col: {col} -> new_data: {new_data}')
-        index = self.gesturesTableView.currentIndex()
-        row = index.row()
-        col = index.column()
-        # self.selectedData = index.data()
         self.selectedData = self.gesturesTableView.current_data
-        # print(f'row x col: {row} x {col} -> previous_data: {self.selectedData}')
         print(f'update_selectedData -> {self.gesturesTableView.current_data} x {self.gesturesTableView.previous_data}')
 
     def update_settings(self):
@@ -128,15 +116,14 @@ class GesturesWindow(QWidget):
 
     def on_gesturesTableModel_dataChanged(self):
 
-        # [] TODO: whew! you solve the problem at last! so far updating directly in the TableView is good without any error.
-        # Beautify the code when you come back from vacation.
+        # [] TODO: Beautify this code when you come back from vacation.
+        # [] TODO: ISSUE - when refactored to selected_data, tableview not updating correctly
         index = self.gesturesTableView.currentIndex()
         row = index.row()
         col = index.column()
         new_data = index.data()
-        self.selectedData = self.gesturesTableView.current_data     # This solve your freaking problem so far
+        self.selectedData = self.gesturesTableView.current_data
         print(f'on_dataChanged: new data -> {new_data}\n\tselected data -> {self.selectedData}')
-        # print(f'on_dataChanged: new data -> {new_data}\n\tselected data -> {self.gesturesTableView.current_data}')
 
         try:
             # Check first if the new_data is an existing gesture

@@ -5,17 +5,11 @@ from PyQt5.QtWidgets import QTableView
 
 class GesturesTableView(QTableView):
 
-    # selected_data = None
-
-    # def selectionChanged(self, selected, deselected):
-    #
-    #     index = self.currentIndex()
-    #     print(f'selected data -> {self.selected_data}')
-    #     # selected_data = selected.data()
-    #     # deselected_data = deselected.data()
-    #     # print(f'selectionChanged -> {selected_data} x {deselected_data}')
+    current_data = None
+    previous_data = None
 
     def currentChanged(self, current, previous):
+        """ Reimplemented slot that will get the current_data and previous_data. """
 
         self.current_data = current.data()
         self.previous_data = previous.data()
