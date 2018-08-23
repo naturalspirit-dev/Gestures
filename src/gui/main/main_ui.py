@@ -34,7 +34,7 @@ class GesturesWindow(QWidget):
 
         super().__init__(parent)
         self.keyboardGesture = KeyboardGesture()
-        self.selectedData = None
+        self.selected_data = None
         self.settings = QSettings()
         self.gestures = {}      # This will hold all the existing gestures
         self._widgets()
@@ -106,7 +106,7 @@ class GesturesWindow(QWidget):
 
     def update_selectedData(self):
 
-        self.selectedData = self.gesturesTableView.current_data
+        self.selected_data = self.gesturesTableView.current_data
         print(f'update_selectedData -> {self.gesturesTableView.current_data} x {self.gesturesTableView.previous_data}')
 
     def update_settings(self):
@@ -117,26 +117,25 @@ class GesturesWindow(QWidget):
     def on_gesturesTableModel_dataChanged(self):
 
         # [] TODO: Beautify this code when you come back from vacation.
-        # [] TODO: ISSUE - when refactored to selected_data, tableview not updating correctly
+        # [x] TODO: ISSUE - when refactored to selected_data, tableview not updating correctly
         index = self.gesturesTableView.currentIndex()
         row = index.row()
         col = index.column()
         new_data = index.data()
-        self.selectedData = self.gesturesTableView.current_data
-        print(f'on_dataChanged: new data -> {new_data}\n\tselected data -> {self.selectedData}')
+        self.selected_data = self.gesturesTableView.current_data
+        print(f'on_dataChanged: new data -> {new_data}\n\tselected data -> {self.selected_data}')
 
         try:
             # Check first if the new_data is an existing gesture
             if new_data in self.gestures.keys():
-                RECORD[row][col] = self.selectedData
+                RECORD[row][col] = self.selected_data
                 raise ValueError
 
-            print(f'selectedData before for loop: {self.selectedData}')
             # Get key of edited data -> this will update only the 'meaning'
             for gesture, meaning in self.gestures.items():
-
-                if self.selectedData in (gesture, meaning):
-                    print(f'"{self.selectedData}" found in ({gesture}, {meaning})')
+                # [] TODO/FYI: you are searching a gesture per row instead of per column
+                if self.selected_data in (gesture, meaning):
+                    print(f'"{self.selected_data}" found in ({gesture}, {meaning})')
                     # Remove current keyboardGesture
                     self.keyboardGesture.remove_gesture(gesture)
                     print(f'deleting {self.gestures[gesture]}')
@@ -144,7 +143,8 @@ class GesturesWindow(QWidget):
 
                     # Add new keyboardGesture
                     # check if data to be edited is the key
-                    if self.selectedData == gesture:
+                    # [] TODO/FYI: try using a dictionary, just get the column index to identify the key or meaning
+                    if self.selected_data == gesture:
                         self.determine_gesture(new_data, meaning)
                         self.gestures[new_data] = meaning
                         print('your editing a key')
@@ -157,7 +157,7 @@ class GesturesWindow(QWidget):
                     self.display_output()
                     break
                 else:
-                    print(f'{self.selectedData} not found in self.gestures')
+                    print(f'{self.selected_data} not found in self.gestures')
 
         except ValueError:
             print(f'\'{new_data}\' already exist. Try again.')
