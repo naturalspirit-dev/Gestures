@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file alias="g-key-32.png">images/g-key-32.png</file>
+    </qresource>
+</RCC>
+
+<!-- move resources.qrc (this file) in the root folder before running the command below -->
+<!-- pyrcc5 -o resources/gestures_resources.py resources.qrc -->
+<!-- don't forget to add import gestures_resources in your main UI file -->

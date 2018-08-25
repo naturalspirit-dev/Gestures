@@ -13,4 +13,5 @@ class GesturesTableView(QTableView):
 
         self.current_data = current.data()
         self.previous_data = previous.data()
+        self.scrollTo(self.currentIndex())
         print(f'currentChanged -> {self.current_data} x {self.previous_data}')

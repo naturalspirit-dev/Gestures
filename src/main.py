@@ -18,6 +18,14 @@ APP.setApplicationName('Gestures')
 KEYPRESS_COUNT = 0
 
 
+def configure_app_icon() -> None:
+    """ This will show the icon of Gestures in the taskbar. """
+
+    import ctypes
+    APP_ID = u'novus.jerobado.gesture.1-2'
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
+
+
 def key_listener(event):
 
     global KEYPRESS_COUNT
@@ -28,6 +36,7 @@ def key_listener(event):
 
 if __name__ == '__main__':
     from src.gui.main.main_ui import GesturesWindow
+    configure_app_icon()
     window = GesturesWindow()
     window.hook_something(key_listener)
     window.show()

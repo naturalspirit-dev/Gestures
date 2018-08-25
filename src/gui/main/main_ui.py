@@ -2,6 +2,7 @@
 
 import keyboard as kb
 import webbrowser as wb
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QLabel,
                              QPushButton,
                              QHBoxLayout,
@@ -21,6 +22,7 @@ from src.resources.constant import (__appname__,
                                     GesturesData,
                                     SETTINGS_GEOMETRY,
                                     TEMP_HEADER)
+from src.resources import gestures_resources
 from src.resources.models import GestureTableModel
 
 RECORD = GesturesData.RECORD
@@ -86,9 +88,11 @@ class GesturesWindow(QWidget):
 
         self.addPushButton.setText('&Add')
         self.updatePushButton.setText('&Update')
+        self.removePushButton.setEnabled(False)
         self.removePushButton.setText('&Remove')
         self.resize(409, 364)   # width, height
         self.setWindowTitle(__appname__)
+        self.setWindowIcon(QIcon(':/g-key-32.png'))
 
     def _connections(self):
 
@@ -107,6 +111,12 @@ class GesturesWindow(QWidget):
     def update_selectedData(self):
 
         self.selected_data = self.gesturesTableView.current_data
+
+        if self.gesturesTableView.currentIndex().column() == 0:
+            self.removePushButton.setEnabled(True)
+        else:
+            self.removePushButton.setEnabled(False)
+
         print(f'update_selectedData -> {self.gesturesTableView.current_data} x {self.gesturesTableView.previous_data}')
 
     def update_settings(self):
@@ -117,7 +127,6 @@ class GesturesWindow(QWidget):
     def on_gesturesTableModel_dataChanged(self):
 
         # [] TODO: Beautify this code when you come back from vacation.
-        # [x] TODO: ISSUE - when refactored to selected_data, tableview not updating correctly
         index = self.gesturesTableView.currentIndex()
         row = index.row()
         col = index.column()
@@ -188,6 +197,7 @@ class GesturesWindow(QWidget):
             self.update_gesture_tableview(gesture, meaning)
             print(gesture, meaning)
 
+    # [] TODO: insert a for loop here, too much for loop outside
     def update_gesture_tableview(self, gesture, meaning):
         """ Insert one row at a time in the GestureTableView. """
 
@@ -195,8 +205,8 @@ class GesturesWindow(QWidget):
         TEMP_HEADER['meaning'] = meaning
         RECORD.append(list(TEMP_HEADER.values()))
         self.gesturesTableModel.insertRows(len(RECORD), 1)
-        self.resize_gesturesTableView_cells()
 
+    # [x] TODO: you can still add a gesture even if its duplicate
     def on_addPushButton_clicked(self):
 
         try:
@@ -206,6 +216,10 @@ class GesturesWindow(QWidget):
                 # Get user's input
                 gesture = dialog.gestureLineEdit.text()
                 meaning = dialog.meaningLineEdit.text()
+
+                # TEST: check if the user is adding an existing gesture
+                if gesture in self.gestures.keys():
+                    raise ValueError
 
                 # Determine what kind of gesture to add
                 self.determine_gesture(gesture, meaning)
@@ -265,11 +279,12 @@ class GesturesWindow(QWidget):
                 for gesture, meaning in self.gestures.items():
                     self.update_gesture_tableview(gesture, meaning)
 
-        except ValueError:
-            print(f'No existing gesture found for \'{new_gesture}\'. Try again.')
+        except (KeyError, ValueError) as e:
+            print(f'No existing gesture found for \'{new_gesture}\'. Try again. -> type: {type(e)}')
             UpdateMessageBox.setText(f'No existing gesture found for \'{new_gesture}\'. Try again.')
             UpdateMessageBox.show()
 
+    # [] TODO: don't let the user to type the gesture just to remove it, just let it click the remove button
     def on_removePushButton_clicked(self):
         """ Display an input dialog that will accept a keyboardGesture to remove. """
 
