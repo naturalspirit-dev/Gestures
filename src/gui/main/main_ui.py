@@ -85,10 +85,11 @@ class GesturesWindow(QWidget):
         self.gesturesTableView.setSortingEnabled(True)
         self.gesturesTableView.sortByColumn(0, Qt.AscendingOrder)
         self.gesturesTableView.setShowGrid(False)
+        self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
 
         self.addPushButton.setText('&Add')
         self.updatePushButton.setText('&Update')
-        self.removePushButton.setEnabled(False)
+        # self.removePushButton.setEnabled(False)
         self.removePushButton.setText('&Remove')
         self.resize(409, 364)   # width, height
         self.setWindowTitle(__appname__)
@@ -111,12 +112,6 @@ class GesturesWindow(QWidget):
     def update_selectedData(self):
 
         self.selected_data = self.gesturesTableView.current_data
-
-        if self.gesturesTableView.currentIndex().column() == 0:
-            self.removePushButton.setEnabled(True)
-        else:
-            self.removePushButton.setEnabled(False)
-
         print(f'update_selectedData -> {self.gesturesTableView.current_data} x {self.gesturesTableView.previous_data}')
 
     def update_settings(self):
@@ -175,7 +170,6 @@ class GesturesWindow(QWidget):
 
     def _read_settings(self):
 
-        #self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY, self.saveGeometry()))
         self.gestures = self.settings.value('abbreviations', self.gestures)
         self.reload_gestures(self.gestures)
         self.resize_gesturesTableView_cells()
@@ -206,7 +200,6 @@ class GesturesWindow(QWidget):
         RECORD.append(list(TEMP_HEADER.values()))
         self.gesturesTableModel.insertRows(len(RECORD), 1)
 
-    # [x] TODO: you can still add a gesture even if its duplicate
     def on_addPushButton_clicked(self):
 
         try:
@@ -284,36 +277,47 @@ class GesturesWindow(QWidget):
             UpdateMessageBox.setText(f'No existing gesture found for \'{new_gesture}\'. Try again.')
             UpdateMessageBox.show()
 
-    # [] TODO: don't let the user to type the gesture just to remove it, just let it click the remove button
+    # [x] TODO: don't let the user to type the gesture just to remove it, just let it click the remove button
+    # [] TODO: crashes when no current selection
     def on_removePushButton_clicked(self):
-        """ Display an input dialog that will accept a keyboardGesture to remove. """
+        """ Remove gesture based on selected row(s). """
 
         try:
-            from src.gui.dialogs.remove import RemoveGestureDialog
-            dialog = RemoveGestureDialog(self)
+            # Get details of selected row to delete
+            index = self.gesturesTableView.currentIndex()
+            row = index.row()
+            col = index.column()
+            data = index.data()
 
-            if dialog.exec():
-                # Get user input
-                gesture_to_remove = dialog.removeLineEdit.text()
+            # Check if current selection is on the 'Meaning' column
+            if col == 1:
+                data = self.get_key(data)
 
-                # Remove keyboardGesture
-                self.keyboardGesture.remove_gesture(gesture_to_remove)  # raise ValueError when this fails
-                del self.gestures[gesture_to_remove]                    # remove internal list of gestures
+            # Remove keyboardGesture
+            self.keyboardGesture.remove_gesture(data)  # raise ValueError when this fails
+            print(f'deleted {data}')
+            del self.gestures[data]  # remove internal list of gestures
 
-                self.update_settings()
-                self.display_output()
+            self.update_settings()
+            self.display_output()
 
-                # Clear the Gesture TableView first
-                self.clear_gestures_tableview()
+            # Clear the Gesture TableView first
+            self.clear_gestures_tableview()
 
-                # Start re-inserting the updated gestures
-                for gesture, meaning in self.gestures.items():
-                    self.update_gesture_tableview(gesture, meaning)
+            # Start re-inserting the updated gestures
+            for gesture, meaning in self.gestures.items():
+                self.update_gesture_tableview(gesture, meaning)
 
-        except (KeyError, ValueError) as e:
-            print(f'No existing gesture found for \'{gesture_to_remove}\'. Try again. -> type: {type(e)}')
-            RemoveMessageBox.setText(f'No existing gesture found for \'{gesture_to_remove}\'. Try again.')
+        except (KeyError, ValueError, Exception) as e:
+            print(f'No existing gesture found for \'{data}\'. Try again. -> type: {type(e)}')
+            RemoveMessageBox.setText(f'No existing gesture found for \'{data}\'. Try again.')
             RemoveMessageBox.show()
+
+    def get_key(self, meaning):
+
+        for k, v in self.gestures.items():
+            if meaning in (k, v):
+                return k
 
     def clear_gestures_tableview(self):
         """ Method that will remove the content of the GesturesTableView. """
