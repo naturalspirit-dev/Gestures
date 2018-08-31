@@ -85,7 +85,7 @@ class GesturesWindow(QWidget):
         self.gesturesTableView.setSortingEnabled(True)
         self.gesturesTableView.sortByColumn(0, Qt.AscendingOrder)
         self.gesturesTableView.setShowGrid(False)
-        self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
+        # self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
 
         self.addPushButton.setText('&Add')
         self.updatePushButton.setText('&Update')
@@ -177,8 +177,8 @@ class GesturesWindow(QWidget):
     def resize_gesturesTableView_cells(self):
         """ Resize the rows and columns of the gesturesTableView. """
 
-        self.gesturesTableView.resizeRowsToContents()
-        self.gesturesTableView.resizeColumnsToContents()
+        # self.gesturesTableView.resizeRowsToContents()
+        # self.gesturesTableView.resizeColumnsToContents()
         self.gesturesTableView.horizontalHeader().setStretchLastSection(True)
 
     def reload_gestures(self, gestures: dict):
@@ -192,6 +192,7 @@ class GesturesWindow(QWidget):
             print(gesture, meaning)
 
     # [] TODO: insert a for loop here, too much for loop outside
+    # [] TODO: sort not working after adding, updating and removing a gesture
     def update_gesture_tableview(self, gesture, meaning):
         """ Insert one row at a time in the GestureTableView. """
 
@@ -199,7 +200,9 @@ class GesturesWindow(QWidget):
         TEMP_HEADER['meaning'] = meaning
         RECORD.append(list(TEMP_HEADER.values()))
         self.gesturesTableModel.insertRows(len(RECORD), 1)
+        self.gesturesTableView.setModel(self.gesturesTableModel)
 
+    # [] TODO: gesturesTableView not updating properly when new gesture is update
     def on_addPushButton_clicked(self):
 
         try:
