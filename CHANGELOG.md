@@ -2,33 +2,41 @@ CHANGELOG
 ---------
 All notable changes to this project will be documented on this file.
 
+**Patch 1.3**
+
+_Release date: TBA_
+
+* Things to do
+    - [ ] UI: make it run in the system tray
+
+
 **Patch 1.2**
 
 _Release date: 1 Sep 2018_
 
-* What's new
+* What's new?
     * Gestures and Meaning column can now be sorted
+    * _Remove_ button can now delete a selected gesture 
+
+* UI
+    * Added a shiny icon
+
+* Bug Fixes
+    * Fixed the 'left alt' ValueError 
+    * Fixed a bug wherein updated gesture or meaning are not updated correctly
+    * Fixed a bug wherein the user can still add an existing gesture
+
+* Shortcut
+    * Added 'Ctrl+Q' to quit the app
+
+* Backend (the bloody part)
+    * Remove usage of PyAutoGui which was a workaround for the '?' not typing properly
+    * Settings are now updated for every add, update or remove  
 
 * Upgrade
-    * Updated _keyboard_ 0.13.2
+    * Updated _keyboard_ to 0.13.2
     * Updated _PyQt_ to 5.11.2
     * Updated _Python_ to 3.6.6
-
-* Things to do
-    - [x] QUESTION MARK: remove pyautogui implementation
-    - [x] TOOLS: update to latest versions (keyboard, Python, PyQt)
-    - [x] SHORTCUT: add 'Ctrl+Q' to quit the app 
-    - [x] BUG: fix left alt value error
-    - [ ] UI: make it run in the system tray
-    - [x] UI: find a suitable icon
-    - [x] IMPROVEMENT: self.settings should be updated on the go
-    - [x] FEEDBACK: auto-sort when gestures are updated
-    - [x] REMOVE BUTTON: disable and enable when a gesture in the Gesture column is selected (2) should not ask what gesture to delete
-    - [x] REMOVE BUTTON: self-destruct when no existing gestures is remove
-    - [x] UPDATE: not reflecting after updating either gesture or meaning
-    - [x] GESTURESTABLE: should retain the previous value of the cell editing
-    - [x] GESTURESTABLE: get selectedData via using the arrow keys
-    - [x] ADD BUTTON: you can still add existing gestures 
 
 
 **Patch 1.1.1**
