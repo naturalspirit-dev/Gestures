@@ -4,10 +4,10 @@ All notable changes to this project will be documented on this file.
 
 **Patch 1.3**
 
-_Release date: TBA_
+_Release date: 6 Nov 2018 (tentative)_
 
 * Things to do
-    - [ ] UI: make it run in the system tray
+    - [x] UI: make it run in the system tray
 
 
 **Patch 1.2**
