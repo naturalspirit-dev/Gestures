@@ -8,7 +8,8 @@ from PyQt5.QtWidgets import (QLabel,
                              QHBoxLayout,
                              QVBoxLayout,
                              QWidget,
-                             QTableView)
+                             QTableView,
+                             QSystemTrayIcon)
 from PyQt5.QtCore import (QSettings,
                           QItemSelectionModel,
                           QSortFilterProxyModel,
@@ -19,6 +20,7 @@ from src.gui.dialogs.messageboxes import (AddMessageBox,
                                           RemoveMessageBox)
 from src.gui.widgets.tableview import GesturesTableView
 from src.resources.constant import (__appname__,
+                                    __version__,
                                     GesturesData,
                                     SETTINGS_GEOMETRY,
                                     TEMP_HEADER)
@@ -39,6 +41,7 @@ class GesturesWindow(QWidget):
         self.selected_data = None
         self.settings = QSettings()
         self.gestures = {}      # This will hold all the existing gestures
+        self.close_shortcut = False
         self._widgets()
         self._layout()
         self._read_settings()
@@ -57,6 +60,7 @@ class GesturesWindow(QWidget):
         self.addPushButton = QPushButton()
         self.updatePushButton = QPushButton()
         self.removePushButton = QPushButton()
+        self.gesturesSystemTray = QSystemTrayIcon()
 
     def _layout(self):
 
@@ -87,12 +91,17 @@ class GesturesWindow(QWidget):
         self.gesturesTableView.setShowGrid(False)
         # self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
 
+        # TEST: adding a system tray icon
+        self.gesturesSystemTray.setIcon(QIcon(':/g-key-32.png'))
+        self.gesturesSystemTray.setToolTip(f'{__appname__} {__version__}')
+        self.gesturesSystemTray.show()
+
         self.addPushButton.setText('&Add')
         self.updatePushButton.setText('&Update')
         # self.removePushButton.setEnabled(False)
         self.removePushButton.setText('&Remove')
         self.resize(409, 364)   # width, height
-        self.setWindowTitle(__appname__)
+        self.setWindowTitle(f'{__appname__} {__version__}')
         self.setWindowIcon(QIcon(':/g-key-32.png'))
 
     def _connections(self):
@@ -108,6 +117,10 @@ class GesturesWindow(QWidget):
 
         # This will trigger after (1) pressing 'enter', (2) navigation keys (3) or selecting a different cell
         self.gesturesTableModel.dataChanged.connect(self.on_gesturesTableModel_dataChanged)
+
+        # TEST: for tennySystemTray signals and slots
+        self.gesturesSystemTray.activated.connect(self.on_gesturesSystemTray_activated)
+
 
     def update_selectedData(self):
 
@@ -340,9 +353,24 @@ class GesturesWindow(QWidget):
         for gesture, meaning in sorted_items:
             print(gesture, meaning)
 
+    def on_gesturesSystemTray_activated(self):
+
+        if QSystemTrayIcon.Trigger:
+            self.show()
+
     def closeEvent(self, event):
 
-        self._write_settings()
+        if self.close_shortcut:
+            self._write_settings()
+            self.gesturesSystemTray.hide()
+            event.accept()
+        else:
+            self.hide()
+            self.gesturesSystemTray.showMessage('Gestures', 'I\'m still running. You can access me in the system tray',
+                                                QSystemTrayIcon.Information,
+                                                3000)
+            event.ignore()
+
 
     def _write_settings(self):
 
@@ -353,6 +381,7 @@ class GesturesWindow(QWidget):
 
         # 'Ctrl+Q: quit the app'
         if event.modifiers() & Qt.ControlModifier and event.key() == Qt.Key_Q:
+            self.close_shortcut = True
             self.close()
 
     def resizeEvent(self, event):
