@@ -4,7 +4,7 @@ All notable changes to this project will be documented on this file.
 
 **Patch 1.3**
 
-_Release date: 31 Dec 2018 (tentative)_
+_Release date: 31 Dec 2018_
 
 * What's new?
     * Gestures can now run in the background via system tray 
