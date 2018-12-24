@@ -1,7 +1,7 @@
 """ Gestures: an application for people who just loved to type.
 
     Interface: GUI (PyQt5)
-    Language: Python 3.6.6      # [] TODO: can you upgrade to 3.7.x?
+    Language: Python 3.6.6
     Created: 25 Jun 2017
     Author: mokachokokarbon
  """
@@ -22,7 +22,7 @@ def configure_app_icon() -> None:
     """ This will show the icon of Gestures in the taskbar. """
 
     import ctypes
-    APP_ID = u'novus.jerobado.gesture.1-2'      # [] TODO: update version here
+    APP_ID = u'novus.jerobado.gesture.1-3'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 
