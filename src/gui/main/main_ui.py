@@ -10,8 +10,8 @@ from PyQt5.QtWidgets import (QLabel,
                              QHBoxLayout,
                              QVBoxLayout,
                              QWidget,
-                             QTableView,        # [] TODO: unused widget due to re-implemanation of GesturesTableView
-                             QSystemTrayIcon)
+                             QSystemTrayIcon,
+                             QMessageBox)
 from PyQt5.QtCore import (QSettings,
                           QItemSelectionModel,
                           QSortFilterProxyModel,
@@ -327,24 +327,28 @@ class GesturesWindow(QWidget):
             col = index.column()
             data = index.data()
 
-            # Check if current selection is on the 'Meaning' column
-            if col == 1:
-                data = self.get_key(data)
+            choice = QMessageBox.warning(self, 'Remove Gestures', f'Do you want to remove \'{data}\'?',
+                                         QMessageBox.Yes, QMessageBox.No)
 
-            # Remove keyboardGesture
-            self.keyboardGesture.remove_gesture(data)  # raise ValueError when this fails
-            print(f'deleted {data}')
-            del self.gestures[data]  # remove internal list of gestures
+            if choice == QMessageBox.Yes:
+                # Check if current selection is on the 'Meaning' column
+                if col == 1:
+                    data = self.get_key(data)
 
-            self.update_settings()
-            self.display_output()
+                # Remove keyboardGesture
+                self.keyboardGesture.remove_gesture(data)  # raise ValueError when this fails
+                print(f'deleted {data}')
+                del self.gestures[data]  # remove internal list of gestures
 
-            # Clear the Gesture TableView first
-            self.clear_gestures_tableview()
+                self.update_settings()
+                self.display_output()
 
-            # Start re-inserting the updated gestures
-            for gesture, meaning in self.gestures.items():
-                self.update_gesture_tableview(gesture, meaning)
+                # Clear the Gesture TableView first
+                self.clear_gestures_tableview()
+
+                # Start re-inserting the updated gestures
+                for gesture, meaning in self.gestures.items():
+                    self.update_gesture_tableview(gesture, meaning)
 
         except (KeyError, ValueError, Exception) as e:
             print(f'No existing gesture found for \'{data}\'. Try again. -> type: {type(e)}')
@@ -375,18 +379,11 @@ class GesturesWindow(QWidget):
         for gesture, meaning in sorted_items:
             print(gesture, meaning)
 
-    def on_gesturesSystemTray_activated(self):
+    def on_gesturesSystemTray_activated(self, activation_reason):
 
-        # [] TODO: identify if the user use left or right-click
-        if self.isHidden():
-            self.show()
-
-    def mousePressEvent(self, event):
-
-        if Qt.LeftButton:
-            print('left-clicked')
-        elif Qt.RightButton:
-            print('right-clicked')
+        if activation_reason == QSystemTrayIcon.Trigger:
+            if self.isHidden():
+                self.show()
 
     def closeEvent(self, event):
 
@@ -399,7 +396,7 @@ class GesturesWindow(QWidget):
             self.gesturesSystemTray.showMessage('Gestures', 'I\'m still running. You can access me in the system tray',
                                                 QSystemTrayIcon.Information,
                                                 3000)
-            print('Gestures now running in the background')
+            print('Gestures is now running in the background')
             event.ignore()
 
     def _write_settings(self):
@@ -413,12 +410,6 @@ class GesturesWindow(QWidget):
         if event.modifiers() & Qt.ControlModifier and event.key() == Qt.Key_Q:
             self.close_shortcut = True
             self.close()
-
-    # [] TODO: no practical use, just delete this
-    def resizeEvent(self, event):
-
-        #print(f'{self.width()} x {self.height()}')
-        pass
 
     def hook_something(self, something):
 
