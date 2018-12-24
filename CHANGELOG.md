@@ -4,10 +4,10 @@ All notable changes to this project will be documented on this file.
 
 **Patch 1.3**
 
-_Release date: 6 Nov 2018 (tentative)_
+_Release date: 31 Dec 2018 (tentative)_
 
-* Things to do
-    - [x] UI: make it run in the system tray
+* What's new?
+    * Gestures can now run in the background via system tray 
 
 
 **Patch 1.2**

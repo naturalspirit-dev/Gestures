@@ -4,11 +4,13 @@ import keyboard as kb
 import webbrowser as wb
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QLabel,
+                             QAction,
+                             QMenu,
                              QPushButton,
                              QHBoxLayout,
                              QVBoxLayout,
                              QWidget,
-                             QTableView,
+                             QTableView,        # [] TODO: unused widget due to re-implemanation of GesturesTableView
                              QSystemTrayIcon)
 from PyQt5.QtCore import (QSettings,
                           QItemSelectionModel,
@@ -30,7 +32,6 @@ from src.resources.models import GestureTableModel
 RECORD = GesturesData.RECORD
 
 
-# [] TODO: last column does not stretch after using the Add, Update and Remove button
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
 
@@ -42,12 +43,35 @@ class GesturesWindow(QWidget):
         self.settings = QSettings()
         self.gestures = {}      # This will hold all the existing gestures
         self.close_shortcut = False
+        self._create_actions()
+        self._create_menus()
         self._widgets()
         self._layout()
         self._read_settings()
         self._properties()
         self._connections()
         self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY, self.saveGeometry()))
+
+    def _create_actions(self):
+
+        self.openGesturesAction = QAction('Open Gestures', self,
+                                          triggered=self.on_openGestures_action)
+        self.quitGesturesAction = QAction('Quit Gestures', self,
+                                          shortcut='ctrl+q',
+                                          triggered=self.close)
+
+    def on_openGestures_action(self):
+
+        if self.isHidden():
+            self.show()
+
+    def _create_menus(self):
+
+        # System Tray menu
+        self.gesturesMenu = QMenu()
+        self.gesturesMenu.addAction(self.openGesturesAction)
+        self.gesturesMenu.addSeparator()
+        self.gesturesMenu.addAction(self.quitGesturesAction)
 
     def _widgets(self):
 
@@ -94,6 +118,7 @@ class GesturesWindow(QWidget):
         # TEST: adding a system tray icon
         self.gesturesSystemTray.setIcon(QIcon(':/g-key-32.png'))
         self.gesturesSystemTray.setToolTip(f'{__appname__} {__version__}')
+        self.gesturesSystemTray.setContextMenu(self.gesturesMenu)
         self.gesturesSystemTray.show()
 
         self.addPushButton.setText('&Add')
@@ -120,7 +145,6 @@ class GesturesWindow(QWidget):
 
         # TEST: for tennySystemTray signals and slots
         self.gesturesSystemTray.activated.connect(self.on_gesturesSystemTray_activated)
-
 
     def update_selectedData(self):
 
@@ -293,8 +317,6 @@ class GesturesWindow(QWidget):
             UpdateMessageBox.setText(f'No existing gesture found for \'{new_gesture}\'. Try again.')
             UpdateMessageBox.show()
 
-    # [x] TODO: don't let the user to type the gesture just to remove it, just let it click the remove button
-    # [] TODO: crashes when no current selection
     def on_removePushButton_clicked(self):
         """ Remove gesture based on selected row(s). """
 
@@ -355,12 +377,20 @@ class GesturesWindow(QWidget):
 
     def on_gesturesSystemTray_activated(self):
 
-        if QSystemTrayIcon.Trigger:
+        # [] TODO: identify if the user use left or right-click
+        if self.isHidden():
             self.show()
+
+    def mousePressEvent(self, event):
+
+        if Qt.LeftButton:
+            print('left-clicked')
+        elif Qt.RightButton:
+            print('right-clicked')
 
     def closeEvent(self, event):
 
-        if self.close_shortcut:
+        if self.close_shortcut or isinstance(self.sender(), QAction):
             self._write_settings()
             self.gesturesSystemTray.hide()
             event.accept()
@@ -369,8 +399,8 @@ class GesturesWindow(QWidget):
             self.gesturesSystemTray.showMessage('Gestures', 'I\'m still running. You can access me in the system tray',
                                                 QSystemTrayIcon.Information,
                                                 3000)
+            print('Gestures now running in the background')
             event.ignore()
-
 
     def _write_settings(self):
 
@@ -384,6 +414,7 @@ class GesturesWindow(QWidget):
             self.close_shortcut = True
             self.close()
 
+    # [] TODO: no practical use, just delete this
     def resizeEvent(self, event):
 
         #print(f'{self.width()} x {self.height()}')
