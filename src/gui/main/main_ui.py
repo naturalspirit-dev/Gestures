@@ -75,7 +75,6 @@ class GesturesWindow(QWidget):
 
     def _widgets(self):
 
-        # self.gesturesTableView = QTableView()
         self.gesturesTableView = GesturesTableView()
         self.gesturesItemSelectionModel = QItemSelectionModel()
         self.gesturesTableModel = GestureTableModel()
@@ -115,7 +114,6 @@ class GesturesWindow(QWidget):
         self.gesturesTableView.setShowGrid(False)
         # self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
 
-        # TEST: adding a system tray icon
         self.gesturesSystemTray.setIcon(QIcon(':/g-key-32.png'))
         self.gesturesSystemTray.setToolTip(f'{__appname__} {__version__}')
         self.gesturesSystemTray.setContextMenu(self.gesturesMenu)
@@ -214,8 +212,6 @@ class GesturesWindow(QWidget):
     def resize_gesturesTableView_cells(self):
         """ Resize the rows and columns of the gesturesTableView. """
 
-        # self.gesturesTableView.resizeRowsToContents()
-        # self.gesturesTableView.resizeColumnsToContents()
         self.gesturesTableView.horizontalHeader().setStretchLastSection(True)
 
     def reload_gestures(self, gestures: dict):
@@ -231,7 +227,7 @@ class GesturesWindow(QWidget):
     # [] TODO: insert a for loop here, too much for loop outside
     # [] TODO: sort not working after adding, updating and removing a gesture
     def update_gesture_tableview(self, gesture, meaning):
-        """ Insert one row at a time in the GestureTableView. """
+        """ Insert rows in gestureTableView. """
 
         TEMP_HEADER['gesture'] = gesture
         TEMP_HEADER['meaning'] = meaning
@@ -305,6 +301,7 @@ class GesturesWindow(QWidget):
                 self.update_settings()
                 self.display_output()
 
+                # [] TODO: how do you update the data in the Table Model?
                 # Clear the Gesture TableView first
                 self.clear_gestures_tableview()
 
@@ -337,18 +334,15 @@ class GesturesWindow(QWidget):
 
                 # Remove keyboardGesture
                 self.keyboardGesture.remove_gesture(data)  # raise ValueError when this fails
-                print(f'deleted {data}')
-                del self.gestures[data]  # remove internal list of gestures
+
+                del RECORD[row]
+                del self.gestures[data]
 
                 self.update_settings()
                 self.display_output()
 
-                # Clear the Gesture TableView first
-                self.clear_gestures_tableview()
-
-                # Start re-inserting the updated gestures
-                for gesture, meaning in self.gestures.items():
-                    self.update_gesture_tableview(gesture, meaning)
+                self.gesturesTableModel.removeRows(row, 1)
+                self.gesturesTableView.setModel(self.gesturesTableModel)
 
         except (KeyError, ValueError, Exception) as e:
             print(f'No existing gesture found for \'{data}\'. Try again. -> type: {type(e)}')
@@ -356,6 +350,7 @@ class GesturesWindow(QWidget):
             RemoveMessageBox.show()
 
     def get_key(self, meaning):
+        """ Return corresponding key of selected 'meaning' """
 
         for k, v in self.gestures.items():
             if meaning in (k, v):
