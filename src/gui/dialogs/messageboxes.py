@@ -1,6 +1,7 @@
 # Message boxes
 
 from PyQt5.QtWidgets import QMessageBox
+from resources.constant import __appname__
 
 AddMessageBox = QMessageBox()
 AddMessageBox.setWindowTitle('Add Gesture Message')
@@ -15,6 +16,6 @@ RemoveMessageBox.setWindowTitle('Remove Gesture Message')
 RemoveMessageBox.setIcon(QMessageBox.Information)
 
 DDayMessageBox = QMessageBox()
-DDayMessageBox.setWindowTitle('Oops!')
+DDayMessageBox.setWindowTitle(f'Unregistered {__appname__}')
 DDayMessageBox.setIcon(QMessageBox.Information)
 DDayMessageBox.setText('It seems you\'ve reached the limited usage for Gestures. Contact GSMGBB for further info.')

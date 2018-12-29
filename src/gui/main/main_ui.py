@@ -23,7 +23,7 @@ from src.gui.dialogs.messageboxes import (AddMessageBox,
 from src.gui.widgets.tableview import GesturesTableView
 from src.resources.constant import (__appname__,
                                     __version__,
-                                    GesturesData,
+                                    GesturesData,       # [] TODO: possible refactoring of identifier
                                     SETTINGS_GEOMETRY,
                                     TEMP_HEADER)
 from src.resources import gestures_resources
@@ -112,7 +112,7 @@ class GesturesWindow(QWidget):
         self.gesturesTableView.setSortingEnabled(True)
         self.gesturesTableView.sortByColumn(0, Qt.AscendingOrder)
         self.gesturesTableView.setShowGrid(False)
-        # self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)
+        # self.gesturesTableView.setSelectionModel(self.gesturesItemSelectionModel)     # [] TODO: for deletion? you declared it but you're not using it
 
         self.gesturesSystemTray.setIcon(QIcon(':/g-key-32.png'))
         self.gesturesSystemTray.setToolTip(f'{__appname__} {__version__}')
@@ -138,10 +138,13 @@ class GesturesWindow(QWidget):
         self.gesturesTableView.clicked.connect(self.update_selectedData)
         self.gesturesTableView.doubleClicked.connect(self.update_selectedData)
 
-        # This will trigger after (1) pressing 'enter', (2) navigation keys (3) or selecting a different cell
+        # This will trigger by the following scenarios:
+        #   1. pressing 'enter'
+        #   2. navigation keys (up, down, left, right arrow keys)
+        #   3. selecting a different cell via mouse
         self.gesturesTableModel.dataChanged.connect(self.on_gesturesTableModel_dataChanged)
 
-        # TEST: for tennySystemTray signals and slots
+        # When the user clicked or right-clicked the icon in the system tray
         self.gesturesSystemTray.activated.connect(self.on_gesturesSystemTray_activated)
 
     def update_selectedData(self):
@@ -152,6 +155,7 @@ class GesturesWindow(QWidget):
     def update_settings(self):
         """ Update gestures dict for every add, update and delete. """
 
+        # [] TODO: possible benefit: let the user extract his/her gestures for backup purposes
         self.settings.setValue('abbreviations', self.gestures)
 
     def on_gesturesTableModel_dataChanged(self):
@@ -235,7 +239,7 @@ class GesturesWindow(QWidget):
         self.gesturesTableModel.insertRows(len(RECORD), 1)
         self.gesturesTableView.setModel(self.gesturesTableModel)
 
-    # [] TODO: gesturesTableView not updating properly when new gesture is update
+    # [] TODO: gesturesTableView not updating properly when new gesture is updated
     def on_addPushButton_clicked(self):
 
         try:
@@ -301,7 +305,7 @@ class GesturesWindow(QWidget):
                 self.update_settings()
                 self.display_output()
 
-                # [] TODO: how do you update the data in the Table Model?
+                # [] TODO: SO: How to get the currentIndex of a QTableView without interacting with it?
                 # Clear the Gesture TableView first
                 self.clear_gestures_tableview()
 
@@ -314,6 +318,7 @@ class GesturesWindow(QWidget):
             UpdateMessageBox.setText(f'No existing gesture found for \'{new_gesture}\'. Try again.')
             UpdateMessageBox.show()
 
+    # [] TODO: crashes when last added row is removed
     def on_removePushButton_clicked(self):
         """ Remove gesture based on selected row(s). """
 
@@ -341,7 +346,7 @@ class GesturesWindow(QWidget):
                 self.update_settings()
                 self.display_output()
 
-                self.gesturesTableModel.removeRows(row, 1)
+                self.gesturesTableModel.removeRows(row, 1)      # [] TODO/FYI: possible solution to your updatePushButton_clicked fiasco
                 self.gesturesTableView.setModel(self.gesturesTableModel)
 
         except (KeyError, ValueError, Exception) as e:
@@ -388,6 +393,9 @@ class GesturesWindow(QWidget):
             event.accept()
         else:
             self.hide()
+            # [] TODO: check if the app is running on Win10 to determine what appropriate message to show in the system tray
+            #          Win 10 - shows a sliding pop-up
+            #          Win 7 - still shows in a baloon like Win XP
             self.gesturesSystemTray.showMessage('Gestures', 'I\'m still running. You can access me in the system tray',
                                                 QSystemTrayIcon.Information,
                                                 3000)

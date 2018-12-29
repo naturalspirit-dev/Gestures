@@ -67,7 +67,7 @@ class AddGestureDialog(QDialog):
         self.check_LineEdit()
 
     def check_LineEdit(self) -> None:
-        """ Enable or disable self.addPushButton based on LineEdit's text content. """
+        """ Enable or disable self.addPushButton based on QLineEdit's text content. """
 
         if not self.gestureLineEdit.text() == '' and not self.meaningLineEdit.text() == '':
             self.okPushButton.setEnabled(True)
