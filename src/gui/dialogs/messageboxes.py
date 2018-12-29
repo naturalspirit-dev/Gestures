@@ -1,7 +1,7 @@
 # Message boxes
 
 from PyQt5.QtWidgets import QMessageBox
-from resources.constant import __appname__
+from src.resources.constant import __appname__
 
 AddMessageBox = QMessageBox()
 AddMessageBox.setWindowTitle('Add Gesture Message')
