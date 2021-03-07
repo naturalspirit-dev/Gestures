@@ -1,8 +1,16 @@
+# Python stuff
 *.pyc
+
+# Code editor stuff
+.vscode
 *.xml
 .idea/Gestures.iml
+
+# Test files
 tests/shortcuts.txt
 src/shortcuts.txt
+
+# Personal files
 gesture-design-structure.txt
 src/todo.txt
 /todo.txt
