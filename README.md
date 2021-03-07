@@ -2,7 +2,7 @@
 ---
 An application for people who just loved to type.
 
-Feature(s)
+Feature(s) and Benefits
 ---
 * Abbreviate commonly typed phrases such as passwords, emails, numbers, etc.
 * Open favorite websites by a simple key press on the keyboard
@@ -31,6 +31,18 @@ Note: The `Update` button will only update the meaning of the gesture. If you wa
 ***Removing a gesture***
 1. Click on the row you want to remove.
 2. Press the `Remove` button and it will be remove instantly.
+
+Software Requirements
+---
+- Python [3.8.x](https://www.python.org/downloads/)
+- [PyQt5](https://pypi.org/project/PyQt5/)
+- [keyboard](https://pypi.org/project/keyboard/)
+- [Pipenv](https://pypi.org/project/pipenv/)
+- [PyInstaller](https://pypi.org/project/pyinstaller/)
+
+System Requirements
+---
+- Operating System: Windows 10 64-bit
 
 Credits
 ---
