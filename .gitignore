@@ -1,6 +1,10 @@
 # Python stuff
 *.pyc
 
+# PyInstaller stuff
+build
+dist
+
 # Code editor stuff
 .vscode
 *.xml
