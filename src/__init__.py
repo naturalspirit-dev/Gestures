@@ -8,6 +8,15 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(funcName)s: %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
 
+def welcome_message() -> None:
+
+    message = """
+    Gestures, an application for people who just love to type.
+    
+    Created: 25 Jun 2017
+    Author: Jero Bado <tokidokitalkyou@gmail.com>
+    """
+    print(message)
 def dependency_check() -> None:
     """ Check tools version for debugging. """
 
