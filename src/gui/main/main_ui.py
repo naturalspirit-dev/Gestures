@@ -25,6 +25,7 @@ from src.resources.constant import (__appname__,
                                     __version__,
                                     GesturesData,       # [] TODO: possible refactoring of identifier
                                     SETTINGS_GEOMETRY,
+                                    SETTINGS_PROFILE,
                                     TEMP_HEADER)
 from src.resources import gestures_resources
 from src.resources.models import GestureTableModel
@@ -156,7 +157,7 @@ class GesturesWindow(QWidget):
         """ Update gestures dict for every add, update and delete. """
 
         # [] TODO: possible benefit: let the user extract his/her gestures for backup purposes
-        self.settings.setValue('abbreviations', self.gestures)
+        self.settings.setValue(SETTINGS_PROFILE, self.gestures)
 
     def on_gesturesTableModel_dataChanged(self):
 
@@ -209,7 +210,7 @@ class GesturesWindow(QWidget):
 
     def _read_settings(self):
 
-        self.gestures = self.settings.value('abbreviations', self.gestures)
+        self.gestures = self.settings.value(SETTINGS_PROFILE, self.gestures)
         self.reload_gestures(self.gestures)
         self.resize_gesturesTableView_cells()
 
@@ -404,7 +405,7 @@ class GesturesWindow(QWidget):
 
     def _write_settings(self):
 
-        self.settings.setValue('abbreviations', self.gestures)
+        self.settings.setValue(SETTINGS_PROFILE, self.gestures)
         self.settings.setValue(SETTINGS_GEOMETRY, self.saveGeometry())
 
     def keyPressEvent(self, event):
