@@ -6,6 +6,11 @@ from PyQt5.QtWidgets import QApplication
 
 
 __appname__ = 'Gestures'
+__org__ = 'Moka, Choko, Karbon'
+__version__ = 'develop-1.4.x'
+__author__ = 'Jero Bado'
+KEYBOARD_VERSION = '0.13.5'     # core library that powers Gestures
+
 APP = QApplication(sys.argv)
 APP.setOrganizationName(__org__)
 APP.setApplicationName(__appname__)
