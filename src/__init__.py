@@ -1,5 +1,7 @@
 # Initiating spin! ~Cooper, Interstellar, 2014
 
+import os
+import platform
 import sys
 from src.gui.dialogs.messageboxes import DDayMessageBox
 
@@ -7,6 +9,8 @@ import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(funcName)s: %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
+
+from src.resources.constant import __version__
 
 def welcome_message() -> None:
 
@@ -17,6 +21,17 @@ def welcome_message() -> None:
     Author: Jero Bado <tokidokitalkyou@gmail.com>
     """
     print(message)
+
+
+def platform_check() -> None:
+    """ Identify the application's current environment. """
+
+    logging.info(f'User -> {os.getlogin()}')
+    logging.info(f'Machine -> {platform.machine()}')
+    logging.info(f'Platform -> {platform.platform()}')
+    logging.info(f'System -> {platform.system()}')
+
+
 def dependency_check() -> None:
     """ Check tools version for debugging. """
 
@@ -46,5 +61,7 @@ if valid_license():   # Gestures' end of usage
     if dialog.exec():
         sys.exit(0)
 else:
+    welcome_message()
+    platform_check()
     dependency_check()
     # then start executing main.py...
