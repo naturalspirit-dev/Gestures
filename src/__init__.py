@@ -3,26 +3,26 @@
 import sys
 from src.gui.dialogs.messageboxes import DDayMessageBox
 
+import logging
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(funcName)s: %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 
-def perform_dependency_check() -> None:
+def dependency_check() -> None:
     """ Check tools version for debugging. """
 
-    import logging
     from PyQt5.QtCore import QT_VERSION_STR
     from PyQt5.Qt import PYQT_VERSION_STR
     from sip import SIP_VERSION_STR
     from src.resources.constant import (__version__,
                                         KEYBOARD_VERSION)
 
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(message)s',
-                        datefmt='%Y-%m-%d %H:%M:%S')
-    logging.info(f'[GESTURES]: Gestures version {__version__}')
-    logging.info(f'[GESTURES]: Python version {sys.version[:5]}')
-    logging.info(f'[GESTURES]: PyQt version {PYQT_VERSION_STR}')
-    logging.info(f'[GESTURES]: keyboard version {KEYBOARD_VERSION}')
-    logging.info(f'[GESTURES]: Qt version {QT_VERSION_STR}')
-    logging.info(f'[GESTURES]: SIP version {SIP_VERSION_STR}')
+    logging.info(f'Gestures version -> {__version__}')
+    logging.info(f'Python version -> {sys.version[:5]}')
+    logging.info(f'PyQt version -> {PYQT_VERSION_STR}')
+    logging.info(f'keyboard version -> {KEYBOARD_VERSION}')
+    logging.info(f'Qt version -> {QT_VERSION_STR}')
+    logging.info(f'SIP version -> {SIP_VERSION_STR}')
 
 
 def valid_license() -> bool:
@@ -37,5 +37,5 @@ if valid_license():   # Gestures' end of usage
     if dialog.exec():
         sys.exit(0)
 else:
-    perform_dependency_check()
+    dependency_check()
     # then start executing main.py...
