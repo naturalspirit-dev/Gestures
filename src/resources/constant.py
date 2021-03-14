@@ -1,12 +1,14 @@
 # All of the data that Gestures use will be included in here
 
 import os
+import sys
+from PyQt5.QtWidgets import QApplication
+
 
 __appname__ = 'Gestures'
-__org__ = 'GIPSC Core Team'
-__version__ = '1.4'
-__author__ = 'mokachokokarbon'
-KEYBOARD_VERSION = '0.13.2'     # core library that powers Gestures
+APP = QApplication(sys.argv)
+APP.setOrganizationName(__org__)
+APP.setApplicationName(__appname__)
 
 TEMP_HEADER = {}
 

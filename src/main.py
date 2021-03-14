@@ -8,12 +8,7 @@
 
 import sys
 sys.path.append('..')
-from PyQt5.QtWidgets import QApplication
-
-
-APP = QApplication(sys.argv)
-APP.setOrganizationName('GIPSC Core Team')
-APP.setApplicationName('Gestures')
+from src.resources.constant import APP
 
 KEYPRESS_COUNT = 0
 
