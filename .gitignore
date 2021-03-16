@@ -1,3 +1,6 @@
+# Gestures stuff
+*.ini
+
 # Python stuff
 *.pyc
 
