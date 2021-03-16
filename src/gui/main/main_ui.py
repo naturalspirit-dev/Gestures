@@ -12,7 +12,8 @@ from PyQt5.QtWidgets import (QLabel,
                              QVBoxLayout,
                              QWidget,
                              QSystemTrayIcon,
-                             QMessageBox)
+                             QMessageBox,
+                             QComboBox)
 from PyQt5.QtCore import (QSettings,
                           QItemSelectionModel,
                           QSortFilterProxyModel,
@@ -79,6 +80,8 @@ class GesturesWindow(QWidget):
 
     def _widgets(self):
 
+        self.profileLabel = QLabel()
+        self.profileComboBox = QComboBox()
         self.gesturesTableView = GesturesTableView()
         self.gesturesItemSelectionModel = QItemSelectionModel()
         self.gesturesTableModel = GestureTableModel()
@@ -91,6 +94,11 @@ class GesturesWindow(QWidget):
 
     def _layout(self):
 
+        profile_layout = QHBoxLayout()
+        profile_layout.addWidget(self.profileLabel)
+        profile_layout.addWidget(self.profileComboBox)
+        profile_layout.addStretch(1)
+
         right_layout = QVBoxLayout()
         right_layout.addWidget(self.addPushButton)
         right_layout.addWidget(self.updatePushButton)
@@ -101,12 +109,19 @@ class GesturesWindow(QWidget):
         left_layout.addWidget(self.gesturesTableView)
         left_layout.addWidget(self.countLabel)
 
-        combine_layout = QHBoxLayout()
-        combine_layout.addLayout(left_layout)
-        combine_layout.addLayout(right_layout)
-        self.setLayout(combine_layout)
+        table_buttons_layout = QHBoxLayout()
+        table_buttons_layout.addLayout(left_layout)
+        table_buttons_layout.addLayout(right_layout)
+
+        stack_layout = QVBoxLayout()
+        stack_layout.addLayout(profile_layout)
+        stack_layout.addLayout(table_buttons_layout)
+
+        self.setLayout(stack_layout)
 
     def _properties(self):
+
+        self.profileLabel.setText('Profile:')
 
         # feed filterModel with main model
         self.gesturesSortFilterProxyModel.setSourceModel(self.gesturesTableModel)
