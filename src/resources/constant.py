@@ -18,7 +18,7 @@ APP.setApplicationName(__appname__)
 TEMP_HEADER = {}
 
 SETTINGS_GEOMETRY = f'{__appname__}_geometry'
-SETTINGS_PROFILE = f'{__appname__}_{os.getlogin()}-test-profile'
+SETTINGS_PROFILE = os.getlogin()
 
 class GesturesData:
 
