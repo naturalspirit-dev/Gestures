@@ -228,6 +228,7 @@ class GesturesWindow(QWidget):
 
     def _read_settings(self):
 
+        self.profileComboBox.insertItem(0, SETTINGS_PROFILE)
         self.gestures = self.settings.value(SETTINGS_PROFILE, self.gestures); logging.info(SETTINGS_PROFILE)
         self.reload_gestures(self.gestures)
         self.resize_gesturesTableView_cells()
