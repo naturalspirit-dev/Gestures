@@ -15,11 +15,11 @@ APP = QApplication(sys.argv)
 APP.setOrganizationName(__org__)
 APP.setApplicationName(__appname__)
 
-TEMP_HEADER = {}
-
 SETTINGS_GEOMETRY = f'{__appname__}_geometry'
 SETTINGS_PROFILE = os.getlogin()
+SETTINGS_FILENAME = f'{SETTINGS_PROFILE}.ini'
 
+TEMP_HEADER = {}
 class GesturesData:
 
     HEADERS = ['Gesture', 'Meaning']

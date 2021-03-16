@@ -27,6 +27,7 @@ from src.resources.constant import (__appname__,
                                     GesturesData,       # [] TODO: possible refactoring of identifier
                                     SETTINGS_GEOMETRY,
                                     SETTINGS_PROFILE,
+                                    SETTINGS_FILENAME,
                                     TEMP_HEADER)
 from src.resources import gestures_resources
 from src.resources.models import GestureTableModel
@@ -42,7 +43,7 @@ class GesturesWindow(QWidget):
         super().__init__(parent)
         self.keyboardGesture = KeyboardGesture()
         self.selected_data = None
-        self.settings = QSettings('../test-gestures-3.ini', QSettings.IniFormat)
+        self.settings = QSettings(f'../{SETTINGS_FILENAME}', QSettings.IniFormat)
         logging.info(self.settings.fileName())
         self.gestures = {}      # This will hold all the existing gestures
         self.close_shortcut = False
