@@ -6,6 +6,7 @@
     Author: mokachokokarbon
  """
 
+import logging
 import sys
 sys.path.append('..')
 from src.resources.constant import APP
@@ -26,7 +27,7 @@ def key_listener(event):
     global KEYPRESS_COUNT
     if event.event_type == 'down':
         KEYPRESS_COUNT += 1
-        print(f'[{KEYPRESS_COUNT}] key: {event.name}')
+        logging.info(f'#{KEYPRESS_COUNT} key: {event.name}')
 
 
 if __name__ == '__main__':
