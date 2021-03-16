@@ -1,5 +1,6 @@
 # Main User Interface of Gestures
 
+import logging
 import keyboard as kb
 import webbrowser as wb
 from PyQt5.QtGui import QIcon
@@ -41,12 +42,13 @@ class GesturesWindow(QWidget):
         super().__init__(parent)
         self.keyboardGesture = KeyboardGesture()
         self.selected_data = None
-        self.settings = QSettings()
+        self.settings = QSettings('../test-gestures-3.ini', QSettings.IniFormat)
+        logging.info(self.settings.fileName())
         self.gestures = {}      # This will hold all the existing gestures
         self.close_shortcut = False
         self._create_actions()
         self._create_menus()
-        self._widgets()
+        self._widgets() 
         self._layout()
         self._read_settings()
         self._properties()
@@ -210,7 +212,7 @@ class GesturesWindow(QWidget):
 
     def _read_settings(self):
 
-        self.gestures = self.settings.value(SETTINGS_PROFILE, self.gestures)
+        self.gestures = self.settings.value(SETTINGS_PROFILE, self.gestures); logging.info(SETTINGS_PROFILE)
         self.reload_gestures(self.gestures)
         self.resize_gesturesTableView_cells()
 
