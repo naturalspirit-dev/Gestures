@@ -7,9 +7,9 @@ from src.gui.dialogs.messageboxes import DDayMessageBox
 
 import logging
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(funcName)s: %(message)s',
+                    format='%(asctime)s: <%(funcName)s> %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
-
+    
 from src.resources.constant import __version__
 
 def welcome_message() -> None:
