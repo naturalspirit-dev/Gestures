@@ -44,7 +44,7 @@ class GesturesWindow(QWidget):
         super().__init__(parent)
         self.keyboardGesture = KeyboardGesture()
         self.selected_data = None
-        self.settings = QSettings(f'../{SETTINGS_FILENAME}', QSettings.IniFormat)
+        self.settings = QSettings(SETTINGS_FILENAME, QSettings.IniFormat)
         logging.info(self.settings.fileName())
         self.gestures = {}      # This will hold all the existing gestures
         self.close_shortcut = False
