@@ -36,6 +36,11 @@ from src.resources.models import GestureTableModel
 RECORD = GesturesData.RECORD
 
 
+from src.resources.constant import get_all_inifile
+
+INI_FILES =  get_all_inifile()
+
+
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
 
@@ -228,7 +233,8 @@ class GesturesWindow(QWidget):
 
     def _read_settings(self):
 
-        self.profileComboBox.insertItem(0, SETTINGS_PROFILE)
+        # self.profileComboBox.insertItem(0, SETTINGS_PROFILE)
+        self.profileComboBox.insertItems(0, INI_FILES)
         self.gestures = self.settings.value(SETTINGS_PROFILE, self.gestures); logging.info(SETTINGS_PROFILE)
         self.reload_gestures(self.gestures)
         self.resize_gesturesTableView_cells()
