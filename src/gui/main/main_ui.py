@@ -35,12 +35,6 @@ from src.resources.models import GestureTableModel
 
 RECORD = GesturesData.RECORD
 
-
-from src.resources.constant import get_all_inifile
-
-INI_FILES =  get_all_inifile()
-
-
 class GesturesWindow(QWidget):
     """ Gestures' main user interface. """
 
