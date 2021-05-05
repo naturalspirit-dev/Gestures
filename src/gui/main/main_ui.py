@@ -168,7 +168,7 @@ class GesturesWindow(QWidget):
     def update_selectedData(self):
 
         self.selected_data = self.gesturesTableView.current_data
-        print(f'update_selectedData -> {self.gesturesTableView.current_data} x {self.gesturesTableView.previous_data}')
+        logging.info(f'update_selectedData -> {self.gesturesTableView.current_data} x {self.gesturesTableView.previous_data}')
 
     def update_settings(self):
         """ Update gestures dict for every add, update and delete. """
