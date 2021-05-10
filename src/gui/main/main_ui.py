@@ -43,9 +43,10 @@ class GesturesWindow(QWidget):
         super().__init__(parent)
         self.keyboardGesture = KeyboardGesture()
         self.selected_data = None
-        self.settings = QSettings(SETTINGS_FILENAME, QSettings.IniFormat)
-        logging.info(self.settings.fileName())       
         self.gestures = {}      # This will hold all the existing gestures
+        self.old_settings()
+        self.new_settings()
+        logging.info(self.settings.fileName())       
         self.close_shortcut = False
         self._create_actions()
         self._create_menus()
@@ -55,6 +56,19 @@ class GesturesWindow(QWidget):
         self._properties()
         self._connections()
         self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY, self.saveGeometry()))
+
+    def old_settings(self):
+
+        from src.resources.constant import APP
+        
+        APP.setOrganizationName('GIPSC Core Team')
+        SETTINGS_PROFILE = 'abbreviations'
+        self.settings = QSettings()
+        self.old_gestures = self.settings.value(SETTINGS_PROFILE, self.gestures)
+
+    def new_settings(self):
+
+        self.settings = QSettings(SETTINGS_FILENAME, QSettings.IniFormat)
 
     def _create_actions(self):
 
@@ -228,6 +242,7 @@ class GesturesWindow(QWidget):
     def _read_settings(self):
 
         self.gestures = self.settings.value(SETTINGS_PROFILE, self.gestures); logging.info(SETTINGS_PROFILE)
+        self.gestures.update(self.old_gestures)
         self.reload_gestures(self.gestures)
         self.resize_gesturesTableView_cells()
 
