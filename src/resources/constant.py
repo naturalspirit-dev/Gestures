@@ -25,16 +25,3 @@ class GesturesData:
 
     HEADERS = ['Gesture', 'Meaning']
     RECORD = []
-
-
-def get_all_inifile():
-    """ Get a list of all .ini file in the current working directory. """
-
-    from pathlib import Path
-
-    os.chdir('..')
-    cwd = Path('.')
-
-    files = [item.stem for item in cwd.iterdir() if item.suffix == '.ini']
-    logging.info(files)
-    return files
