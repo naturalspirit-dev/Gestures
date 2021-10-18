@@ -1,23 +1,28 @@
 # -*- mode: python ; coding: utf-8 -*-
-# Use this file for development only
+# Use this file for deployment to production only
+# 
+# This file was created by running this command:
+# > pyi-makespec --onefile src/main.py
+# 
 # Usage:
-# > pyinstaller gestures-debug.spec --noconfirm
-# or add --upx-dir=<path to UPX> if you want to compress the executable
+# > pyinstaller gestures-final.spec --noconfirm
 
 import os
 
 __appname__ = 'gestures'
-__version__ = 'develop-1.4.1'
+__version__ = '1.4.1-rc1'
 _name = f'{__appname__}-{__version__}'
 
 block_cipher = None
 
+
 a = Analysis(['src\\main.py'],
              pathex=[os.getcwd()],
              binaries=[],
-             datas=[],
+             datas=[('images/g-key.ico', 'images')],
              hiddenimports=[],
              hookspath=[],
+             hooksconfig={},
              runtime_hooks=[],
              excludes=[],
              win_no_prefer_redirects=False,
@@ -30,20 +35,20 @@ pyz = PYZ(a.pure, a.zipped_data,
 
 exe = EXE(pyz,
           a.scripts,
+          a.binaries,
+          a.zipfiles,
+          a.datas,  
           [],
-          exclude_binaries=True,
           name=_name,
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          console=True )
-
-coll = COLLECT(exe,
-               a.binaries,
-               a.zipfiles,
-               a.datas,
-               strip=False,
-               upx=False,
-               upx_exclude=[],
-               name=_name)
+          upx_exclude=[],
+          runtime_tmpdir=None,
+          console=True,
+          icon='images/g-key.ico',
+          disable_windowed_traceback=False,
+          target_arch=None,
+          codesign_identity=None,
+          entitlements_file=None )
