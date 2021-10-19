@@ -34,7 +34,7 @@ Note: The `Update` button will only update the meaning of the gesture. If you wa
 
 Software Requirements
 ---
-- Python [3.8.x](https://www.python.org/downloads/)
+- Python [3.9.x](https://www.python.org/downloads/)
 - [PyQt5](https://pypi.org/project/PyQt5/)
 - [keyboard](https://pypi.org/project/keyboard/)
 - [Pipenv](https://pypi.org/project/pipenv/)
@@ -42,7 +42,7 @@ Software Requirements
 
 System Requirements
 ---
-- Operating System: Windows 10 64-bit
+- Operating System: Windows 10/11 64-bit
 
 Credits
 ---
