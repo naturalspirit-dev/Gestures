@@ -10,7 +10,7 @@
 import os
 
 __appname__ = 'gestures'
-__version__ = '1.4.1-rc2'
+__version__ = '1.4.1'
 _name = f'{__appname__}-{__version__}'
 
 block_cipher = None
