@@ -18,7 +18,7 @@ def configure_app_icon() -> None:
     """ This will show the icon of Gestures in the taskbar. """
 
     import ctypes
-    APP_ID = u'mokachokokarbon.jerobado.gesture.1-4'
+    APP_ID = u'mokachokokarbon.jerobado.gesture.2-0'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 

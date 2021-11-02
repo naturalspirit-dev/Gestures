@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QApplication
 
 __appname__ = 'Gestures'
 __org__ = 'Moka, Choko, Karbon'
-__version__ = '1.4.1'
+__version__ = 'develop-2.0'
 __author__ = 'Jero Bado'
 KEYBOARD_VERSION = '0.13.5'     # core library that powers Gestures
 
