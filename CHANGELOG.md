@@ -2,7 +2,20 @@ CHANGELOG
 ---------
 All notable changes to this project will be documented on this file.
 
-**Patch 1.3**
+<ins>**Patch 1.4.1**</ins>
+
+Release date: 1 Nov 2021
+
+* What's new?
+  * newly added gestures are now saved into a `<username>.ini` file
+
+* Dependencies 
+  * upgrade `Python` to **3.9.7**
+  * upgrade `PyQt` library to **5.15.6**
+  * upgrade `keyboard` library to **0.13.5**
+  * upgrade `PyInstaller` library to **4.6**
+
+<ins>**Patch 1.3**</ins>
 
 _Release date: 31 Dec 2018_
 
@@ -10,7 +23,7 @@ _Release date: 31 Dec 2018_
     * Gestures can now run in the background via system tray 
 
 
-**Patch 1.2**
+<ins>**Patch 1.2**</ins>
 
 _Release date: 1 Sep 2018_
 
@@ -39,7 +52,7 @@ _Release date: 1 Sep 2018_
     * Updated _Python_ to 3.6.6
 
 
-**Patch 1.1.1**
+<ins>**Patch 1.1.1**</ins>
 
 _Release date: 2017-12-26_
 
@@ -48,7 +61,7 @@ _Release date: 2017-12-26_
     * Fixed a bug that doesn't remove the _gesture_ after triggering it by a space.
 
 
-**Patch 1.1**
+<ins>**Patch 1.1**</ins>
 
 _Release date: 2017-12-01_
 
@@ -64,7 +77,7 @@ _Release date: 2017-12-01_
     * Added GNU GPL v3 as license for Gestures
 
 
-**Patch 1.0**
+<ins>**Patch 1.0**</ins>
 
 _Release date: 2017-07-04_
 
