@@ -6,6 +6,10 @@ Gestures
     + docs .......................................... documentations
     + images ........................................ JPEG files
     + gestures ...................................... source code
+        + domain
+            + entities .............................. models
+            + services .............................. things to do about your entities
+            + repositories .......................... CRUD
         + core ...................................... core functionalities of the application
         + gui ....................................... front-end
             + dialogs ............................... sub-windows and dialogs
