@@ -1,6 +1,7 @@
 # Re-implementing QTableView
 
 from PyQt5.QtWidgets import QTableView
+from src.gui.models.tablemodel import GesturesTableModel
 
 
 class GesturesTableView(QTableView):
@@ -15,3 +16,12 @@ class GesturesTableView(QTableView):
         self.previous_data = previous.data()
         self.scrollTo(self.currentIndex())
         print(f'currentChanged -> {self.current_data} x {self.previous_data}')
+
+
+class NewGesturesTableView(QTableView):
+
+    def __init__(self, parent=None):
+
+        super().__init__(parent)
+        self.setModel(GesturesTableModel(self))
+        self.horizontalHeader().setStretchLastSection(True)

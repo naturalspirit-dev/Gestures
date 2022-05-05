@@ -1,6 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
 from src.gui.widgets.menubar import GesturesMenuBar
+from src.gui.widgets.tableview import NewGesturesTableView
 
 
 class GesturesMainWindow(QMainWindow):
@@ -15,6 +16,7 @@ class GesturesMainWindow(QMainWindow):
     def _set_widgets(self):
 
         self.setMenuBar(GesturesMenuBar(self))
+        self.setCentralWidget(NewGesturesTableView(self))
 
     def _set_properties(self):
 
