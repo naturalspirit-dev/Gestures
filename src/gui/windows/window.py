@@ -23,7 +23,3 @@ class GesturesMainWindow(QMainWindow):
 
     def _set_connections(self): pass
 
-    def keyPressEvent(self, event):
-
-        if event.modifiers() & Qt.ControlModifier and event.key() == Qt.Key_Q:
-            self.close()
