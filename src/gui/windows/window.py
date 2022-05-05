@@ -1,5 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
+from src.gui.widgets.menubar import GesturesMenuBar
 
 
 class GesturesMainWindow(QMainWindow):
@@ -8,13 +9,12 @@ class GesturesMainWindow(QMainWindow):
 
         super().__init__(parent)
         self._set_widgets()
-        self._set_layouts()
         self._set_properties()
         self._set_connections()
 
-    def _set_widgets(self): pass
+    def _set_widgets(self):
 
-    def _set_layouts(self): pass
+        self.setMenuBar(GesturesMenuBar(self))
 
     def _set_properties(self):
 
