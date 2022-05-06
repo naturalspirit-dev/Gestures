@@ -9,7 +9,7 @@
 import logging
 import sys
 sys.path.append('..')
-from src.resources.constant import APP
+from src.gui.main.main_application import GesturesApplication
 
 KEYPRESS_COUNT = 0
 
@@ -31,9 +31,7 @@ def key_listener(event):
 
 
 if __name__ == '__main__':
-    from src.gui.main.main_ui import GesturesWindow
+
     configure_app_icon()
-    window = GesturesWindow()
-    window.hook_something(key_listener)
-    window.show()
-    APP.exec()
+    gesture = GesturesApplication()
+    gesture.run()
