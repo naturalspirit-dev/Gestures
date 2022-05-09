@@ -113,8 +113,8 @@ class GesturesUITest(unittest.TestCase):
     """ Testing the UI of Gestures. """
 
     def setUp(self):
-        from src.gui.main.main_window import GesturesWindow
-        self.window = GesturesWindow()
+        from src.gui.windows.window import GesturesMainWindow
+        self.window = GesturesMainWindow()
 
     def test_check_fields_empty(self):
         """ Test if add pushbutton is disabled, should return False. """
