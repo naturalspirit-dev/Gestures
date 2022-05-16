@@ -7,4 +7,7 @@ class GesturesMenuBar(QMenuBar):
     def __init__(self, parent):
 
         super().__init__(parent)
-        self.addMenu(FileMenu(self))
+
+        self.fileMenu = FileMenu(self)
+
+        self.addMenu(self.fileMenu)

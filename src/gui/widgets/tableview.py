@@ -23,5 +23,6 @@ class NewGesturesTableView(QTableView):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-        self.setModel(GesturesTableModel(self))
+        self.gesturesTableModel = GesturesTableModel(self)
+        self.setModel(self.gesturesTableModel)
         self.horizontalHeader().setStretchLastSection(True)

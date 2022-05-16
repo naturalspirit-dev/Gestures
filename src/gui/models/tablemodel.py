@@ -1,5 +1,6 @@
 from PyQt5.QtCore import (Qt,
-                          QAbstractTableModel)
+                          QAbstractTableModel,
+                          QModelIndex)
 
 
 class GesturesTableModel(QAbstractTableModel):
@@ -30,3 +31,9 @@ class GesturesTableModel(QAbstractTableModel):
     def rowCount(self, parent):
 
         return len(self.records)
+
+    def insertRows(self, position, rows, parent=QModelIndex()):
+
+        self.beginInsertRows(parent, position, position + rows - 1)
+        self.endInsertRows()
+        return True
