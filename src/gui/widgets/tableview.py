@@ -26,3 +26,10 @@ class NewGesturesTableView(QTableView):
         self.gesturesTableModel = GesturesTableModel(self)
         self.setModel(self.gesturesTableModel)
         self.horizontalHeader().setStretchLastSection(True)
+
+    def addRecord(self, gesture):
+
+        self.gesturesTableModel.records.append(gesture)
+        record_count = len(self.gesturesTableModel.records)
+        self.gesturesTableModel.insertRows(record_count, 1)
+        self.setModel(self.gesturesTableModel)

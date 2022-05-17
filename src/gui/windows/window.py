@@ -33,10 +33,8 @@ class GesturesMainWindow(QMainWindow):
 
     def on_newAction_triggered(self):
 
-        # [] TODO: learn how to insert record in the table view model
-        # get values from add gestures dialog
         shorthand = self.gesturesMenuBar.fileMenu.newAction.addGesturesDialog.gestureLineEdit.text()
         value = self.gesturesMenuBar.fileMenu.newAction.addGesturesDialog.valueLineEdit.text()
 
-        self.gesturesTableView.gesturesTableModel.insertRows(1, 1)
-        self.gesturesTableView.setModel(self.gesturesTableView.gesturesTableModel)
+        gesture_item = [shorthand, value]
+        self.gesturesTableView.addRecord(gesture_item)
