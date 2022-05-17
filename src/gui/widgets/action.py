@@ -27,8 +27,3 @@ class QuitAction(QAction):
 
         super().__init__('&Quit', parent)
         self.setShortcut('Ctrl+Q')
-        self.triggered.connect(self.quit)
-
-    def quit(self):
-
-        exit(0)
