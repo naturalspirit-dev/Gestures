@@ -13,6 +13,8 @@ class AddGestureDialog(QDialog):
     def __init__(self, parent=None):
 
         super().__init__(parent)
+        self.shorthand = ''
+        self.value = ''
         self._widgets()
         self._layout()
         self._properties()

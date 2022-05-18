@@ -1,6 +1,4 @@
 from PyQt5.QtWidgets import QAction
-from src.domain.entities.keyboard_gesture import KeyboardGesture
-from src.domain.services.keyboard_gesture_service import KeyboardGestureService
 from src.gui.dialogs.add import AddGestureDialog
 
 
@@ -17,8 +15,8 @@ class NewAction(QAction):
 
         self.addGesturesDialog = AddGestureDialog()
         if self.addGesturesDialog.exec():
-            # TODO: what should we do here? call the relevant service?
-            pass
+            self.addGesturesDialog.shorthand = self.addGesturesDialog.gestureLineEdit.text()
+            self.addGesturesDialog.value = self.addGesturesDialog.valueLineEdit.text()
 
 
 class QuitAction(QAction):

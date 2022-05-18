@@ -33,8 +33,9 @@ class GesturesMainWindow(QMainWindow):
 
     def on_newAction_triggered(self):
 
-        shorthand = self.gesturesMenuBar.fileMenu.newAction.addGesturesDialog.gestureLineEdit.text()
-        value = self.gesturesMenuBar.fileMenu.newAction.addGesturesDialog.valueLineEdit.text()
-
+        shorthand = self.gesturesMenuBar.fileMenu.newAction.addGesturesDialog.shorthand
+        value = self.gesturesMenuBar.fileMenu.newAction.addGesturesDialog.value
         gesture_item = [shorthand, value]
-        self.gesturesTableView.addRecord(gesture_item)
+
+        if all(gesture_item):
+            self.gesturesTableView.addRecord(gesture_item)
