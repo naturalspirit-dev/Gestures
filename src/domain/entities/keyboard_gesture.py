@@ -5,7 +5,7 @@ class KeyboardGesture:
     shorthand = str
     value = str
 
-    def __init__(self, shorthand, value):
+    def __init__(self, shorthand='', value=''):
 
         self.shorthand = shorthand
         self.value = value
