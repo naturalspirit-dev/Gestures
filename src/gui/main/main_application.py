@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QApplication
 from src.gui.windows.window import GesturesMainWindow
 
 
-# [] TODO: freeze the app to check if quiting the app will crash
 class GesturesApplication(QApplication):
 
     def __init__(self):

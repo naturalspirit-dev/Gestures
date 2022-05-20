@@ -1,6 +1,7 @@
 # Re-implementing QTableView
 
 from PyQt5.QtWidgets import QTableView
+from src.domain.entities.keyboard_gesture import KeyboardGesture
 from src.gui.models.tablemodel import GesturesTableModel
 
 
@@ -27,9 +28,10 @@ class NewGesturesTableView(QTableView):
         self.setModel(self.gesturesTableModel)
         self.horizontalHeader().setStretchLastSection(True)
 
-    def addRecord(self, gesture):
+    def addRecord(self, gesture: KeyboardGesture):
 
-        self.gesturesTableModel.records.append(gesture)
-        record_count = len(self.gesturesTableModel.records)
+        record = [gesture.shorthand, gesture.value]
+        self.gesturesTableModel.keyboardGestureList.append(record)
+        record_count = len(self.gesturesTableModel.keyboardGestureList)
         self.gesturesTableModel.insertRows(record_count, 1)
         self.setModel(self.gesturesTableModel)

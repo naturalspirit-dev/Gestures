@@ -9,7 +9,7 @@ class GesturesTableModel(QAbstractTableModel):
 
         super().__init__(parent)
         self.headers = ['Gesture', 'Value']
-        self.records = []
+        self.keyboardGestureList = []
 
     def headerData(self, section, orientation, role):
 
@@ -22,7 +22,7 @@ class GesturesTableModel(QAbstractTableModel):
         row, col = index.row(), index.column()
 
         if role == Qt.DisplayRole:
-            return self.records[row][col]
+            return self.keyboardGestureList[row][col]
 
     def columnCount(self, parent):
 
@@ -30,7 +30,7 @@ class GesturesTableModel(QAbstractTableModel):
 
     def rowCount(self, parent):
 
-        return len(self.records)
+        return len(self.keyboardGestureList)
 
     def insertRows(self, position, rows, parent=QModelIndex()):
 

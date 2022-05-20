@@ -9,3 +9,7 @@ class KeyboardGesture:
 
         self.shorthand = shorthand
         self.value = value
+
+    def empty(self):
+
+        return not all([self.shorthand, self.value])

@@ -33,9 +33,6 @@ class GesturesMainWindow(QMainWindow):
 
     def on_newAction_triggered(self):
 
-        shorthand = self.gesturesMenuBar.fileMenu.newAction.addGesturesDialog.shorthand
-        value = self.gesturesMenuBar.fileMenu.newAction.addGesturesDialog.value
-        gesture_item = [shorthand, value]
-
-        if all(gesture_item):
-            self.gesturesTableView.addRecord(gesture_item)
+        new_gesture = self.gesturesMenuBar.fileMenu.newAction.keyboardGesture
+        if not new_gesture.empty():
+            self.gesturesTableView.addRecord(new_gesture)
