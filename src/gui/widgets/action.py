@@ -3,6 +3,7 @@ from src.domain.entities.keyboard_gesture import KeyboardGesture
 from src.gui.dialogs.add import AddGestureDialog
 
 
+# File Menu's action
 class NewAction(QAction):
 
     def __init__(self, parent):
@@ -30,3 +31,18 @@ class QuitAction(QAction):
 
         super().__init__('&Quit', parent)
         self.setShortcut('Ctrl+Q')
+
+
+# Edit Menu's action
+class UpdateAction(QAction):
+
+    def __init__(self, parent):
+
+        super().__init__('&Update', parent)
+
+
+class DeleteAction(QAction):
+
+    def __init__(self, parent):
+
+        super().__init__('&Delete', parent)
