@@ -30,9 +30,19 @@ class GesturesMainWindow(QMainWindow):
     def _set_connections(self):
 
         self.gesturesMenuBar.fileMenu.newAction.triggered.connect(self.on_newAction_triggered)
+        self.gesturesMenuBar.editMenu.updateAction.triggered.connect(self.on_updateAction_triggered)
+        self.gesturesMenuBar.editMenu.deleteAction.triggered.connect(self.on_deleteAction_triggered)
 
     def on_newAction_triggered(self):
 
         new_gesture = self.gesturesMenuBar.fileMenu.newAction.keyboardGesture
         if not new_gesture.empty():
             self.gesturesTableView.addRecord(new_gesture)
+
+    def on_updateAction_triggered(self):
+
+        print('update selected gesture record')
+
+    def on_deleteAction_triggered(self):
+
+        print('delete selected gesture record')

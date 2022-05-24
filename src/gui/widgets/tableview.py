@@ -36,3 +36,4 @@ class NewGesturesTableView(QTableView):
         record_count = len(self.gesturesTableModel.keyboardGestureList)
         self.gesturesTableModel.insertRows(record_count, 1)
         self.setModel(self.gesturesTableModel)
+        self.resizeRowsToContents()
