@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QAction
 from src.domain.entities.keyboard_gesture import KeyboardGesture
 from src.gui.dialogs.add import AddGestureDialog
+from src.gui.dialogs.update import UpdateGestureDialog
 
 
 # File Menu's action
@@ -39,6 +40,19 @@ class UpdateAction(QAction):
     def __init__(self, parent):
 
         super().__init__('&Update', parent)
+        self.updateGestureDialog = UpdateGestureDialog
+        self.keyboardGesture = KeyboardGesture
+        self.triggered.connect(self.showUpdateGestureDialog)
+
+    def showUpdateGestureDialog(self):
+
+        self.updateGestureDialog = UpdateGestureDialog()
+        self.keyboardGesture = KeyboardGesture()
+        if self.updateGestureDialog.exec():
+            self.updateGestureDialog.shorthand = self.updateGestureDialog.gestureLineEdit.text()
+            self.updateGestureDialog.value = self.updateGestureDialog.valueLineEdit.text()
+            self.keyboardGesture = KeyboardGesture(self.updateGestureDialog.shorthand,
+                                                   self.updateGestureDialog.value)
 
 
 class DeleteAction(QAction):

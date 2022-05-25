@@ -326,8 +326,8 @@ class GesturesWindow(QWidget):
 
             if dialog.exec():
                 # Get input
-                new_gesture = dialog.new_gestureLineEdit.text()
-                new_meaning = dialog.new_meaningLineEdit.text()
+                new_gesture = dialog.gestureLineEdit.text()
+                new_meaning = dialog.valueLineEdit.text()
 
                 # Remove current keyboardGesture
                 self.keyboardGesture.remove_gesture(new_gesture)
