@@ -42,12 +42,16 @@ class UpdateAction(QAction):
         super().__init__('&Update', parent)
         self.updateGestureDialog = UpdateGestureDialog
         self.keyboardGesture = KeyboardGesture
-        self.triggered.connect(self.showUpdateGestureDialog)
 
-    def showUpdateGestureDialog(self):
+    def showUpdateGestureDialog(self, selected_index):
 
         self.updateGestureDialog = UpdateGestureDialog()
+        gesture = selected_index.sibling(selected_index.row(), 0)
+        value = selected_index.sibling(selected_index.row(), 1)
+        self.updateGestureDialog.gestureLineEdit.setText(gesture.data())
+        self.updateGestureDialog.valueLineEdit.setText(value.data())
         self.keyboardGesture = KeyboardGesture()
+
         if self.updateGestureDialog.exec():
             self.updateGestureDialog.shorthand = self.updateGestureDialog.gestureLineEdit.text()
             self.updateGestureDialog.value = self.updateGestureDialog.valueLineEdit.text()

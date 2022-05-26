@@ -41,13 +41,11 @@ class GesturesMainWindow(QMainWindow):
 
     def on_updateAction_triggered(self):
 
-        # TODO: how will you pass currentIndex to the UpdateGestureDialog so that it can be viewed?
-        print('update selected gesture record')
-        print(self.gesturesTableView.currentIndex().row())
+        selected_index = self.gesturesTableView.currentIndex()
+        self.gesturesMenuBar.editMenu.updateAction.showUpdateGestureDialog(selected_index)
 
         update_gesture = self.gesturesMenuBar.editMenu.updateAction.keyboardGesture
         if not update_gesture.empty():
-            print(update_gesture)
             print('TODO: self.gesturesTableView.updateRecord(update_gesture)')
 
     def on_deleteAction_triggered(self):
