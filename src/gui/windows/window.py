@@ -46,7 +46,7 @@ class GesturesMainWindow(QMainWindow):
 
         update_gesture = self.gesturesMenuBar.editMenu.updateAction.keyboardGesture
         if not update_gesture.empty():
-            print('TODO: self.gesturesTableView.updateRecord(update_gesture)')
+            self.gesturesTableView.updateRecord(selected_index.row(), update_gesture)
 
     def on_deleteAction_triggered(self):
 

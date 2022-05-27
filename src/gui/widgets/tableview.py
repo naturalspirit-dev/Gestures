@@ -38,6 +38,12 @@ class NewGesturesTableView(QTableView):
         self.setModel(self.gesturesTableModel)
         self.resizeRowsToContents()
 
+    def updateRecord(self, index: int, gesture: KeyboardGesture):
+
+        updated_record = [gesture.shorthand, gesture.value]
+        self.gesturesTableModel.keyboardGestureList[index] = updated_record
+        self.setModel(self.gesturesTableModel)
+
     def currentChanged(self, current_index, previous_index):
 
         # TODO: get the current index's row and data based on Update or Delete menu
