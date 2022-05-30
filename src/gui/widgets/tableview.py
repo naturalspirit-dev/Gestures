@@ -44,6 +44,19 @@ class NewGesturesTableView(QTableView):
         self.gesturesTableModel.keyboardGestureList[index] = updated_record
         self.setModel(self.gesturesTableModel)
 
+    def removeRecord(self, row: int):
+
+        # TODO: implement removal of selected record
+        print('before removing: ', self.gesturesTableModel.keyboardGestureList)
+        print(self.gesturesTableModel.keyboardGestureList[row])
+
+        # del self.gesturesTableModel.keyboardGestureList[row]
+
+        # print('after removing: ', self.gesturesTableModel.keyboardGestureList)
+
+        # self.gesturesTableModel.removeRows(row, row)
+        # self.setModel(self.gesturesTableModel)
+
     def currentChanged(self, current_index, previous_index):
 
         # TODO: get the current index's row and data based on Update or Delete menu

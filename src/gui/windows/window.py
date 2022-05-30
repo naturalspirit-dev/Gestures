@@ -1,5 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
+from src.gui.dialogs.messageboxes import RemoveMessageBox
 from src.gui.widgets.menubar import GesturesMenuBar
 from src.gui.widgets.tableview import NewGesturesTableView
 
@@ -50,4 +51,9 @@ class GesturesMainWindow(QMainWindow):
 
     def on_deleteAction_triggered(self):
 
-        print('delete selected gesture record')
+        selected_index = self.gesturesTableView.currentIndex()
+        print('selected_index: ', selected_index.row(), selected_index.column())
+
+        choice = RemoveMessageBox.exec()
+        if choice == RemoveMessageBox.Yes:
+            self.gesturesTableView.removeRecord(selected_index.row())
