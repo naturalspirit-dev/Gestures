@@ -40,8 +40,7 @@ class NewGesturesTableView(QTableView):
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 
-        updated_record = [gesture.shorthand, gesture.value]
-        self.gesturesTableModel.keyboardGestureList[index] = updated_record
+        keyboardGestureRepository.updateRecord(index, gesture)
         self.setModel(self.gesturesTableModel)
 
     def removeRecord(self, row: int):
