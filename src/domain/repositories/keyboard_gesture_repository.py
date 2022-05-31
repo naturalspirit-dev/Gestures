@@ -20,3 +20,7 @@ class KeyboardGestureRepository:
     def removeRecord(self, index: int):
 
         del self.keyboardGestureList[index]
+
+    def count(self):
+
+        return len(self.keyboardGestureList)

@@ -1,6 +1,7 @@
 from PyQt5.QtCore import (Qt,
                           QAbstractTableModel,
                           QModelIndex)
+from src.domain.entities.keyboard_gesture import KeyboardGesture
 from src.domain.repositories import keyboardGestureRepository
 
 
@@ -33,7 +34,7 @@ class GesturesTableModel(QAbstractTableModel):
 
     def rowCount(self, parent):
 
-        return len(keyboardGestureRepository.keyboardGestureList)
+        return keyboardGestureRepository.count()
 
     def insertRows(self, position, rows, parent=QModelIndex()):
 
@@ -46,3 +47,17 @@ class GesturesTableModel(QAbstractTableModel):
         self.beginRemoveRows(parent, position, rows)
         self.endRemoveRows()
         return True
+
+    def addRecord(self, gesture: KeyboardGesture):
+
+        keyboardGestureRepository.addRecord(gesture)
+        self.insertRows(keyboardGestureRepository.count(), 1)
+
+    def updateRecord(self, index: int, gesture: KeyboardGesture):
+
+        keyboardGestureRepository.updateRecord(index, gesture)
+
+    def removeRecord(self, index: int):
+
+        keyboardGestureRepository.removeRecord(index)
+        self.removeRows(index, index)

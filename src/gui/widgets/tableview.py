@@ -32,21 +32,18 @@ class NewGesturesTableView(QTableView):
 
     def addRecord(self, gesture: KeyboardGesture):
 
-        keyboardGestureRepository.addRecord(gesture)
-        record_count = len(keyboardGestureRepository.keyboardGestureList)
-        self.gesturesTableModel.insertRows(record_count, 1)
+        self.gesturesTableModel.addRecord(gesture)
         self.setModel(self.gesturesTableModel)
         self.resizeRowsToContents()
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 
-        keyboardGestureRepository.updateRecord(index, gesture)
+        self.gesturesTableModel.updateRecord(index, gesture)
         self.setModel(self.gesturesTableModel)
 
-    def removeRecord(self, row: int):
+    def removeRecord(self, index: int):
 
-        keyboardGestureRepository.removeRecord(row)
-        self.gesturesTableModel.removeRows(row, row)
+        self.gesturesTableModel.removeRecord(index)
         self.setModel(self.gesturesTableModel)
 
     def currentChanged(self, current_index, previous_index):
