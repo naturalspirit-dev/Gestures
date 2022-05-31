@@ -2,6 +2,7 @@
 
 from PyQt5.QtWidgets import QTableView
 from src.domain.entities.keyboard_gesture import KeyboardGesture
+from src.domain.repositories import keyboardGestureRepository
 from src.gui.models.tablemodel import GesturesTableModel
 
 
@@ -31,9 +32,8 @@ class NewGesturesTableView(QTableView):
 
     def addRecord(self, gesture: KeyboardGesture):
 
-        record = [gesture.shorthand, gesture.value]
-        self.gesturesTableModel.keyboardGestureList.append(record)
-        record_count = len(self.gesturesTableModel.keyboardGestureList)
+        keyboardGestureRepository.addRecord(gesture)
+        record_count = len(keyboardGestureRepository.keyboardGestureList)
         self.gesturesTableModel.insertRows(record_count, 1)
         self.setModel(self.gesturesTableModel)
         self.resizeRowsToContents()
@@ -46,16 +46,9 @@ class NewGesturesTableView(QTableView):
 
     def removeRecord(self, row: int):
 
-        # TODO: implement removal of selected record
-        print('before removing: ', self.gesturesTableModel.keyboardGestureList)
-        print(self.gesturesTableModel.keyboardGestureList[row])
-
-        # del self.gesturesTableModel.keyboardGestureList[row]
-
-        # print('after removing: ', self.gesturesTableModel.keyboardGestureList)
-
-        # self.gesturesTableModel.removeRows(row, row)
-        # self.setModel(self.gesturesTableModel)
+        keyboardGestureRepository.removeRecord(row)
+        self.gesturesTableModel.removeRows(row, row)
+        self.setModel(self.gesturesTableModel)
 
     def currentChanged(self, current_index, previous_index):
 

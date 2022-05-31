@@ -1,6 +1,7 @@
 from PyQt5.QtCore import (Qt,
                           QAbstractTableModel,
                           QModelIndex)
+from src.domain.repositories import keyboardGestureRepository
 
 
 class GesturesTableModel(QAbstractTableModel):
@@ -9,7 +10,6 @@ class GesturesTableModel(QAbstractTableModel):
 
         super().__init__(parent)
         self.headers = ['Gesture', 'Value']
-        self.keyboardGestureList = []
 
     def headerData(self, section, orientation, role):
 
@@ -22,7 +22,10 @@ class GesturesTableModel(QAbstractTableModel):
         row, col = index.row(), index.column()
 
         if role == Qt.DisplayRole:
-            return self.keyboardGestureList[row][col]
+            try:
+                return keyboardGestureRepository.keyboardGestureList[row][col]
+            except IndexError:
+                return None
 
     def columnCount(self, parent):
 
@@ -30,10 +33,16 @@ class GesturesTableModel(QAbstractTableModel):
 
     def rowCount(self, parent):
 
-        return len(self.keyboardGestureList)
+        return len(keyboardGestureRepository.keyboardGestureList)
 
     def insertRows(self, position, rows, parent=QModelIndex()):
 
         self.beginInsertRows(parent, position, position + rows - 1)
         self.endInsertRows()
+        return True
+
+    def removeRows(self, position, rows, parent=QModelIndex()):
+
+        self.beginRemoveRows(parent, position, rows)
+        self.endRemoveRows()
         return True
