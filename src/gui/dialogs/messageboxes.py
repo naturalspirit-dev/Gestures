@@ -14,8 +14,11 @@ UpdateMessageBox.setIcon(QMessageBox.Information)
 RemoveMessageBox = QMessageBox()
 RemoveMessageBox.setWindowTitle('Delete Gesture')
 RemoveMessageBox.setIcon(QMessageBox.Warning)
-RemoveMessageBox.setText('Do you really want to remove the current selected record?')
+RemoveMessageBox.setText('Do you really want to remove the selected record?')
 RemoveMessageBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+
+WarningMessageBox = QMessageBox()
+WarningMessageBox.setIcon(QMessageBox.Warning)
 
 DDayMessageBox = QMessageBox()
 DDayMessageBox.setWindowTitle(f'Unregistered {__appname__}')

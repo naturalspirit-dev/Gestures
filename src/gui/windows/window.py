@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QModelIndex
 from PyQt5.QtWidgets import QMainWindow
-from src.gui.dialogs.messageboxes import RemoveMessageBox
+from src.gui.dialogs.messageboxes import RemoveMessageBox, WarningMessageBox
 from src.gui.widgets.menubar import GesturesMenuBar
 from src.gui.widgets.tableview import NewGesturesTableView
 
@@ -43,17 +43,32 @@ class GesturesMainWindow(QMainWindow):
     def on_updateAction_triggered(self):
 
         selected_index = self.gesturesTableView.currentIndex()
-        self.gesturesMenuBar.editMenu.updateAction.showUpdateGestureDialog(selected_index)
-
-        update_gesture = self.gesturesMenuBar.editMenu.updateAction.keyboardGesture
-        if not update_gesture.empty():
-            self.gesturesTableView.updateRecord(selected_index.row(), update_gesture)
+        if selected_index.isValid():
+            self.updateRecord(selected_index)
+        else:
+            WarningMessageBox.setText('No selected record')
+            WarningMessageBox.setInformativeText('Please select a record in the table that you want to update.')
+            WarningMessageBox.exec()
 
     def on_deleteAction_triggered(self):
 
         selected_index = self.gesturesTableView.currentIndex()
-        print('selected_index: ', selected_index.row(), selected_index.column())
+        if selected_index.isValid():
+            self.deleteRecord(selected_index)
+        else:
+            WarningMessageBox.setText('No selected record')
+            WarningMessageBox.setInformativeText('Please select a record in the table that you want to delete.')
+            WarningMessageBox.exec()
+
+    def updateRecord(self, index: QModelIndex):
+
+        self.gesturesMenuBar.editMenu.updateAction.showUpdateGestureDialog(index)
+        update_gesture = self.gesturesMenuBar.editMenu.updateAction.keyboardGesture
+        if not update_gesture.empty():
+            self.gesturesTableView.updateRecord(index.row(), update_gesture)
+
+    def deleteRecord(self, index: QModelIndex):
 
         choice = RemoveMessageBox.exec()
         if choice == RemoveMessageBox.Yes:
-            self.gesturesTableView.removeRecord(selected_index.row())
+            self.gesturesTableView.removeRecord(index.row())

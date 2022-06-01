@@ -2,7 +2,6 @@
 
 from PyQt5.QtWidgets import QTableView
 from src.domain.entities.keyboard_gesture import KeyboardGesture
-from src.domain.repositories import keyboardGestureRepository
 from src.gui.models.tablemodel import GesturesTableModel
 
 
