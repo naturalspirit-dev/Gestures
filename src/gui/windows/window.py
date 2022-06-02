@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt, QModelIndex
+from PyQt5.QtCore import QModelIndex
 from PyQt5.QtWidgets import QMainWindow
 from src.gui.dialogs.messageboxes import RemoveMessageBox, WarningMessageBox
 from src.gui.widgets.menubar import GesturesMenuBar
@@ -10,7 +10,6 @@ class GesturesMainWindow(QMainWindow):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-        self.values = list
         self._set_widgets()
         self._set_properties()
         self._set_connections()
@@ -34,6 +33,7 @@ class GesturesMainWindow(QMainWindow):
         self.gesturesMenuBar.editMenu.updateAction.triggered.connect(self.on_updateAction_triggered)
         self.gesturesMenuBar.editMenu.deleteAction.triggered.connect(self.on_deleteAction_triggered)
 
+    # Slots
     def on_newAction_triggered(self):
 
         new_gesture = self.gesturesMenuBar.fileMenu.newAction.keyboardGesture
