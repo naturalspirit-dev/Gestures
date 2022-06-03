@@ -25,7 +25,7 @@ class Gesture:
 
 
 class KeyboardGesture(Gesture):
-    """ Currently handles abbreviation and opening of website as gestures. """
+    """ Core class that directly access the keyboard library APIs. """
 
     def __init__(self) -> None:
 
@@ -38,6 +38,7 @@ class KeyboardGesture(Gesture):
         return kb.add_abbreviation(gesture, meaning)
 
     def update_gesture(self, old_gesture: list, new_gesture: KeyboardGestureEntity):
+        """ Remove old gesture and add a new one to the keyboard library. """
 
         self.remove_gesture(old_gesture[0])
         self.add_gesture(new_gesture.shorthand, new_gesture.value)
@@ -46,4 +47,3 @@ class KeyboardGesture(Gesture):
         """ Remove existing gesture in the keyboard library. """
 
         return kb.remove_abbreviation(gesture)
-
