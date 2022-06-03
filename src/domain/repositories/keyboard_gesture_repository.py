@@ -1,4 +1,4 @@
-from src.core.gestures import KeyboardGesture as Kb
+from src.core.gestures import KeyboardGesture as KeyboardGestureCore
 from src.domain.entities.keyboard_gesture import KeyboardGesture
 
 
@@ -7,7 +7,7 @@ class KeyboardGestureRepository:
     def __init__(self):
 
         self.keyboardGestureList = []
-        self.kb = Kb()
+        self.kb = KeyboardGestureCore()
 
     def addRecord(self, gestures: KeyboardGesture):
 
@@ -17,8 +17,10 @@ class KeyboardGestureRepository:
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 
-        record = [gesture.shorthand, gesture.value]
-        self.keyboardGestureList[index] = record
+        old_record = self.keyboardGestureList[index]
+        new_record = [gesture.shorthand, gesture.value]
+        self.keyboardGestureList[index] = new_record
+        self.kb.update_gesture(old_record, gesture)
 
     def removeRecord(self, index: int):
 

@@ -1,6 +1,7 @@
 # Core operations of Gestures
 
 import keyboard as kb
+from src.domain.entities.keyboard_gesture import KeyboardGesture as KeyboardGestureEntity
 
 
 class Gesture:
@@ -35,6 +36,11 @@ class KeyboardGesture(Gesture):
         """ Add new gesture in the keyboard library. """
 
         return kb.add_abbreviation(gesture, meaning)
+
+    def update_gesture(self, old_gesture: list, new_gesture: KeyboardGestureEntity):
+
+        self.remove_gesture(old_gesture[0])
+        self.add_gesture(new_gesture.shorthand, new_gesture.value)
 
     def remove_gesture(self, gesture: str) -> dict:
         """ Remove existing gesture in the keyboard library. """
