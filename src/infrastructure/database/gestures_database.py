@@ -1,6 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 from pathlib import Path
+from src.domain.entities.keyboard_gesture import KeyboardGesture
 
 
 class GesturesDatabase:
@@ -48,18 +49,22 @@ class GesturesDatabase:
             finally:
                 connection.close()
 
-    def addGesture(self):
+    def addGesture(self, gesture: KeyboardGesture):
 
         sql_script = """
             INSERT INTO keyboardGestures(shorthand, value)
-            VALUES ('second', 'second record')
+            VALUES (?, ?)
         """
+        new_record = (gesture.shorthand, gesture.value)
 
-        database_connection = self.createConnection()
-        cursor = database_connection.cursor()
-        cursor.execute(sql_script)
-        database_connection.commit()
-        database_connection.close()
+        connection = self.createConnection()
+        cursor = connection.cursor()
+        cursor.execute(sql_script, new_record)
+
+        connection.commit()
+        connection.close()
+
+        return cursor.lastrowid
 
     def updateGesture(self):
 
