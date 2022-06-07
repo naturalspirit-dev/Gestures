@@ -23,3 +23,6 @@ src/shortcuts.txt
 gesture-design-structure.txt
 src/todo.txt
 /todo.txt
+
+# SQlite
+/src/gestures-dev.db

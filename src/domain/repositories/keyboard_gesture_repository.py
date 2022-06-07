@@ -1,5 +1,6 @@
 from src.core.gestures import KeyboardGesture as KeyboardGestureCore
 from src.domain.entities.keyboard_gesture import KeyboardGesture
+from src.infrastructure.database import GesturesDatabase
 
 
 class KeyboardGestureRepository:
@@ -8,6 +9,7 @@ class KeyboardGestureRepository:
 
         self.keyboardGestureList = []
         self.kb = KeyboardGestureCore()
+        self.gestures_database = GesturesDatabase()
 
     def addRecord(self, gestures: KeyboardGesture):
 
