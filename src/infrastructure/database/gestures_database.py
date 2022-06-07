@@ -9,9 +9,18 @@ class GesturesDatabase:
 
     def __init__(self):
 
-        # self.createConnection()
+        self.createDatabase()
         self.createTable()
-        self.addGesture()
+
+    def createDatabase(self):
+
+        connection = None
+        try:
+            connection = sqlite3.connect(self.database_filename)
+        except Error as e:
+            print(e)
+        finally:
+            connection.close()
 
     def createConnection(self):
 
@@ -25,21 +34,19 @@ class GesturesDatabase:
 
     def createTable(self):
 
-        database_connection = self.createConnection()
         script_path = r'\sql\create_keyboardGestures_table.sql'
+        full_path = f'{Path(__file__).parent}{script_path}'
 
-        xx = f'{Path(__file__).parent}{script_path}'
-        print(xx)
-
-        if database_connection is not None:
+        connection = self.createConnection()
+        if connection is not None:
             try:
-                with open(xx, 'r') as file:
-                    cursor = database_connection.cursor()
+                with open(full_path, 'r') as file:
+                    cursor = connection.cursor()
                     cursor.executescript(file.read())
             except Error as e:
                 print(e)
             finally:
-                database_connection.close()
+                connection.close()
 
     def addGesture(self):
 
