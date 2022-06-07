@@ -40,9 +40,9 @@ def dependency_check() -> None:
     from sip import SIP_VERSION_STR
     from src.resources.constant import (__version__,
                                         KEYBOARD_VERSION)
-    from gui.main.main_application import GESTURE_VERSION
+    from gui.main.main_application import GESTURES_VERSION
 
-    logging.info(f'Gestures version -> {GESTURE_VERSION}')
+    logging.info(f'Gestures version -> {GESTURES_VERSION}')
     logging.info(f'Python version -> {sys.version[:5]}')
     logging.info(f'PyQt version -> {PYQT_VERSION_STR}')
     logging.info(f'keyboard version -> {KEYBOARD_VERSION}')
