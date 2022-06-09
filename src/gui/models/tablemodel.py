@@ -61,3 +61,7 @@ class GesturesTableModel(QAbstractTableModel):
 
         keyboardGestureRepository.removeRecord(index)
         self.removeRows(index, index)
+
+    def getAllGestures(self):
+
+        return keyboardGestureRepository.getAllGestures()

@@ -73,3 +73,18 @@ class GesturesDatabase:
     def removeGesture(self):
 
         pass
+
+    def getAllGestures(self):
+
+        sql_script = """
+            SELECT shorthand, value
+            FROM keyboardGestures
+        """
+
+        connection = self.createConnection()
+        cursor = connection.cursor()
+        cursor.execute(sql_script)
+
+        records = cursor.fetchall()
+
+        return records

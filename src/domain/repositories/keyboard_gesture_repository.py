@@ -34,3 +34,9 @@ class KeyboardGestureRepository:
     def count(self):
 
         return len(self.keyboardGestureList)
+
+    def getAllGestures(self):
+
+        gestures = self.gestures_database.getAllGestures()
+        for gesture in gestures:
+            print(gesture)

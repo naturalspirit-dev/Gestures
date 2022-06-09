@@ -24,10 +24,17 @@ class NewGesturesTableView(QTableView):
     def __init__(self, parent=None):
 
         super().__init__(parent)
+
         self.gesturesTableModel = GesturesTableModel(self)
         self.setModel(self.gesturesTableModel)
         self.horizontalHeader().setStretchLastSection(True)
         self.setSelectionBehavior(QTableView.SelectRows)
+        self.initializeTableContent()
+
+    def initializeTableContent(self):
+
+        # TODO: display these gestures to the tableview
+        self.gesturesTableModel.getAllGestures()
 
     def addRecord(self, gesture: KeyboardGesture):
 
