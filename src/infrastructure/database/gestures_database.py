@@ -77,7 +77,7 @@ class GesturesDatabase:
     def getAllGestures(self):
 
         sql_script = """
-            SELECT shorthand, value
+            SELECT id, shorthand, value
             FROM keyboardGestures
         """
 

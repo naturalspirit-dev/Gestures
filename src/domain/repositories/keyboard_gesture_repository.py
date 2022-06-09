@@ -17,15 +17,14 @@ class KeyboardGestureRepository:
         records = self.getAllGestures()
         self.keyboardGestureList = records
         for record in records:
-            self.keyboard_core.add_gesture(record[0], record[1])
+            self.keyboard_core.add_gesture(record[1], record[2])
 
     def addRecord(self, gestures: KeyboardGesture):
 
-        record = [gestures.shorthand, gestures.value]
-
-        self.gestures_database.addGesture(gestures)
-        self.keyboard_core.add_gesture(gestures.shorthand, gestures.value)
+        new_record_id = self.gestures_database.addGesture(gestures)
+        record = [new_record_id, gestures.shorthand, gestures.value]
         self.keyboardGestureList.append(record)
+        self.keyboard_core.add_gesture(gestures.shorthand, gestures.value)
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 

@@ -10,7 +10,7 @@ class GesturesTableModel(QAbstractTableModel):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-        self.headers = ['Gesture', 'Value']
+        self.headers = ['ID', 'Shorthand', 'Value']
         self.initializeTableModel()
 
     def initializeTableModel(self):
