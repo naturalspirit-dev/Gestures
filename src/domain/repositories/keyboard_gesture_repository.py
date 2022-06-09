@@ -8,14 +8,16 @@ class KeyboardGestureRepository:
     def __init__(self):
 
         self.keyboardGestureList = []
-        self.kb = KeyboardGestureCore()
-        self.gestures_database = GesturesDatabase()
+        self.kb = KeyboardGestureCore()                 # keyboard library storage
+        self.gestures_database = GesturesDatabase()     # database storage
 
     def addRecord(self, gestures: KeyboardGesture):
 
         record = [gestures.shorthand, gestures.value]
-        self.keyboardGestureList.append(record)
+
+        self.gestures_database.addGesture(gestures)
         self.kb.add_gesture(gestures.shorthand, gestures.value)
+        self.keyboardGestureList.append(record)
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 
