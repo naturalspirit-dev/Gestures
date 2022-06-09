@@ -70,9 +70,19 @@ class GesturesDatabase:
 
         pass
 
-    def removeGesture(self):
+    def removeGesture(self, gestures_id):
 
-        pass
+        sql_script = """
+            DELETE FROM keyboardGestures
+            WHERE id = ?
+        """
+
+        connection = self.createConnection()
+        cursor = connection.cursor()
+        cursor.execute(sql_script, (gestures_id,))
+
+        connection.commit()
+        connection.close()
 
     def getAllGestures(self):
 

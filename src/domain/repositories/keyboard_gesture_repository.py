@@ -36,7 +36,8 @@ class KeyboardGestureRepository:
     def removeRecord(self, index: int):
 
         existing_record = self.keyboardGestureList.pop(index)
-        self.keyboard_core.remove_gesture(existing_record[0])
+        self.gestures_database.removeGesture(existing_record[0])
+        self.keyboard_core.remove_gesture(existing_record[1])
 
     def count(self):
 
