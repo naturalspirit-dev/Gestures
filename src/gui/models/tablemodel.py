@@ -11,6 +11,12 @@ class GesturesTableModel(QAbstractTableModel):
 
         super().__init__(parent)
         self.headers = ['Gesture', 'Value']
+        self.initializeTableModel()
+
+    def initializeTableModel(self):
+
+        records = keyboardGestureRepository.getAllGestures()
+        self.insertRows(len(records), 1)
 
     def headerData(self, section, orientation, role):
 
@@ -61,7 +67,3 @@ class GesturesTableModel(QAbstractTableModel):
 
         keyboardGestureRepository.removeRecord(index)
         self.removeRows(index, index)
-
-    def getAllGestures(self):
-
-        return keyboardGestureRepository.getAllGestures()
