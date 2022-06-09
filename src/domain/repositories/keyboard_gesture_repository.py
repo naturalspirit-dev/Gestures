@@ -29,8 +29,9 @@ class KeyboardGestureRepository:
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 
         old_record = self.keyboardGestureList[index]
-        new_record = [gesture.shorthand, gesture.value]
+        new_record = [old_record[0], gesture.shorthand, gesture.value]
         self.keyboardGestureList[index] = new_record
+        self.gestures_database.updateGesture(old_record[0], gesture)
         self.keyboard_core.update_gesture(old_record, gesture)
 
     def removeRecord(self, index: int):

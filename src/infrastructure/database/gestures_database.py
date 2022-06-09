@@ -66,9 +66,25 @@ class GesturesDatabase:
 
         return cursor.lastrowid
 
-    def updateGesture(self):
+    def updateGesture(self, gestures_id, gesture: KeyboardGesture):
 
-        pass
+        sql_script = """
+            UPDATE
+                keyboardGestures
+            SET
+                shorthand = ?,
+                value = ?
+            WHERE
+                id = ?
+        """
+        updated_record = (gesture.shorthand, gesture.value, gestures_id)
+
+        connection = self.createConnection()
+        cursor = connection.cursor()
+        cursor.execute(sql_script, updated_record)
+
+        connection.commit()
+        connection.close()
 
     def removeGesture(self, gestures_id):
 

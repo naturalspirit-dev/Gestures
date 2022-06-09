@@ -46,8 +46,8 @@ class UpdateAction(QAction):
     def showUpdateGestureDialog(self, selected_index):
 
         self.updateGestureDialog = UpdateGestureDialog()
-        gesture = selected_index.sibling(selected_index.row(), 0)
-        value = selected_index.sibling(selected_index.row(), 1)
+        gesture = selected_index.sibling(selected_index.row(), 1)
+        value = selected_index.sibling(selected_index.row(), 2)
         self.updateGestureDialog.gestureLineEdit.setText(gesture.data())
         self.updateGestureDialog.valueLineEdit.setText(value.data())
         self.keyboardGesture = KeyboardGesture()

@@ -40,7 +40,7 @@ class KeyboardGesture(Gesture):
     def update_gesture(self, old_gesture: list, new_gesture: KeyboardGestureEntity):
         """ Remove old gesture and add a new one to the keyboard library. """
 
-        self.remove_gesture(old_gesture[0])
+        self.remove_gesture(old_gesture[1])
         self.add_gesture(new_gesture.shorthand, new_gesture.value)
 
     def remove_gesture(self, gesture: str) -> dict:
