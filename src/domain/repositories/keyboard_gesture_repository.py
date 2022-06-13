@@ -21,8 +21,14 @@ class KeyboardGestureRepository:
 
     def addRecord(self, gestures: KeyboardGesture):
 
-        new_record_id = self.gestures_database.addGesture(gestures)
-        record = [new_record_id, gestures.shorthand, gestures.value]
+        new_record = self.gestures_database.addGesture(gestures)
+        record = [
+            new_record.id,
+            new_record.shorthand,
+            new_record.value,
+            new_record.date_created,
+            new_record.date_updated
+        ]
         self.keyboardGestureList.append(record)
         self.keyboard_core.add_gesture(gestures.shorthand, gestures.value)
 
@@ -47,6 +53,7 @@ class KeyboardGestureRepository:
     def getAllGestures(self):
 
         records = self.gestures_database.getAllGestures()
+        print(f'{records=}')
         gestures = [list(record) for record in records]
 
         return gestures

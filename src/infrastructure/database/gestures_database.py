@@ -2,11 +2,12 @@ import sqlite3
 from sqlite3 import Error
 from pathlib import Path
 from src.domain.entities.keyboard_gesture import KeyboardGesture
+from src.infrastructure.models.keyboard_gesture import KeyboardGesture as KeyboardGestureModel
 
 
 class GesturesDatabase:
 
-    database_filename = 'gestures-dev.db'
+    database_filename = 'gestures-test.db'
 
     def __init__(self):
 
@@ -52,10 +53,15 @@ class GesturesDatabase:
     def addGesture(self, gesture: KeyboardGesture):
 
         sql_script = """
-            INSERT INTO keyboardGestures(shorthand, value)
-            VALUES (?, ?)
+            INSERT INTO keyboardGestures(shorthand, value, date_created, date_updated)
+            VALUES (?, ?, ?, ?)
         """
-        new_record = (gesture.shorthand, gesture.value)
+        new_record = (
+            gesture.shorthand,
+            gesture.value,
+            gesture.date_created,
+            gesture.date_updated
+        )
 
         connection = self.createConnection()
         cursor = connection.cursor()
@@ -64,7 +70,14 @@ class GesturesDatabase:
         connection.commit()
         connection.close()
 
-        return cursor.lastrowid
+        new_gesture = KeyboardGestureModel()
+        new_gesture.id = cursor.lastrowid
+        new_gesture.shorthand = gesture.shorthand
+        new_gesture.value = gesture.value
+        new_gesture.date_created = gesture.date_created
+        new_gesture.date_updated = gesture.date_updated
+
+        return new_gesture
 
     def updateGesture(self, gestures_id, gesture: KeyboardGesture):
 
@@ -103,7 +116,7 @@ class GesturesDatabase:
     def getAllGestures(self):
 
         sql_script = """
-            SELECT id, shorthand, value
+            SELECT *
             FROM keyboardGestures
         """
 

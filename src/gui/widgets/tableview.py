@@ -29,7 +29,7 @@ class NewGesturesTableView(QTableView):
         self.setModel(self.gesturesTableModel)
         self.horizontalHeader().setStretchLastSection(True)
         self.setSelectionBehavior(QTableView.SelectRows)
-        self.resizeColumnToContents(0)
+        self.resizeColumnsToContents()
         self.resizeRowsToContents()
 
     def addRecord(self, gesture: KeyboardGesture):
