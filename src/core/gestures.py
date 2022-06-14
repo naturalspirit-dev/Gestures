@@ -43,7 +43,7 @@ class KeyboardGesture(Gesture):
         self.remove_gesture(old_gesture.shorthand)
         self.add_gesture(new_gesture)
 
-    def remove_gesture(self, gesture: str) -> dict:
+    def remove_gesture(self, gesture: KeyboardGestureEntity) -> dict:
         """ Remove existing gesture in the keyboard library. """
 
-        return kb.remove_abbreviation(gesture)
+        return kb.remove_abbreviation(gesture.shorthand)

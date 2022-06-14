@@ -101,7 +101,7 @@ class GesturesDatabase:
         connection.commit()
         connection.close()
 
-    def removeGesture(self, gesture_id):
+    def removeGesture(self, gesture: KeyboardGesture):
 
         sql_script = """
             DELETE FROM keyboardGestures
@@ -110,7 +110,7 @@ class GesturesDatabase:
 
         connection = self.createConnection()
         cursor = connection.cursor()
-        cursor.execute(sql_script, (gesture_id,))
+        cursor.execute(sql_script, (gesture.id,))
 
         connection.commit()
         connection.close()
