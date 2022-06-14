@@ -14,23 +14,15 @@ class KeyboardGestureRepository:
 
     def initializeKeyboardCore(self):
 
-        records = self.getAllGestures()
-        self.keyboardGestureList = records
-        for record in records:
-            self.keyboard_core.add_gesture(record[1], record[2])
+        self.keyboardGestureList = self.getAllGestures()
+        for gesture in self.keyboardGestureList:
+            self.keyboard_core.add_gesture(gesture.shorthand, gesture.value)
 
-    def addRecord(self, gestures: KeyboardGesture):
+    def addRecord(self, gesture: KeyboardGesture):
 
-        new_record = self.gestures_database.addGesture(gestures)
-        record = [
-            new_record.id,
-            new_record.shorthand,
-            new_record.value,
-            new_record.date_created,
-            new_record.date_updated
-        ]
-        self.keyboardGestureList.append(record)
-        self.keyboard_core.add_gesture(gestures.shorthand, gestures.value)
+        new_record = self.gestures_database.addGesture(gesture)
+        self.keyboardGestureList.append(new_record.values)
+        self.keyboard_core.add_gesture(new_record.shorthand, new_record.value)
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 
@@ -62,6 +54,15 @@ class KeyboardGestureRepository:
     def getAllGestures(self):
 
         records = self.gestures_database.getAllGestures()
-        gestures = [list(record) for record in records]
 
-        return gestures
+        gestures_list = []
+        for record in records:
+            gesture = KeyboardGesture()
+            gesture.id = record[0]
+            gesture.shorthand = record[1]
+            gesture.value = record[2]
+            gesture.date_created = record[3]
+            gesture.date_updated = record[4]
+            gestures_list.append(gesture)
+
+        return gestures_list

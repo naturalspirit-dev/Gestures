@@ -30,7 +30,9 @@ class GesturesTableModel(QAbstractTableModel):
 
         if role == Qt.DisplayRole:
             try:
-                return keyboardGestureRepository.keyboardGestureList[row][col]
+                record = keyboardGestureRepository.keyboardGestureList[row]
+                cell = record.values[col]
+                return cell
             except IndexError:
                 return None
 

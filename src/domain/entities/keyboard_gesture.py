@@ -13,6 +13,11 @@ class KeyboardGesture:
         self.shorthand = shorthand
         self.value = value
 
+    @property
+    def values(self):
+
+        return [self.id, self.shorthand, self.value, self.date_created, self.date_updated]
+
     # Business rules
     def empty(self):
 
