@@ -11,22 +11,18 @@ class NewAction(QAction):
     def __init__(self, parent):
 
         super().__init__('&New', parent)
-        self.addGesturesDialog = AddGestureDialog
-        self.keyboardGesture = KeyboardGesture
         self.setShortcut('Ctrl+N')
-        self.triggered.connect(self.showAddGestureDialog)
 
-    def showAddGestureDialog(self):
+    def showAddGestureDialog(self) -> KeyboardGesture:
 
-        self.addGesturesDialog = AddGestureDialog()
-        self.keyboardGesture = KeyboardGesture()
-        if self.addGesturesDialog.exec():
-            self.addGesturesDialog.shorthand = self.addGesturesDialog.gestureLineEdit.text()
-            self.addGesturesDialog.value = self.addGesturesDialog.valueLineEdit.text()
-            self.keyboardGesture = KeyboardGesture(shorthand=self.addGesturesDialog.shorthand,
-                                                   value=self.addGesturesDialog.value,
-                                                   date_created=datetime.today().strftime('%x %X %p'),
-                                                   date_updated=datetime.today().strftime('%x %X %p'))
+        dialog = AddGestureDialog()
+        new_gesture = KeyboardGesture()
+        if dialog.exec():
+            return KeyboardGesture(shorthand=dialog.gestureLineEdit.text(),
+                                   value=dialog.valueLineEdit.text(),
+                                   date_created=datetime.today().strftime('%x %X %p'),
+                                   date_updated=datetime.today().strftime('%x %X %p'))
+        return new_gesture
 
 
 class QuitAction(QAction):

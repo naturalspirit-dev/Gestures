@@ -36,7 +36,7 @@ class GesturesMainWindow(QMainWindow):
     # Slots
     def on_newAction_triggered(self):
 
-        new_gesture = self.gesturesMenuBar.fileMenu.newAction.keyboardGesture
+        new_gesture = self.gesturesMenuBar.fileMenu.newAction.showAddGestureDialog()
         if not new_gesture.empty():
             self.gesturesTableView.addRecord(new_gesture)
 
