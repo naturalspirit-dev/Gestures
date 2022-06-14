@@ -47,13 +47,3 @@ class NewGesturesTableView(QTableView):
 
         self.gesturesTableModel.removeRecord(index)
         self.setModel(self.gesturesTableModel)
-
-    def currentChanged(self, current_index, previous_index):
-
-        # TODO: get the current index's row and data based on Update or Delete menu
-        previous = previous_index.data()
-        current = current_index.data()
-
-        print(f'{previous=}')
-        print(f'row: {current_index.row()}: {current=}')
-        print()

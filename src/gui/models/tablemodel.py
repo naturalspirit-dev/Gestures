@@ -15,8 +15,7 @@ class GesturesTableModel(QAbstractTableModel):
 
     def initializeTableModel(self):
 
-        records = keyboardGestureRepository.getAllGestures()
-        self.insertRows(len(records), 1)
+        self.insertRows(keyboardGestureRepository.count(), 1)
 
     def headerData(self, section, orientation, role):
 

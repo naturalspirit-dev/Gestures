@@ -23,10 +23,10 @@ class NewAction(QAction):
         if self.addGesturesDialog.exec():
             self.addGesturesDialog.shorthand = self.addGesturesDialog.gestureLineEdit.text()
             self.addGesturesDialog.value = self.addGesturesDialog.valueLineEdit.text()
-            self.keyboardGesture = KeyboardGesture(self.addGesturesDialog.shorthand,
-                                                   self.addGesturesDialog.value)
-            self.keyboardGesture.date_created = datetime.today().strftime('%x %X %p')
-            self.keyboardGesture.date_updated = datetime.today().strftime('%x %X %p')
+            self.keyboardGesture = KeyboardGesture(shorthand=self.addGesturesDialog.shorthand,
+                                                   value=self.addGesturesDialog.value,
+                                                   date_created=datetime.today().strftime('%x %X %p'),
+                                                   date_updated=datetime.today().strftime('%x %X %p'))
 
 
 class QuitAction(QAction):
@@ -58,9 +58,9 @@ class UpdateAction(QAction):
         if self.updateGestureDialog.exec():
             self.updateGestureDialog.shorthand = self.updateGestureDialog.gestureLineEdit.text()
             self.updateGestureDialog.value = self.updateGestureDialog.valueLineEdit.text()
-            self.keyboardGesture = KeyboardGesture(self.updateGestureDialog.shorthand,
-                                                   self.updateGestureDialog.value)
-            self.keyboardGesture.date_updated = datetime.today().strftime('%x %X %p')
+            self.keyboardGesture = KeyboardGesture(shorthand=self.updateGestureDialog.shorthand,
+                                                   value=self.updateGestureDialog.value,
+                                                   date_updated=datetime.today().strftime('%x %X %p'))
 
 
 class DeleteAction(QAction):

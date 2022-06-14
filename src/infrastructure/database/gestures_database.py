@@ -50,7 +50,7 @@ class GesturesDatabase:
             finally:
                 connection.close()
 
-    def addGesture(self, gesture: KeyboardGesture):
+    def addGesture(self, gesture: KeyboardGesture) -> KeyboardGesture:
 
         sql_script = """
             INSERT INTO keyboardGestures(shorthand, value, date_created, date_updated)
@@ -101,7 +101,7 @@ class GesturesDatabase:
         connection.commit()
         connection.close()
 
-    def removeGesture(self, gestures_id):
+    def removeGesture(self, gesture_id):
 
         sql_script = """
             DELETE FROM keyboardGestures
@@ -110,12 +110,12 @@ class GesturesDatabase:
 
         connection = self.createConnection()
         cursor = connection.cursor()
-        cursor.execute(sql_script, (gestures_id,))
+        cursor.execute(sql_script, (gesture_id,))
 
         connection.commit()
         connection.close()
 
-    def getAllGestures(self):
+    def getAllGestures(self) -> list[KeyboardGesture]:
 
         sql_script = """
             SELECT *
@@ -127,5 +127,8 @@ class GesturesDatabase:
         cursor.execute(sql_script)
 
         records = cursor.fetchall()
-
-        return records
+        return [KeyboardGesture(id=record[0],
+                                shorthand=record[1],
+                                value=record[2],
+                                date_created=record[3],
+                                date_updated=record[4]) for record in records]

@@ -27,21 +27,21 @@ class Gesture:
 class KeyboardGesture(Gesture):
     """ Core class that directly access the keyboard library APIs. """
 
-    def __init__(self) -> None:
+    def __init__(self):
 
         super().__init__()
         self.kind = 'keyboard'
 
-    def add_gesture(self, gesture: str, meaning: str) -> 'function':
+    def add_gesture(self, gesture: KeyboardGestureEntity) -> 'function':
         """ Add new gesture in the keyboard library. """
 
-        return kb.add_abbreviation(gesture, meaning)
+        return kb.add_abbreviation(gesture.shorthand, gesture.value)
 
-    def update_gesture(self, old_gesture: list, new_gesture: KeyboardGestureEntity):
-        """ Remove old gesture and add a new one to the keyboard library. """
+    def update_gesture(self, old_gesture: KeyboardGestureEntity, new_gesture: KeyboardGestureEntity):
+        """ Remove old gesture and replace it by adding a new one to the keyboard library. """
 
-        self.remove_gesture(old_gesture[1])
-        self.add_gesture(new_gesture.shorthand, new_gesture.value)
+        self.remove_gesture(old_gesture.shorthand)
+        self.add_gesture(new_gesture)
 
     def remove_gesture(self, gesture: str) -> dict:
         """ Remove existing gesture in the keyboard library. """
