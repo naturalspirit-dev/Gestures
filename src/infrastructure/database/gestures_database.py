@@ -66,18 +66,12 @@ class GesturesDatabase:
         connection = self.createConnection()
         cursor = connection.cursor()
         cursor.execute(sql_script, new_record)
+        gesture.id = cursor.lastrowid
 
         connection.commit()
         connection.close()
 
-        new_gesture = KeyboardGestureModel()
-        new_gesture.id = cursor.lastrowid
-        new_gesture.shorthand = gesture.shorthand
-        new_gesture.value = gesture.value
-        new_gesture.date_created = gesture.date_created
-        new_gesture.date_updated = gesture.date_updated
-
-        return new_gesture
+        return gesture
 
     def updateGesture(self, gesture: KeyboardGesture):
 
