@@ -11,15 +11,15 @@ class Gesture:
 
         self.kind = 'core'
 
-    def add_gesture(self, *args):
+    def addGesture(self, *args):
 
         pass
 
-    def update_gesture(self, *args):
+    def updateGesture(self, *args):
 
         pass
 
-    def remove_gesture(self, *args):
+    def removeGesture(self, *args):
 
         pass
 
@@ -32,18 +32,18 @@ class KeyboardGesture(Gesture):
         super().__init__()
         self.kind = 'keyboard'
 
-    def add_gesture(self, gesture: KeyboardGestureEntity) -> 'function':
+    def addGesture(self, gesture: KeyboardGestureEntity) -> 'function':
         """ Add new gesture in the keyboard library. """
 
         return kb.add_abbreviation(gesture.shorthand, gesture.value)
 
-    def update_gesture(self, old_gesture: KeyboardGestureEntity, new_gesture: KeyboardGestureEntity):
+    def updateGesture(self, old_gesture: KeyboardGestureEntity, new_gesture: KeyboardGestureEntity):
         """ Remove old gesture and replace it by adding a new one to the keyboard library. """
 
-        self.remove_gesture(old_gesture.shorthand)
-        self.add_gesture(new_gesture)
+        self.removeGesture(old_gesture)
+        self.addGesture(new_gesture)
 
-    def remove_gesture(self, gesture: KeyboardGestureEntity) -> dict:
+    def removeGesture(self, gesture: KeyboardGestureEntity) -> dict:
         """ Remove existing gesture in the keyboard library. """
 
         return kb.remove_abbreviation(gesture.shorthand)

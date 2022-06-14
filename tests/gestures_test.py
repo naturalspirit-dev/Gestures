@@ -44,7 +44,7 @@ class GesturesTest(unittest.TestCase):
 
         abbv = '@arianagrande'
         equiv = 'Be Alright'
-        self.app.add_gesture(abbv, equiv)
+        self.app.addGesture(abbv, equiv)
         result = abbv in self.app.gestures
         self.assertTrue(result)
         [print(k, v) for k, v in self.app.gestures.items()]
@@ -52,7 +52,7 @@ class GesturesTest(unittest.TestCase):
     def test_add_gesture_none(self):
         """ Test if newly added input does not exist in the local dictionary of the app. """
 
-        self.app.add_gesture('@jerobado', 'developing your core gift')
+        self.app.addGesture('@jerobado', 'developing your core gift')
         abbv = '@arianagrande'
         result = abbv in self.app.gestures
         [print(k, v) for k, v in self.app.gestures.items()]

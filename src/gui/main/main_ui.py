@@ -212,7 +212,7 @@ class GesturesWindow(QWidget):
                 if self.selected_data in (gesture, meaning):
                     print(f'"{self.selected_data}" found in ({gesture}, {meaning})')
                     # Remove current keyboardGesture
-                    self.keyboardGesture.remove_gesture(gesture)
+                    self.keyboardGesture.removeGesture(gesture)
                     print(f'deleting {self.gestures[gesture]}')
                     del self.gestures[gesture]
 
@@ -309,7 +309,7 @@ class GesturesWindow(QWidget):
             self.has_http(gesture, meaning)
         else:
             # Do the default adding of gesture
-            self.keyboardGesture.add_gesture(gesture, meaning)
+            self.keyboardGesture.addGesture(gesture, meaning)
 
     def has_http(self, gesture, meaning):
         """ Method that will open a website in a new tab of the default web browser. """
@@ -330,7 +330,7 @@ class GesturesWindow(QWidget):
                 new_meaning = dialog.valueLineEdit.text()
 
                 # Remove current keyboardGesture
-                self.keyboardGesture.remove_gesture(new_gesture)
+                self.keyboardGesture.removeGesture(new_gesture)
 
                 self.determine_gesture(new_gesture, new_meaning)
                 self.gestures[new_gesture] = new_meaning
@@ -371,7 +371,7 @@ class GesturesWindow(QWidget):
                     data = self.get_key(data)
 
                 # Remove keyboardGesture
-                self.keyboardGesture.remove_gesture(data)  # raise ValueError when this fails
+                self.keyboardGesture.removeGesture(data)  # raise ValueError when this fails
 
                 del RECORD[row]
                 del self.gestures[data]
