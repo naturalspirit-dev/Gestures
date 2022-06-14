@@ -79,18 +79,26 @@ class GesturesDatabase:
 
         return new_gesture
 
-    def updateGesture(self, gestures_id, gesture: KeyboardGesture):
+    def updateGesture(self, gesture: KeyboardGesture):
 
         sql_script = """
             UPDATE
                 keyboardGestures
             SET
                 shorthand = ?,
-                value = ?
+                value = ?,
+                date_created = ?,
+                date_updated = ?
             WHERE
                 id = ?
         """
-        updated_record = (gesture.shorthand, gesture.value, gestures_id)
+        updated_record = (
+            gesture.shorthand,
+            gesture.value,
+            gesture.date_created,
+            gesture.date_updated,
+            gesture.id
+        )
 
         connection = self.createConnection()
         cursor = connection.cursor()

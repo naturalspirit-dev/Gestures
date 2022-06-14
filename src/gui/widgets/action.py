@@ -1,3 +1,4 @@
+from datetime import datetime
 from PyQt5.QtWidgets import QAction
 from src.domain.entities.keyboard_gesture import KeyboardGesture
 from src.gui.dialogs.add import AddGestureDialog
@@ -24,6 +25,8 @@ class NewAction(QAction):
             self.addGesturesDialog.value = self.addGesturesDialog.valueLineEdit.text()
             self.keyboardGesture = KeyboardGesture(self.addGesturesDialog.shorthand,
                                                    self.addGesturesDialog.value)
+            self.keyboardGesture.date_created = datetime.today().strftime('%x %X %p')
+            self.keyboardGesture.date_updated = datetime.today().strftime('%x %X %p')
 
 
 class QuitAction(QAction):
@@ -57,6 +60,7 @@ class UpdateAction(QAction):
             self.updateGestureDialog.value = self.updateGestureDialog.valueLineEdit.text()
             self.keyboardGesture = KeyboardGesture(self.updateGestureDialog.shorthand,
                                                    self.updateGestureDialog.value)
+            self.keyboardGesture.date_updated = datetime.today().strftime('%x %X %p')
 
 
 class DeleteAction(QAction):

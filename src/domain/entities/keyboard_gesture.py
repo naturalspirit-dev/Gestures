@@ -12,8 +12,6 @@ class KeyboardGesture:
 
         self.shorthand = shorthand
         self.value = value
-        self.date_created = datetime.today().strftime('%x %X %p')
-        self.date_updated = datetime.today().strftime('%x %X %p')
 
     # Business rules
     def empty(self):
