@@ -50,6 +50,12 @@ class GesturesMainWindow(QMainWindow):
             WarningMessageBox.setInformativeText('Please select a record in the table that you want to update.')
             WarningMessageBox.exec()
 
+    def updateRecord(self, index: QModelIndex):
+
+        updated_gesture = self.gesturesMenuBar.editMenu.updateAction.showUpdateGestureDialog(index)
+        if not updated_gesture.empty():
+            self.gesturesTableView.updateRecord(index.row(), updated_gesture)
+
     def on_deleteAction_triggered(self):
 
         selected_index = self.gesturesTableView.currentIndex()
@@ -59,13 +65,6 @@ class GesturesMainWindow(QMainWindow):
             WarningMessageBox.setText('No selected record')
             WarningMessageBox.setInformativeText('Please select a record in the table that you want to delete.')
             WarningMessageBox.exec()
-
-    def updateRecord(self, index: QModelIndex):
-
-        self.gesturesMenuBar.editMenu.updateAction.showUpdateGestureDialog(index)
-        update_gesture = self.gesturesMenuBar.editMenu.updateAction.keyboardGesture
-        if not update_gesture.empty():
-            self.gesturesTableView.updateRecord(index.row(), update_gesture)
 
     def deleteRecord(self, index: QModelIndex):
 

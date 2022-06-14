@@ -16,13 +16,11 @@ class NewAction(QAction):
     def showAddGestureDialog(self) -> KeyboardGesture:
 
         dialog = AddGestureDialog()
-        new_gesture = KeyboardGesture()
-        if dialog.exec():
-            return KeyboardGesture(shorthand=dialog.gestureLineEdit.text(),
-                                   value=dialog.valueLineEdit.text(),
-                                   date_created=datetime.today().strftime('%x %X %p'),
-                                   date_updated=datetime.today().strftime('%x %X %p'))
-        return new_gesture
+        return KeyboardGesture(shorthand=dialog.gestureLineEdit.text(),
+                               value=dialog.valueLineEdit.text(),
+                               date_created=datetime.today().strftime('%x %X %p'),
+                               date_updated=datetime.today().strftime('%x %X %p')) \
+            if dialog.exec() else KeyboardGesture()
 
 
 class QuitAction(QAction):
@@ -39,24 +37,20 @@ class UpdateAction(QAction):
     def __init__(self, parent):
 
         super().__init__('&Update', parent)
-        self.updateGestureDialog = UpdateGestureDialog
-        self.keyboardGesture = KeyboardGesture
 
     def showUpdateGestureDialog(self, selected_index):
 
-        self.updateGestureDialog = UpdateGestureDialog()
         gesture = selected_index.sibling(selected_index.row(), 1)
         value = selected_index.sibling(selected_index.row(), 2)
-        self.updateGestureDialog.gestureLineEdit.setText(gesture.data())
-        self.updateGestureDialog.valueLineEdit.setText(value.data())
-        self.keyboardGesture = KeyboardGesture()
 
-        if self.updateGestureDialog.exec():
-            self.updateGestureDialog.shorthand = self.updateGestureDialog.gestureLineEdit.text()
-            self.updateGestureDialog.value = self.updateGestureDialog.valueLineEdit.text()
-            self.keyboardGesture = KeyboardGesture(shorthand=self.updateGestureDialog.shorthand,
-                                                   value=self.updateGestureDialog.value,
-                                                   date_updated=datetime.today().strftime('%x %X %p'))
+        dialog = UpdateGestureDialog()
+        dialog.gestureLineEdit.setText(gesture.data())
+        dialog.valueLineEdit.setText(value.data())
+
+        return KeyboardGesture(shorthand=dialog.gestureLineEdit.text(),
+                               value=dialog.valueLineEdit.text(),
+                               date_updated=datetime.today().strftime('%x %X %p')) \
+            if dialog.exec() else KeyboardGesture()
 
 
 class DeleteAction(QAction):
