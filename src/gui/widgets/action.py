@@ -16,7 +16,7 @@ class NewAction(QAction):
     def showAddGestureDialog(self) -> KeyboardGesture:
 
         dialog = AddGestureDialog()
-        return KeyboardGesture(shorthand=dialog.gestureLineEdit.text(),
+        return KeyboardGesture(shorthand=dialog.shorthandLineEdit.text(),
                                value=dialog.valueLineEdit.text(),
                                date_created=datetime.today().strftime('%x %X %p'),
                                date_updated=datetime.today().strftime('%x %X %p')) \
@@ -40,14 +40,14 @@ class UpdateAction(QAction):
 
     def showUpdateGestureDialog(self, selected_index):
 
-        gesture = selected_index.sibling(selected_index.row(), 1)
+        shorthand = selected_index.sibling(selected_index.row(), 1)
         value = selected_index.sibling(selected_index.row(), 2)
 
         dialog = UpdateGestureDialog()
-        dialog.gestureLineEdit.setText(gesture.data())
+        dialog.shorthandLineEdit.setText(shorthand.data())
         dialog.valueLineEdit.setText(value.data())
 
-        return KeyboardGesture(shorthand=dialog.gestureLineEdit.text(),
+        return KeyboardGesture(shorthand=dialog.shorthandLineEdit.text(),
                                value=dialog.valueLineEdit.text(),
                                date_updated=datetime.today().strftime('%x %X %p')) \
             if dialog.exec() else KeyboardGesture()

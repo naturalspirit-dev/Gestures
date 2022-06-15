@@ -21,7 +21,7 @@ class AddGestureDialog(QDialog):
     def _widgets(self):
 
         self.newLabel = QLabel()
-        self.gestureLineEdit = QLineEdit()
+        self.shorthandLineEdit = QLineEdit()
         self.valueLineEdit = QLineEdit()
         self.okPushButton = QPushButton()
 
@@ -31,7 +31,7 @@ class AddGestureDialog(QDialog):
         first_layer.addWidget(self.newLabel)
 
         second_layer = QHBoxLayout()
-        second_layer.addWidget(self.gestureLineEdit)
+        second_layer.addWidget(self.shorthandLineEdit)
         second_layer.addWidget(self.valueLineEdit)
 
         third_layer = QHBoxLayout()
@@ -48,8 +48,8 @@ class AddGestureDialog(QDialog):
     def _properties(self):
 
         self.newLabel.setText('Add new Gesture:')
-        self.gestureLineEdit.setPlaceholderText('Gesture')
-        self.gestureLineEdit.setMaximumWidth(75)
+        self.shorthandLineEdit.setPlaceholderText('Shorthand')
+        self.shorthandLineEdit.setMaximumWidth(75)
         self.valueLineEdit.setPlaceholderText('Value')
         self.okPushButton.setText('&OK')
         self.okPushButton.setEnabled(False)
@@ -58,7 +58,7 @@ class AddGestureDialog(QDialog):
 
     def _connections(self):
 
-        self.gestureLineEdit.textChanged.connect(self.on_LineEdit_textChanged)
+        self.shorthandLineEdit.textChanged.connect(self.on_LineEdit_textChanged)
         self.valueLineEdit.textChanged.connect(self.on_LineEdit_textChanged)
         self.okPushButton.clicked.connect(self.accept)
 
@@ -69,7 +69,7 @@ class AddGestureDialog(QDialog):
     def check_LineEdit(self) -> None:
         """ Enable or disable self.addPushButton based on QLineEdit's text content. """
 
-        if not self.gestureLineEdit.text() == '' and not self.valueLineEdit.text() == '':
+        if not self.shorthandLineEdit.text() == '' and not self.valueLineEdit.text() == '':
             self.okPushButton.setEnabled(True)
         else:
             self.okPushButton.setEnabled(False)

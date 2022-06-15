@@ -280,7 +280,7 @@ class GesturesWindow(QWidget):
             dialog = AddGestureDialog(self)
             if dialog.exec():
                 # Get user's input
-                gesture = dialog.gestureLineEdit.text()
+                gesture = dialog.shorthandLineEdit.text()
                 meaning = dialog.valueLineEdit.text()
 
                 # TEST: check if the user is adding an existing gesture
@@ -326,7 +326,7 @@ class GesturesWindow(QWidget):
 
             if dialog.exec():
                 # Get input
-                new_gesture = dialog.gestureLineEdit.text()
+                new_gesture = dialog.shorthandLineEdit.text()
                 new_meaning = dialog.valueLineEdit.text()
 
                 # Remove current keyboardGesture
