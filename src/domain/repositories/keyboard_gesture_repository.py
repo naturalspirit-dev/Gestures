@@ -8,7 +8,6 @@ class KeyboardGestureRepository:
     def __init__(self):
 
         self.keyboardGestureList = []
-        self.gestures_library = KeyboardGestureLibrary()    # keyboard library storage
         self.gestures_database = GesturesDatabase()         # database storage
         self.initializeKeyboardCore()
 
@@ -16,13 +15,13 @@ class KeyboardGestureRepository:
 
         self.keyboardGestureList = self.getAllGestures()
         for gesture in self.keyboardGestureList:
-            self.gestures_library.addGesture(gesture)
+            KeyboardGestureLibrary.addGesture(gesture)
 
     def addRecord(self, gesture: KeyboardGesture):
 
         new_gesture = self.gestures_database.addGesture(gesture)
         self.keyboardGestureList.append(new_gesture)
-        self.gestures_library.addGesture(new_gesture)
+        KeyboardGestureLibrary.addGesture(gesture)
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 
@@ -34,13 +33,13 @@ class KeyboardGestureRepository:
                                           date_updated=gesture.date_updated)
         self.keyboardGestureList[index] = updated_gesture
         self.gestures_database.updateGesture(updated_gesture)
-        self.gestures_library.updateGesture(old_gesture, updated_gesture)
+        KeyboardGestureLibrary.updateGesture(old_gesture, updated_gesture)
 
     def removeRecord(self, index: int):
 
         existing_record = self.keyboardGestureList.pop(index)
         self.gestures_database.removeGesture(existing_record)
-        self.gestures_library.removeGesture(existing_record)
+        KeyboardGestureLibrary.removeGesture(existing_record)
 
     def count(self):
 
