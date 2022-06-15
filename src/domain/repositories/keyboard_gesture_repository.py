@@ -1,4 +1,4 @@
-from src.core.gestures import KeyboardGesture as KeyboardGestureCore
+from src.core.gestures import KeyboardGestureLibrary
 from src.domain.entities.keyboard_gesture import KeyboardGesture
 from src.infrastructure.database import GesturesDatabase
 
@@ -8,7 +8,7 @@ class KeyboardGestureRepository:
     def __init__(self):
 
         self.keyboardGestureList = []
-        self.gestures_library = KeyboardGestureCore()       # keyboard library storage
+        self.gestures_library = KeyboardGestureLibrary()    # keyboard library storage
         self.gestures_database = GesturesDatabase()         # database storage
         self.initializeKeyboardCore()
 

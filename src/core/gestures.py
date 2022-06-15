@@ -24,7 +24,7 @@ class Gesture:
         pass
 
 
-class KeyboardGesture(Gesture):
+class KeyboardGestureLibrary(Gesture):
     """ Core class that directly access the keyboard library APIs. """
 
     def __init__(self):

@@ -18,7 +18,7 @@ from PyQt5.QtCore import (QSettings,
                           QItemSelectionModel,
                           QSortFilterProxyModel,
                           Qt)
-from src.core.gestures import KeyboardGesture
+from src.core.gestures import KeyboardGestureLibrary
 from src.gui.dialogs.messageboxes import (AddMessageBox,
                                           UpdateMessageBox,
                                           RemoveMessageBox)
@@ -41,7 +41,7 @@ class GesturesWindow(QWidget):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-        self.keyboardGesture = KeyboardGesture()
+        self.keyboardGesture = KeyboardGestureLibrary()
         self.selected_data = None
         self.gestures = {}      # This will hold all the existing gestures
         self.old_settings()
