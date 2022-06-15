@@ -13,9 +13,6 @@ class UpdateGestureDialog(QDialog):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-        self.shorthand = ''
-        self.value = ''
-        self.selectedRecord = None
         self._widgets()
         self._properties()
         self._layout()
