@@ -1,8 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 from pathlib import Path
-from src.domain.entities.keyboard_gesture import KeyboardGesture
-from src.infrastructure.models.keyboard_gesture import KeyboardGesture as KeyboardGestureModel
+from src.domain.entities.keyboard import KeyboardGesture
 
 
 class GesturesDatabase:

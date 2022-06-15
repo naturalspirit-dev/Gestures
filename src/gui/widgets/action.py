@@ -1,6 +1,6 @@
 from datetime import datetime
 from PyQt5.QtWidgets import QAction
-from src.domain.entities.keyboard_gesture import KeyboardGesture
+from src.domain.entities.keyboard import KeyboardGesture
 from src.gui.dialogs.add import AddGestureDialog
 from src.gui.dialogs.update import UpdateGestureDialog
 

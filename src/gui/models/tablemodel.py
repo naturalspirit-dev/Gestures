@@ -1,7 +1,7 @@
 from PyQt5.QtCore import (Qt,
                           QAbstractTableModel,
                           QModelIndex)
-from src.domain.entities.keyboard_gesture import KeyboardGesture
+from src.domain.entities.keyboard import KeyboardGesture
 from src.domain.repositories import keyboardGestureRepository
 
 

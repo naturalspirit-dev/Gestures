@@ -1,5 +1,5 @@
 from src.core.gestures import KeyboardGestureLibrary
-from src.domain.entities.keyboard_gesture import KeyboardGesture
+from src.domain.entities.keyboard import KeyboardGesture
 from src.infrastructure.database import GesturesDatabase
 
 
