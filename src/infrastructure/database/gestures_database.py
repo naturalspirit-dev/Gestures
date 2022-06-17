@@ -28,6 +28,7 @@ class GesturesDatabase:
         connection = None
         try:
             connection = sqlite3.connect(self.database_filename)
+            connection.row_factory = sqlite3.Row
         except Error as e:
             print(e)
 
@@ -63,13 +64,10 @@ class GesturesDatabase:
         )
 
         connection = self.createConnection()
-        cursor = connection.cursor()
-        cursor.execute(sql_script, new_record)
-        gesture.id = cursor.lastrowid
+        with connection:
+            gesture.id = connection.execute(sql_script, new_record).lastrowid
 
-        connection.commit()
         connection.close()
-
         return gesture
 
     def updateGesture(self, gesture: KeyboardGesture):
@@ -94,10 +92,9 @@ class GesturesDatabase:
         )
 
         connection = self.createConnection()
-        cursor = connection.cursor()
-        cursor.execute(sql_script, updated_record)
+        with connection:
+            connection.execute(sql_script, updated_record)
 
-        connection.commit()
         connection.close()
 
     def removeGesture(self, gesture: KeyboardGesture):
@@ -108,10 +105,9 @@ class GesturesDatabase:
         """
 
         connection = self.createConnection()
-        cursor = connection.cursor()
-        cursor.execute(sql_script, (gesture.id,))
+        with connection:
+            connection.execute(sql_script, (gesture.id,))
 
-        connection.commit()
         connection.close()
 
     def getAllGestures(self) -> list[KeyboardGesture]:
@@ -122,12 +118,10 @@ class GesturesDatabase:
         """
 
         connection = self.createConnection()
-        cursor = connection.cursor()
-        cursor.execute(sql_script)
-
-        records = cursor.fetchall()
-        return [KeyboardGesture(id=record[0],
-                                shorthand=record[1],
-                                value=record[2],
-                                date_created=record[3],
-                                date_updated=record[4]) for record in records]
+        with connection:
+            records = connection.execute(sql_script).fetchall()
+            return [KeyboardGesture(id=record['id'],
+                                    shorthand=record['shorthand'],
+                                    value=record['value'],
+                                    date_created=record['date_created'],
+                                    date_updated=record['date_updated']) for record in records]
