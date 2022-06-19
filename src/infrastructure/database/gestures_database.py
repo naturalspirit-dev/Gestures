@@ -40,15 +40,11 @@ class GesturesDatabase:
         full_path = f'{Path(__file__).parent}{script_path}'
 
         connection = self.createConnection()
-        if connection is not None:
-            try:
-                with open(full_path, 'r') as file:
-                    cursor = connection.cursor()
-                    cursor.executescript(file.read())
-            except Error as e:
-                print(e)
-            finally:
-                connection.close()
+        with connection:
+            with open(full_path, 'r') as file:
+                connection.executescript(file.read())
+
+        connection.close()
 
     def addGesture(self, gesture: KeyboardGesture) -> KeyboardGesture:
 
