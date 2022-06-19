@@ -37,6 +37,7 @@ class NewGesturesTableView(QTableView):
         self.gesturesTableModel.addRecord(gesture)
         self.setModel(self.gesturesTableModel)
         self.resizeColumnToContents(2)              # Value column
+        self.resizeColumnToContents(3)              # Date Created column
         self.resizeRowsToContents()
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
