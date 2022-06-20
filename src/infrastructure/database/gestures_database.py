@@ -1,12 +1,11 @@
 import sqlite3
 from sqlite3 import Error
-from pathlib import Path
 from src.domain.entities.keyboard import KeyboardGesture
 
 
 class GesturesDatabase:
 
-    database_filename = 'gestures-test.db'
+    database_filename = 'gestures-dev.db'
 
     def __init__(self):
 
@@ -21,7 +20,8 @@ class GesturesDatabase:
         except Error as e:
             print(e)
         finally:
-            connection.close()
+            if connection:
+                connection.close()
 
     def createConnection(self):
 
@@ -29,6 +29,7 @@ class GesturesDatabase:
         try:
             connection = sqlite3.connect(self.database_filename)
             connection.row_factory = sqlite3.Row
+            return connection
         except Error as e:
             print(e)
 
@@ -36,13 +37,18 @@ class GesturesDatabase:
 
     def createTable(self):
 
-        script_path = r'\sql\create_keyboardGestures_table.sql'
-        full_path = f'{Path(__file__).parent}{script_path}'
+        sql_script = """
+            CREATE TABLE IF NOT EXISTS keyboardGestures(
+                id INTEGER PRIMARY KEY,
+                shorthand TEXT NOT NULL,
+                value TEXT NO NULL,
+                date_created TEXT NO NULL,
+                date_updated TEXT NO NULL
+)        """
 
         connection = self.createConnection()
         with connection:
-            with open(full_path, 'r') as file:
-                connection.executescript(file.read())
+            connection.execute(sql_script)
 
         connection.close()
 

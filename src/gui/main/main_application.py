@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from src.gui.windows.window import GesturesMainWindow
 
-GESTURES_VERSION = '2.0.1-beta'
+GESTURES_VERSION = '2.0.2-beta'
 
 
 class GesturesApplication(QApplication):
