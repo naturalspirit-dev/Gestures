@@ -1,11 +1,14 @@
 import sqlite3
 from sqlite3 import Error
+from typing import Optional
+
 from src.domain.entities.keyboard import KeyboardGesture
 
 
 class GesturesDatabase:
 
-    database_filename = 'gestures-dev.db'
+    # database_filename = 'gestures-dev.db'
+    database_filename = 'gestures-test.db'
 
     def __init__(self):
 
@@ -115,8 +118,7 @@ class GesturesDatabase:
     def getAllGestures(self) -> list[KeyboardGesture]:
 
         sql_script = """
-            SELECT *
-            FROM keyboardGestures
+            SELECT * FROM keyboardGestures
         """
 
         connection = self.createConnection()
@@ -127,3 +129,22 @@ class GesturesDatabase:
                                     value=record['value'],
                                     date_created=record['date_created'],
                                     date_updated=record['date_updated']) for record in records]
+
+    def getGestureByShorthand(self, gesture: KeyboardGesture) -> Optional[KeyboardGesture]:
+
+        sql_script = """
+            SELECT * FROM keyboardGestures
+            WHERE shorthand = ?
+        """
+
+        connection = self.createConnection()
+        with connection:
+            record = connection.execute(sql_script, (gesture.shorthand,)).fetchone()
+            if record:
+                return KeyboardGesture(id=record['id'],
+                                       shorthand=record['shorthand'],
+                                       value=record['value'],
+                                       date_created=record['date_created'],
+                                       date_updated=record['date_updated'])
+            else:
+                return None

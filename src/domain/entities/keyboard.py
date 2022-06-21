@@ -1,3 +1,4 @@
+from __future__ import annotations
 from datetime import datetime
 
 
@@ -22,8 +23,13 @@ class KeyboardGesture:
         return [self.id, self.shorthand, self.value, self.date_created, self.date_updated]
 
     # Business rules
-    def empty(self):
+    def empty(self) -> bool:
 
         return not all([self.shorthand, self.value])
 
-    # [] TODO: no duplicate shorthands
+    def duplicate(self, gesture: KeyboardGesture) -> bool:
+
+        if gesture:
+            return self.shorthand == gesture.shorthand
+        else:
+            return False

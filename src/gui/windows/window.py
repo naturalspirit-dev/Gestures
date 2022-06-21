@@ -1,5 +1,7 @@
 from PyQt5.QtCore import QModelIndex
 from PyQt5.QtWidgets import QMainWindow
+
+from src.domain.services import keyboardGestureService
 from src.gui.dialogs.messageboxes import RemoveMessageBox, WarningMessageBox
 from src.gui.widgets.menubar import GesturesMenuBar
 from src.gui.widgets.tableview import NewGesturesTableView
@@ -37,8 +39,12 @@ class GesturesMainWindow(QMainWindow):
     def on_newAction_triggered(self):
 
         new_gesture = self.gesturesMenuBar.fileMenu.newAction.showAddGestureDialog()
-        if not new_gesture.empty():
+        if keyboardGestureService.isValid(new_gesture):
             self.gesturesTableView.addRecord(new_gesture)
+        else:
+            WarningMessageBox.setText('Not a valid gesture')
+            WarningMessageBox.setInformativeText('Check if your gesture is empty or already exist.')
+            WarningMessageBox.exec()
 
     def on_updateAction_triggered(self):
 

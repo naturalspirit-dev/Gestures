@@ -48,3 +48,7 @@ class KeyboardGestureRepository:
     def getAllGestures(self):
 
         return self.gestures_database.getAllGestures()
+
+    def getGestureByShorthand(self, gesture: KeyboardGesture):
+
+        return self.gestures_database.getGestureByShorthand(gesture)
