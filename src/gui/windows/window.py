@@ -59,8 +59,12 @@ class GesturesMainWindow(QMainWindow):
     def updateRecord(self, index: QModelIndex):
 
         updated_gesture = self.gesturesMenuBar.editMenu.updateAction.showUpdateGestureDialog(index)
-        if not updated_gesture.empty():
+        if keyboardGestureService.isValid(updated_gesture):
             self.gesturesTableView.updateRecord(index.row(), updated_gesture)
+        else:
+            WarningMessageBox.setText('Not a valid gesture')
+            WarningMessageBox.setInformativeText('Check if your gesture is empty or already exist.')
+            WarningMessageBox.exec()
 
     def on_deleteAction_triggered(self):
 

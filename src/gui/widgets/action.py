@@ -38,7 +38,7 @@ class UpdateAction(QAction):
 
         super().__init__('&Update', parent)
 
-    def showUpdateGestureDialog(self, selected_index):
+    def showUpdateGestureDialog(self, selected_index) -> KeyboardGesture:
 
         shorthand = selected_index.sibling(selected_index.row(), 1)
         value = selected_index.sibling(selected_index.row(), 2)
