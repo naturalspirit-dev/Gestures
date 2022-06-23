@@ -1,4 +1,6 @@
 from datetime import datetime
+from typing import Optional
+
 from PyQt5.QtWidgets import QAction
 from src.domain.entities.keyboard import KeyboardGesture
 from src.gui.dialogs.add import AddGestureDialog
@@ -13,14 +15,14 @@ class NewAction(QAction):
         super().__init__('&New', parent)
         self.setShortcut('Ctrl+N')
 
-    def showAddGestureDialog(self) -> KeyboardGesture:
+    def showAddGestureDialog(self) -> Optional[KeyboardGesture]:
 
         dialog = AddGestureDialog()
-        return KeyboardGesture(shorthand=dialog.shorthandLineEdit.text(),
-                               value=dialog.valueLineEdit.text(),
-                               date_created=datetime.today().strftime('%x %X %p'),
-                               date_updated=datetime.today().strftime('%x %X %p')) \
-            if dialog.exec() else KeyboardGesture()
+        if dialog.exec():
+            return KeyboardGesture(shorthand=dialog.shorthandLineEdit.text(),
+                                   value=dialog.valueLineEdit.text(),
+                                   date_created=datetime.today().strftime('%x %X %p'),
+                                   date_updated=datetime.today().strftime('%x %X %p'))
 
 
 class QuitAction(QAction):

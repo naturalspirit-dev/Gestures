@@ -39,12 +39,12 @@ class GesturesMainWindow(QMainWindow):
     def on_newAction_triggered(self):
 
         new_gesture = self.gesturesMenuBar.fileMenu.newAction.showAddGestureDialog()
-        if keyboardGestureService.isValid(new_gesture):
-            self.gesturesTableView.addRecord(new_gesture)
-        else:
-            WarningMessageBox.setText('Not a valid gesture')
-            WarningMessageBox.setInformativeText('Check if your gesture is empty or already exist.')
-            WarningMessageBox.exec()
+        if new_gesture:
+            validation = keyboardGestureService.validateGesture(new_gesture)
+            if validation.is_valid:
+                self.gesturesTableView.addRecord(new_gesture)
+            else:
+                validation.showError()
 
     def on_updateAction_triggered(self):
 
