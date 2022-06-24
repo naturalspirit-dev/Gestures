@@ -44,7 +44,7 @@ class GesturesMainWindow(QMainWindow):
             if validation.is_valid:
                 self.gesturesTableView.addRecord(new_gesture)
             else:
-                validation.showError()
+                validation.showValidationDialog()
 
     def on_updateAction_triggered(self):
 
@@ -59,12 +59,12 @@ class GesturesMainWindow(QMainWindow):
     def updateRecord(self, index: QModelIndex):
 
         updated_gesture = self.gesturesMenuBar.editMenu.updateAction.showUpdateGestureDialog(index)
-        if keyboardGestureService.isValid(updated_gesture):
-            self.gesturesTableView.updateRecord(index.row(), updated_gesture)
-        else:
-            WarningMessageBox.setText('Not a valid gesture')
-            WarningMessageBox.setInformativeText('Check if your gesture is empty or already exist.')
-            WarningMessageBox.exec()
+        if updated_gesture:
+            validation = keyboardGestureService.validateGestureOnUpdate(index, updated_gesture)
+            if validation.is_valid:
+                self.gesturesTableView.updateRecord(index.row(), updated_gesture)
+            else:
+                validation.showValidationDialog()
 
     def on_deleteAction_triggered(self):
 

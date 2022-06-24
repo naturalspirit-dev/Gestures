@@ -40,7 +40,7 @@ class UpdateAction(QAction):
 
         super().__init__('&Update', parent)
 
-    def showUpdateGestureDialog(self, selected_index) -> KeyboardGesture:
+    def showUpdateGestureDialog(self, selected_index) -> Optional[KeyboardGesture]:
 
         shorthand = selected_index.sibling(selected_index.row(), 1)
         value = selected_index.sibling(selected_index.row(), 2)
@@ -49,10 +49,10 @@ class UpdateAction(QAction):
         dialog.shorthandLineEdit.setText(shorthand.data())
         dialog.valueLineEdit.setText(value.data())
 
-        return KeyboardGesture(shorthand=dialog.shorthandLineEdit.text(),
-                               value=dialog.valueLineEdit.text(),
-                               date_updated=datetime.today().strftime('%x %X %p')) \
-            if dialog.exec() else KeyboardGesture()
+        if dialog.exec():
+            return KeyboardGesture(shorthand=dialog.shorthandLineEdit.text(),
+                                   value=dialog.valueLineEdit.text(),
+                                   date_updated=datetime.today().strftime('%x %X %p'))
 
 
 class DeleteAction(QAction):
