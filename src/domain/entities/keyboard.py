@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Optional
 from datetime import datetime
 
 
@@ -27,9 +28,15 @@ class KeyboardGesture:
 
         return not all([self.shorthand, self.value])
 
-    def duplicate(self, gesture: KeyboardGesture) -> bool:
+    def duplicate(self, existing_gesture: KeyboardGesture | None, selected_gesture: KeyboardGesture | None = None) -> bool:
 
-        if gesture:
-            return self.shorthand == gesture.shorthand
+        if existing_gesture:
+            if selected_gesture:
+                if selected_gesture.shorthand != existing_gesture.shorthand:
+                    return self.shorthand == existing_gesture.shorthand
+                else:
+                    return False
+            else:
+                return self.shorthand == existing_gesture.shorthand
         else:
             return False

@@ -26,23 +26,15 @@ class KeyboardGestureService:
 
         return validation
 
-    # [] TODO: refactor checking of shorthands
     def validateGestureOnUpdate(self, selected_index: QModelIndex, updated_gesture: KeyboardGesture):
 
         validation = KeyboardGestureValidation()
 
-        selected_gesture_shorthand = selected_index.sibling(selected_index.row(), 1).data()
+        selected_gesture = KeyboardGesture(shorthand=selected_index.sibling(selected_index.row(), 1).data())
         existing_gesture = keyboardGestureRepository.getGestureByShorthand(updated_gesture)
 
         empty_gesture = updated_gesture.empty()
-
-        if existing_gesture:
-            if existing_gesture.shorthand != selected_gesture_shorthand:
-                duplicate_gesture = updated_gesture.duplicate(existing_gesture)
-            else:
-                duplicate_gesture = False
-        else:
-            duplicate_gesture = False
+        duplicate_gesture = updated_gesture.duplicate(existing_gesture, selected_gesture)
 
         if empty_gesture:
             empty_text = 'Shorthand and Value fields must not be empty.'
