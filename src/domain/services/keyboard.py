@@ -8,27 +8,14 @@ class KeyboardGestureService:
 
     def validateGesture(self, gesture: KeyboardGesture):
 
-        validation = KeyboardGestureValidation()
-
         existing_gesture = keyboardGestureRepository.getGestureByShorthand(gesture)
+
         empty_gesture = gesture.empty()
         duplicate_gesture = gesture.duplicate(existing_gesture)
 
-        if empty_gesture:
-            empty_text = 'Shorthand and Value fields must not be empty.'
-            validation.business_rules.append(empty_text)
-
-        if duplicate_gesture:
-            duplicate_text = 'Shorthand value already exist. Try entering a unique shorthand.'
-            validation.business_rules.append(duplicate_text)
-
-        validation.is_valid = not any([empty_gesture, duplicate_gesture])
-
-        return validation
+        return self.validate(empty_gesture, duplicate_gesture)
 
     def validateGestureOnUpdate(self, selected_index: QModelIndex, updated_gesture: KeyboardGesture):
-
-        validation = KeyboardGestureValidation()
 
         selected_gesture = KeyboardGesture(shorthand=selected_index.sibling(selected_index.row(), 1).data())
         existing_gesture = keyboardGestureRepository.getGestureByShorthand(updated_gesture)
@@ -36,15 +23,21 @@ class KeyboardGestureService:
         empty_gesture = updated_gesture.empty()
         duplicate_gesture = updated_gesture.duplicate(existing_gesture, selected_gesture)
 
-        if empty_gesture:
+        return self.validate(empty_gesture, duplicate_gesture)
+
+    def validate(self, empty: bool, duplicate: bool):
+
+        validation = KeyboardGestureValidation()
+
+        if empty:
             empty_text = 'Shorthand and Value fields must not be empty.'
             validation.business_rules.append(empty_text)
 
-        if duplicate_gesture:
+        if duplicate:
             duplicate_text = 'Shorthand value already exist. Try entering a unique shorthand.'
             validation.business_rules.append(duplicate_text)
 
-        validation.is_valid = not any([empty_gesture, duplicate_gesture])
+        validation.is_valid = not any([empty, duplicate])
 
         return validation
 
