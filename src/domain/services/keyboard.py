@@ -41,6 +41,19 @@ class KeyboardGestureService:
 
         return validation
 
+    def validateSelectedIndex(self, selected_index: QModelIndex, action: str):
+
+        validation = KeyboardGestureValidation()
+
+        if selected_index.isValid():
+            validation.is_valid = True
+        else:
+            no_selected_text = f'Please select a record in the table that you want to {action}.'
+            validation.business_rules.append(no_selected_text)
+            validation.is_valid = False
+
+        return validation
+
 
 class KeyboardGestureValidation:
 

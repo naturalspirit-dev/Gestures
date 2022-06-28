@@ -2,7 +2,7 @@ from PyQt5.QtCore import QModelIndex
 from PyQt5.QtWidgets import QMainWindow
 
 from src.domain.services import keyboardGestureService
-from src.gui.dialogs.messageboxes import RemoveMessageBox, WarningMessageBox
+from src.gui.dialogs.messageboxes import RemoveMessageBox
 from src.gui.widgets.menubar import GesturesMenuBar
 from src.gui.widgets.tableview import NewGesturesTableView
 
@@ -49,12 +49,11 @@ class GesturesMainWindow(QMainWindow):
     def on_updateAction_triggered(self):
 
         selected_index = self.gesturesTableView.currentIndex()
-        if selected_index.isValid():
+        validation = keyboardGestureService.validateSelectedIndex(selected_index, 'update')
+        if validation.is_valid:
             self.updateRecord(selected_index)
         else:
-            WarningMessageBox.setText('No selected record')
-            WarningMessageBox.setInformativeText('Please select a record in the table that you want to update.')
-            WarningMessageBox.exec()
+            validation.showValidationDialog()
 
     def updateRecord(self, index: QModelIndex):
 
@@ -69,12 +68,11 @@ class GesturesMainWindow(QMainWindow):
     def on_deleteAction_triggered(self):
 
         selected_index = self.gesturesTableView.currentIndex()
-        if selected_index.isValid():
+        validation = keyboardGestureService.validateSelectedIndex(selected_index, 'delete')
+        if validation.is_valid:
             self.deleteRecord(selected_index)
         else:
-            WarningMessageBox.setText('No selected record')
-            WarningMessageBox.setInformativeText('Please select a record in the table that you want to delete.')
-            WarningMessageBox.exec()
+            validation.showValidationDialog()
 
     def deleteRecord(self, index: QModelIndex):
 
