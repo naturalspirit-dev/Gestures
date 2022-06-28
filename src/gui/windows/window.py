@@ -1,10 +1,13 @@
 from PyQt5.QtCore import QModelIndex
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow
 
 from src.domain.services import keyboardGestureService
 from src.gui.dialogs.messageboxes import RemoveMessageBox
 from src.gui.widgets.menubar import GesturesMenuBar
+from src.gui.widgets.systemtray import GesturesSystemTray
 from src.gui.widgets.tableview import NewGesturesTableView
+from src.resources import gestures_resources
 
 
 class GesturesMainWindow(QMainWindow):
@@ -20,20 +23,27 @@ class GesturesMainWindow(QMainWindow):
 
         self.gesturesMenuBar = GesturesMenuBar(self)
         self.gesturesTableView = NewGesturesTableView(self)
+        self.gesturesSystemTray = GesturesSystemTray(self)
 
         self.setMenuBar(self.gesturesMenuBar)
         self.setCentralWidget(self.gesturesTableView)
 
     def _set_properties(self):
 
+        self.setWindowIcon(QIcon(':/g-key-32.png'))
         self.setWindowTitle('Gestures')
         self.resize(700, 400)
+
+        self.gesturesSystemTray.show()
 
     def _set_connections(self):
 
         self.gesturesMenuBar.fileMenu.newAction.triggered.connect(self.on_newAction_triggered)
+        self.gesturesMenuBar.fileMenu.quitAction.triggered.connect(self.on_quitAction_triggered)
         self.gesturesMenuBar.editMenu.updateAction.triggered.connect(self.on_updateAction_triggered)
         self.gesturesMenuBar.editMenu.deleteAction.triggered.connect(self.on_deleteAction_triggered)
+
+        self.gesturesSystemTray.systemTrayMenu.quitAction.triggered.connect(self.on_quitAction_triggered)
 
     # Slots
     def on_newAction_triggered(self):
@@ -79,3 +89,7 @@ class GesturesMainWindow(QMainWindow):
         choice = RemoveMessageBox.exec()
         if choice == RemoveMessageBox.Yes:
             self.gesturesTableView.removeRecord(index.row())
+
+    def on_quitAction_triggered(self):
+
+        self.close()

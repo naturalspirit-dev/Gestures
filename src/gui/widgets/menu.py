@@ -32,3 +32,13 @@ class EditMenu(QMenu):
 class HelpMenu(QMenu):
 
     pass
+
+
+class SystemTrayMenu(QMenu):
+
+    def __init__(self, parent=None):
+
+        super().__init__(parent)
+        self.quitAction = QuitAction(self)
+
+        self.addAction(self.quitAction)
