@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QMainWindow
 from src.domain.services import keyboardGestureService
 from src.gui.dialogs.messageboxes import RemoveMessageBox
 from src.gui.widgets.menubar import GesturesMenuBar
-from src.gui.widgets.systemtray import GesturesSystemTray
 from src.gui.widgets.tableview import NewGesturesTableView
 from src.resources import gestures_resources
 
@@ -23,8 +22,6 @@ class GesturesMainWindow(QMainWindow):
 
         self.gesturesMenuBar = GesturesMenuBar(self)
         self.gesturesTableView = NewGesturesTableView(self)
-        self.gesturesSystemTray = GesturesSystemTray(self)
-
         self.setMenuBar(self.gesturesMenuBar)
         self.setCentralWidget(self.gesturesTableView)
 
@@ -34,16 +31,12 @@ class GesturesMainWindow(QMainWindow):
         self.setWindowTitle('Gestures')
         self.resize(700, 400)
 
-        self.gesturesSystemTray.show()
-
     def _set_connections(self):
 
         self.gesturesMenuBar.fileMenu.newAction.triggered.connect(self.on_newAction_triggered)
-        self.gesturesMenuBar.fileMenu.quitAction.triggered.connect(self.on_quitAction_triggered)
+        self.gesturesMenuBar.fileMenu.quitAction.triggered.connect(self.close)
         self.gesturesMenuBar.editMenu.updateAction.triggered.connect(self.on_updateAction_triggered)
         self.gesturesMenuBar.editMenu.deleteAction.triggered.connect(self.on_deleteAction_triggered)
-
-        self.gesturesSystemTray.systemTrayMenu.quitAction.triggered.connect(self.on_quitAction_triggered)
 
     # Slots
     def on_newAction_triggered(self):
