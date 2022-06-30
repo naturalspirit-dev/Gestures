@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QModelIndex
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtGui import QCloseEvent, QIcon
+from PyQt5.QtWidgets import QAction, QMainWindow
 
 from src.domain.services import keyboardGestureService
 from src.gui.dialogs.messageboxes import RemoveMessageBox
@@ -86,3 +86,14 @@ class GesturesMainWindow(QMainWindow):
     def on_quitAction_triggered(self):
 
         self.close()
+
+    # TODO: test test test
+    def closeEvent(self, event: QCloseEvent):
+
+        print(f'{self.sender()=}')
+        if isinstance(self.sender(), QAction):
+            print('are we here?')
+            event.accept()
+        else:
+            self.hide()
+            event.ignore()

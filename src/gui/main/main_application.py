@@ -15,6 +15,7 @@ class GesturesMainApplication(QApplication):
         self.systemTray = GesturesSystemTray()
 
         self.systemTray.systemTrayMenu.quitAction.triggered.connect(self.closeAllWindows)
+        self.systemTray.systemTrayMenu.quitAction.triggered.connect(self.quit)
 
     def run(self):
 
