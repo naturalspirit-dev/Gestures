@@ -6,7 +6,7 @@ from src.gui.widgets.systemtray import GesturesSystemTray
 GESTURES_VERSION = '2.0.2-beta'
 
 
-class GesturesApplication(QApplication):
+class GesturesMainApplication(QApplication):
 
     def __init__(self):
 
