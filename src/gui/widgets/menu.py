@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMenu
 from src.gui.widgets.action import (NewAction,
                                     UpdateAction,
                                     DeleteAction,
+                                    OpenGesturesAction,
                                     QuitAction)
 
 
@@ -40,5 +41,8 @@ class SystemTrayMenu(QMenu):
 
         super().__init__(parent)
         self.quitAction = QuitAction(self)
+        self.openAction = OpenGesturesAction(self)
 
+        self.addAction(self.openAction)
+        self.addSeparator()
         self.addAction(self.quitAction)

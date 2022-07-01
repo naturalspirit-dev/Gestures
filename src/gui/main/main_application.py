@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
 from src.gui.windows.window import GesturesMainWindow
 from src.gui.widgets.systemtray import GesturesSystemTray
 
@@ -14,8 +14,15 @@ class GesturesMainApplication(QApplication):
         self.window = GesturesMainWindow()
         self.systemTray = GesturesSystemTray()
 
+        self.systemTray.activated.connect(self.on_systemTray_activated)
+        self.systemTray.systemTrayMenu.openAction.triggered.connect(self.window.show)
         self.systemTray.systemTrayMenu.quitAction.triggered.connect(self.closeAllWindows)
         self.systemTray.systemTrayMenu.quitAction.triggered.connect(self.quit)
+
+    def on_systemTray_activated(self, reason: QSystemTrayIcon):
+
+        if reason == QSystemTrayIcon.Trigger:
+            self.window.show()
 
     def run(self):
 

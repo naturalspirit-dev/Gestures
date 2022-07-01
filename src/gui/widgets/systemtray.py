@@ -9,7 +9,6 @@ class GesturesSystemTray(QSystemTrayIcon):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-
         self.systemTrayMenu = SystemTrayMenu()
 
         self.setIcon(QIcon(':/g-key-32.png'))

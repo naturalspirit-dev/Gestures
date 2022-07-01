@@ -87,13 +87,16 @@ class GesturesMainWindow(QMainWindow):
 
         self.close()
 
-    # TODO: test test test
     def closeEvent(self, event: QCloseEvent):
 
-        print(f'{self.sender()=}')
         if isinstance(self.sender(), QAction):
-            print('are we here?')
+            # executed when:
+            # - using File > Quit menu
+            # - using Ctrl+Q shortcut keys
             event.accept()
         else:
+            # executed when (while window is opened, minimized or closed):
+            # - using Quit menu in the system tray
+            # - using Alt+F4 shortcut keys
             self.hide()
             event.ignore()

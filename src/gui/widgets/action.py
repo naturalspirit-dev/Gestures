@@ -60,3 +60,11 @@ class DeleteAction(QAction):
     def __init__(self, parent):
 
         super().__init__('&Delete', parent)
+
+
+# System Tray actions
+class OpenGesturesAction(QAction):
+
+    def __init__(self, parent):
+
+        super().__init__('Open Gestures', parent)
