@@ -12,5 +12,4 @@ class GesturesSystemTray(QSystemTrayIcon):
         self.systemTrayMenu = SystemTrayMenu()
 
         self.setIcon(QIcon(':/g-key-32.png'))
-        self.setToolTip('Gesture')
         self.setContextMenu(self.systemTrayMenu)

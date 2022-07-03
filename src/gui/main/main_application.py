@@ -12,7 +12,9 @@ class GesturesMainApplication(QApplication):
 
         super().__init__(sys.argv)
         self.window = GesturesMainWindow()
+
         self.systemTray = GesturesSystemTray()
+        self.systemTray.setToolTip(f'Gestures {GESTURES_VERSION}')
 
         self.systemTray.activated.connect(self.on_systemTray_activated)
         self.systemTray.systemTrayMenu.openAction.triggered.connect(self.window.show)
