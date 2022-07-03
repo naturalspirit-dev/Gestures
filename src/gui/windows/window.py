@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QModelIndex
+from PyQt5.QtCore import QModelIndex, QSettings, QSize, QPoint
 from PyQt5.QtGui import QCloseEvent, QIcon
 from PyQt5.QtWidgets import QAction, QMainWindow
 
@@ -14,9 +14,25 @@ class GesturesMainWindow(QMainWindow):
     def __init__(self, parent=None):
 
         super().__init__(parent)
+        self._read_settings()
         self._set_widgets()
         self._set_properties()
         self._set_connections()
+
+    def _read_settings(self):
+
+        self.settings = QSettings()
+        self.settings.beginGroup('GesturesMainWindow')
+        self.resize(self.settings.value('size', QSize(700, 400)))   # TODO: can't restore this
+        self.move(self.settings.value('pos', QPoint(200, 200)))
+        self.settings.endGroup()
+
+    def _write_settings(self):
+
+        self.settings.beginGroup('GesturesMainWindow')
+        self.settings.setValue('size', self.size())
+        self.settings.setValue('pos', self.pos())
+        self.settings.endGroup()
 
     def _set_widgets(self):
 
@@ -93,6 +109,7 @@ class GesturesMainWindow(QMainWindow):
             # executed when:
             # - using File > Quit menu
             # - using Ctrl+Q shortcut keys
+            self._write_settings()
             event.accept()
         else:
             # executed when (while window is opened, minimized or closed):
