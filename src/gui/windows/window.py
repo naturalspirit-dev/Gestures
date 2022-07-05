@@ -14,16 +14,16 @@ class GesturesMainWindow(QMainWindow):
     def __init__(self, parent=None):
 
         super().__init__(parent)
-        self._read_settings()
         self._set_widgets()
         self._set_properties()
         self._set_connections()
+        self._read_settings()
 
     def _read_settings(self):
 
         self.settings = QSettings()
         self.settings.beginGroup('GesturesMainWindow')
-        self.resize(self.settings.value('size', QSize(700, 400)))   # TODO: can't restore this
+        self.resize(self.settings.value('size', QSize(700, 400)))
         self.move(self.settings.value('pos', QPoint(200, 200)))
         self.settings.endGroup()
 
