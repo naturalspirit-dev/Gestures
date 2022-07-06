@@ -3,7 +3,8 @@ from src.gui.widgets.action import (NewAction,
                                     UpdateAction,
                                     DeleteAction,
                                     OpenGesturesAction,
-                                    QuitAction)
+                                    QuitAction,
+                                    AboutAction)
 
 
 class FileMenu(QMenu):
@@ -32,7 +33,12 @@ class EditMenu(QMenu):
 
 class HelpMenu(QMenu):
 
-    pass
+    def __init__(self, parent):
+
+        super().__init__('&Help', parent)
+        self.aboutAction = AboutAction(self)
+
+        self.addAction(self.aboutAction)
 
 
 class SystemTrayMenu(QMenu):

@@ -62,6 +62,14 @@ class DeleteAction(QAction):
         super().__init__('&Delete', parent)
 
 
+# Help Menu's action
+class AboutAction(QAction):
+
+    def __init__(self, parent):
+
+        super().__init__('&About', parent)
+
+
 # System Tray actions
 class OpenGesturesAction(QAction):
 

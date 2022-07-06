@@ -20,6 +20,8 @@ RemoveMessageBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 WarningMessageBox = QMessageBox()
 WarningMessageBox.setIcon(QMessageBox.Warning)
 
+AboutMessageBox = QMessageBox()
+
 DDayMessageBox = QMessageBox()
 DDayMessageBox.setWindowTitle(f'Unregistered {__appname__}')
 DDayMessageBox.setIcon(QMessageBox.Information)
