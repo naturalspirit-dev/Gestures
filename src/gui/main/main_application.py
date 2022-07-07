@@ -2,9 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
 from src.gui.windows.window import GesturesMainWindow
 from src.gui.widgets.systemtray import GesturesSystemTray
-
-__appname__ = 'Gestures'
-__version__ = '2.0.2-beta'
+from src.resources.constant import __appname__, __version__, __orgname__, __orgdomain__
 
 
 class GesturesMainApplication(QApplication):
@@ -12,8 +10,8 @@ class GesturesMainApplication(QApplication):
     def __init__(self):
 
         super().__init__(sys.argv)
-        self.setOrganizationName('Jero Bado')
-        self.setOrganizationDomain('jerobado.com')
+        self.setOrganizationName(__orgname__)
+        self.setOrganizationDomain(__orgdomain__)
         self.setApplicationName(__appname__)
         self.setApplicationVersion(__version__)
 

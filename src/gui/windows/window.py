@@ -7,6 +7,7 @@ from src.gui.dialogs.messageboxes import RemoveMessageBox, AboutMessageBox
 from src.gui.widgets.menubar import GesturesMenuBar
 from src.gui.widgets.tableview import NewGesturesTableView
 from src.resources import gestures_resources
+from src.resources.constant import __appname__
 
 
 class GesturesMainWindow(QMainWindow):
@@ -44,7 +45,7 @@ class GesturesMainWindow(QMainWindow):
     def _set_properties(self):
 
         self.setWindowIcon(QIcon(':/g-key-32.png'))
-        self.setWindowTitle('Gestures')
+        self.setWindowTitle(__appname__)
         self.resize(700, 400)
 
     def _set_connections(self):
@@ -106,16 +107,7 @@ class GesturesMainWindow(QMainWindow):
 
     def on_aboutAction_triggered(self):
 
-        details = """
-        <b>Gestures 2.0.2-beta</b>
-        <p>An application for people who just loved to type.</p>
-        <p>
-        Python: 3.9.1<br>
-        Qt: 5.15.2<br>
-        keyboard: 0.13.5
-        </p>
-        """
-        AboutMessageBox.about(self, 'About Gestures', details)
+        AboutMessageBox.show()
 
     def closeEvent(self, event: QCloseEvent):
 
