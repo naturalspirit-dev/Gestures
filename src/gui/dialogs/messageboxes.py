@@ -1,8 +1,15 @@
 # Message boxes
+
+from string import Template
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QMessageBox
 from src.resources import gestures_resources
-from src.resources.constant import __appname__, __version__
+from src.resources.constant import (__appname__,
+                                    __version__,
+                                    python_version,
+                                    PYQT_VERSION_STR,
+                                    QT_VERSION_STR,
+                                    KEYBOARD_VERSION)
 
 
 AddMessageBox = QMessageBox()
@@ -27,15 +34,15 @@ AboutMessageBox.setWindowIcon(QIcon(':/g-key-32.png'))
 AboutMessageBox.setIconPixmap(QPixmap(':/g-key-32.png'))
 AboutMessageBox.setWindowTitle(f'About {__appname__}')
 AboutMessageBox.setText(f'<b>{__appname__} {__version__}</b>')
-about_details = """
+about_template = Template("""
 <p>An application for people who just loved to type.</p>
 <hr>
 <p>
     <b>Dependencies</b><br><br>
-    Python 3.9.1<br>
-    PyQt 5.15.6<br>
-    Qt 5.15.2<br>
-    keyboard 0.13.5
+    Python $PYTHON_VERSION<br>
+    PyQt $PYQT_VERSION<br>
+    Qt $QT_VERSION<br>
+    keyboard $KEYBOARD_VERSION
 </p>
 <p>
     <b>Contacts</b><br><br>
@@ -43,7 +50,14 @@ about_details = """
     say.hello@jerobado.com<br>
     <a href="https://jerobado.com">https://jerobado.com</a>
 <p>
-"""
+""")
+about_versions = {
+    'PYTHON_VERSION': python_version(),
+    'PYQT_VERSION': PYQT_VERSION_STR,
+    'QT_VERSION': QT_VERSION_STR,
+    'KEYBOARD_VERSION': KEYBOARD_VERSION
+}
+about_details = about_template.substitute(about_versions)
 AboutMessageBox.setInformativeText(about_details)
 
 DDayMessageBox = QMessageBox()
