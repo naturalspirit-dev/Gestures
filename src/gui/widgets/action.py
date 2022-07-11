@@ -13,6 +13,7 @@ class NewAction(QAction):
     def __init__(self, parent):
 
         super().__init__('&New', parent)
+        self.setStatusTip('Add new gesture record.')
         self.setShortcut('Ctrl+N')
 
     def showAddGestureDialog(self) -> Optional[KeyboardGesture]:
@@ -30,6 +31,7 @@ class QuitAction(QAction):
     def __init__(self, parent):
 
         super().__init__('&Quit', parent)
+        self.setStatusTip('Exit the application.')
         self.setShortcut('Ctrl+Q')
 
 
@@ -39,6 +41,7 @@ class UpdateAction(QAction):
     def __init__(self, parent):
 
         super().__init__('&Update', parent)
+        self.setStatusTip('Update existing gesture record.')
 
     def showUpdateGestureDialog(self, selected_index) -> Optional[KeyboardGesture]:
 
@@ -60,6 +63,7 @@ class DeleteAction(QAction):
     def __init__(self, parent):
 
         super().__init__('&Delete', parent)
+        self.setStatusTip('Delete selected gesture record.')
 
 
 # Help Menu's action
@@ -68,6 +72,7 @@ class AboutAction(QAction):
     def __init__(self, parent):
 
         super().__init__('&About', parent)
+        self.setStatusTip('Display information about Gestures.')
 
 
 # System Tray actions
