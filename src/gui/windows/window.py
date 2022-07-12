@@ -50,8 +50,7 @@ class GesturesMainWindow(QMainWindow):
         self.setWindowIcon(QIcon(':/g-key-32.png'))
         self.setWindowTitle(__appname__)
         self.resize(700, 400)
-
-        self.updateActivesGestureCountLabel()
+        self.updateStatusBar('init')
 
     def _set_connections(self):
 
@@ -69,7 +68,7 @@ class GesturesMainWindow(QMainWindow):
             validation = keyboardGestureService.validateGesture(new_gesture)
             if validation.is_valid:
                 self.gesturesTableView.addRecord(new_gesture)
-                self.updateActivesGestureCountLabel()
+                self.updateStatusBar('new')
             else:
                 validation.showValidationDialog()
 
@@ -79,6 +78,7 @@ class GesturesMainWindow(QMainWindow):
         validation = keyboardGestureService.validateSelectedIndex(selected_index, 'update')
         if validation.is_valid:
             self.updateRecord(selected_index)
+            self.updateStatusBar('update')
         else:
             validation.showValidationDialog()
 
@@ -98,7 +98,7 @@ class GesturesMainWindow(QMainWindow):
         validation = keyboardGestureService.validateSelectedIndex(selected_index, 'delete')
         if validation.is_valid:
             self.deleteRecord(selected_index)
-            self.updateActivesGestureCountLabel()
+            self.updateStatusBar('delete')
         else:
             validation.showValidationDialog()
 
@@ -116,11 +116,21 @@ class GesturesMainWindow(QMainWindow):
 
         AboutMessageBox.show()
 
-    def updateActivesGestureCountLabel(self):
+    def updateStatusBar(self, action: str):
 
-        # TODO: test if you can transfer this function to the GesturesStatusBar class
-        row_count = self.gesturesTableView.gesturesTableModel.rowCount(self)
-        self.gesturesStatusBar.activeGesturesCountLabel.setText(f'Active: {row_count}')
+        if action == 'new' or action == 'init':
+            self.setActiveGesturesCountLabel()
+            self.gesturesStatusBar.displayMessage('New gesture added.')
+        elif action == 'update':
+            self.gesturesStatusBar.displayMessage('Selected gesture updated.')
+        elif action == 'delete':
+            self.setActiveGesturesCountLabel()
+            self.gesturesStatusBar.displayMessage('Selected gesture deleted.')
+
+    def setActiveGesturesCountLabel(self):
+
+        records = self.gesturesTableView.recordCount(self)
+        self.gesturesStatusBar.activeGesturesCountLabel.setText(f'Active: {records}')
 
     def closeEvent(self, event: QCloseEvent):
 

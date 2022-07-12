@@ -8,3 +8,7 @@ class GesturesStatusBar(QStatusBar):
         super().__init__(parent)
         self.activeGesturesCountLabel = QLabel()
         self.addPermanentWidget(self.activeGesturesCountLabel)
+
+    def displayMessage(self, message: str):
+
+        self.showMessage(message, 5000)

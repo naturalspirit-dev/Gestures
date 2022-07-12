@@ -1,5 +1,4 @@
 # Re-implementing QTableView
-
 from PyQt5.QtWidgets import QTableView
 from src.domain.entities.keyboard import KeyboardGesture
 from src.gui.models.tablemodel import GesturesTableModel
@@ -49,3 +48,7 @@ class NewGesturesTableView(QTableView):
 
         self.gesturesTableModel.removeRecord(index)
         self.setModel(self.gesturesTableModel)
+
+    def recordCount(self, index):
+
+        return self.gesturesTableModel.rowCount(index)
