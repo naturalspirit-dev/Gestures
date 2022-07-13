@@ -54,6 +54,10 @@ class KeyboardGestureService:
 
         return validation
 
+    def getTotalRecords(self):
+
+        return keyboardGestureRepository.count()
+
 
 class KeyboardGestureValidation:
 

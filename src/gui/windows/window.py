@@ -50,7 +50,6 @@ class GesturesMainWindow(QMainWindow):
         self.setWindowIcon(QIcon(':/g-key-32.png'))
         self.setWindowTitle(__appname__)
         self.resize(700, 400)
-        self.updateStatusBar('init')
 
     def _set_connections(self):
 
@@ -118,7 +117,7 @@ class GesturesMainWindow(QMainWindow):
 
     def updateStatusBar(self, action: str):
 
-        if action == 'new' or action == 'init':
+        if action == 'new':
             self.setActiveGesturesCountLabel()
             self.gesturesStatusBar.displayMessage('New gesture added.')
         elif action == 'update':
@@ -129,7 +128,7 @@ class GesturesMainWindow(QMainWindow):
 
     def setActiveGesturesCountLabel(self):
 
-        records = self.gesturesTableView.recordCount(self)
+        records = keyboardGestureService.getTotalRecords()
         self.gesturesStatusBar.activeGesturesCountLabel.setText(f'Active: {records}')
 
     def closeEvent(self, event: QCloseEvent):
