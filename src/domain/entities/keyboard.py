@@ -30,13 +30,13 @@ class KeyboardGesture:
 
     def duplicate(self, existing_gesture: KeyboardGesture | None, selected_gesture: KeyboardGesture | None = None) -> bool:
 
-        if existing_gesture:
-            if selected_gesture:
-                if selected_gesture.shorthand != existing_gesture.shorthand:
-                    return self.shorthand == existing_gesture.shorthand
-                else:
-                    return False
-            else:
-                return self.shorthand == existing_gesture.shorthand
+        if not existing_gesture:
+            return False
+
+        if not selected_gesture:
+            return self.shorthand == existing_gesture.shorthand
+
+        if selected_gesture.shorthand != existing_gesture.shorthand:
+            return self.shorthand == existing_gesture.shorthand
         else:
             return False
