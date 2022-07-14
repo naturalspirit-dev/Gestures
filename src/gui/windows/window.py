@@ -77,7 +77,6 @@ class GesturesMainWindow(QMainWindow):
         validation = keyboardGestureService.validateSelectedIndex(selected_index, 'update')
         if validation.is_valid:
             self.updateRecord(selected_index)
-            self.updateStatusBar('update')
         else:
             validation.showValidationDialog()
 
@@ -88,6 +87,7 @@ class GesturesMainWindow(QMainWindow):
             validation = keyboardGestureService.validateGestureOnUpdate(index, updated_gesture)
             if validation.is_valid:
                 self.gesturesTableView.updateRecord(index.row(), updated_gesture)
+                self.updateStatusBar('update')
             else:
                 validation.showValidationDialog()
 
@@ -97,7 +97,6 @@ class GesturesMainWindow(QMainWindow):
         validation = keyboardGestureService.validateSelectedIndex(selected_index, 'delete')
         if validation.is_valid:
             self.deleteRecord(selected_index)
-            self.updateStatusBar('delete')
         else:
             validation.showValidationDialog()
 
@@ -106,6 +105,7 @@ class GesturesMainWindow(QMainWindow):
         choice = RemoveMessageBox.exec()
         if choice == RemoveMessageBox.Yes:
             self.gesturesTableView.removeRecord(index.row())
+            self.updateStatusBar('delete')
 
     def on_quitAction_triggered(self):
 
