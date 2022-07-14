@@ -1,3 +1,3 @@
-from src.domain.repositories.keyboard_gesture_repository import KeyboardGestureRepository
+from src.domain.repositories.keyboard import KeyboardGestureRepository
 
 keyboardGestureRepository = KeyboardGestureRepository()
