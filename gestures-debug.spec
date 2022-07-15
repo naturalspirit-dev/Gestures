@@ -7,7 +7,7 @@
 import os
 
 __appname__ = 'gestures'
-__version__ = '2.0.3-beta'
+__version__ = '2.0.4-beta'
 _name = f'{__appname__}-{__version__}'
 
 block_cipher = None
