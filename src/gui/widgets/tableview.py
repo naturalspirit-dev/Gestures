@@ -60,8 +60,10 @@ class NewGesturesTableView(QTableView):
 
     def removeRecord(self, index: int):
 
-        self.gesturesTableModel.removeRecord(index)
-        self.setModel(self.gesturesTableModel)
+        row = self.sortingProxyModel.mapToSource(self.currentIndex()).row()
+        self.gesturesTableModel.removeRecord(row)
+        self.sortingProxyModel.setSourceModel(self.gesturesTableModel)
+        self.setModel(self.sortingProxyModel)
 
     def recordCount(self, index):
 
