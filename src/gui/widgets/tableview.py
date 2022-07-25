@@ -55,8 +55,10 @@ class NewGesturesTableView(QTableView):
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 
-        self.gesturesTableModel.updateRecord(index, gesture)
-        self.setModel(self.gesturesTableModel)
+        row = self.sortingProxyModel.mapToSource(self.currentIndex()).row()
+        self.gesturesTableModel.updateRecord(row, gesture)
+        self.sortingProxyModel.setSourceModel(self.gesturesTableModel)
+        self.setModel(self.sortingProxyModel)
 
     def removeRecord(self, index: int):
 
