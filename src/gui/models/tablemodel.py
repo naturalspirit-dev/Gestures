@@ -45,7 +45,7 @@ class GesturesTableModel(QAbstractTableModel):
 
     def insertRows(self, position, rows, parent=QModelIndex()):
 
-        self.beginInsertRows(parent, position, position + rows - 1)
+        self.beginInsertRows(parent, position, rows)
         self.endInsertRows()
         return True
 
@@ -55,10 +55,10 @@ class GesturesTableModel(QAbstractTableModel):
         self.endRemoveRows()
         return True
 
-    def addRecord(self, gesture: KeyboardGesture):
+    def addRecord(self, row: int, gesture: KeyboardGesture):
 
         keyboardGestureRepository.addRecord(gesture)
-        self.insertRows(keyboardGestureRepository.count(), 1)
+        self.insertRows(row, row)
 
     def updateRecord(self, index: int, gesture: KeyboardGesture):
 

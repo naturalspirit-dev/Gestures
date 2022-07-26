@@ -47,8 +47,12 @@ class NewGesturesTableView(QTableView):
 
     def addRecord(self, gesture: KeyboardGesture):
 
-        self.gesturesTableModel.addRecord(gesture)
-        self.setModel(self.gesturesTableModel)
+        # TODO: try to use sibling to insert a record on a particular row
+        row = self.sortingProxyModel.mapToSource(self.currentIndex()).row()
+        self.gesturesTableModel.addRecord(row, gesture)
+        self.sortingProxyModel.setSourceModel(self.gesturesTableModel)
+        self.setModel(self.sortingProxyModel)
+
         self.resizeColumnToContents(2)              # Value column
         self.resizeColumnToContents(3)              # Date Created column
         self.resizeRowsToContents()
