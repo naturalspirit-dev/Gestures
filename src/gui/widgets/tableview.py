@@ -1,5 +1,5 @@
 # Re-implementing QTableView
-from PyQt5.QtCore import Qt, QSortFilterProxyModel
+from PyQt5.QtCore import Qt, QSortFilterProxyModel, QModelIndex
 from PyQt5.QtWidgets import QTableView
 from src.domain.entities.keyboard import KeyboardGesture
 from src.gui.models.tablemodel import GesturesTableModel
@@ -51,15 +51,15 @@ class NewGesturesTableView(QTableView):
         self.resizeColumnToContents(3)              # Date Created column
         self.resizeRowsToContents()
 
-    def updateRecord(self, index: int, gesture: KeyboardGesture):
+    def updateRecord(self, index: QModelIndex, gesture: KeyboardGesture):
 
-        row = self.sortingProxyModel.mapToSource(self.currentIndex()).row()
+        row = self.sortingProxyModel.mapToSource(index).row()
         self.gesturesTableModel.updateRecord(row, gesture)
         self._set_model()
 
-    def removeRecord(self, index: int):
+    def removeRecord(self, index: QModelIndex):
 
-        row = self.sortingProxyModel.mapToSource(self.currentIndex()).row()
+        row = self.sortingProxyModel.mapToSource(index).row()
         self.gesturesTableModel.removeRecord(row)
         self._set_model()
 

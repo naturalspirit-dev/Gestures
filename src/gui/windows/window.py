@@ -86,7 +86,7 @@ class GesturesMainWindow(QMainWindow):
         if updated_gesture:
             validation = keyboardGestureService.validateGestureOnUpdate(index, updated_gesture)
             if validation.is_valid:
-                self.gesturesTableView.updateRecord(index.row(), updated_gesture)
+                self.gesturesTableView.updateRecord(index, updated_gesture)
                 self.updateStatusBar('update')
             else:
                 validation.showValidationDialog()
@@ -104,7 +104,7 @@ class GesturesMainWindow(QMainWindow):
 
         choice = RemoveMessageBox.exec()
         if choice == RemoveMessageBox.Yes:
-            self.gesturesTableView.removeRecord(index.row())
+            self.gesturesTableView.removeRecord(index)
             self.updateStatusBar('delete')
 
     def on_quitAction_triggered(self):
