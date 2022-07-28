@@ -22,6 +22,7 @@ UpdateMessageBox.setIcon(QMessageBox.Information)
 
 RemoveMessageBox = QMessageBox()
 RemoveMessageBox.setWindowTitle('Delete Gesture')
+RemoveMessageBox.setWindowIcon(QIcon(':g-key-32.png'))
 RemoveMessageBox.setIcon(QMessageBox.Warning)
 RemoveMessageBox.setText('Do you really want to remove the selected record?')
 RemoveMessageBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)

@@ -1,5 +1,5 @@
 # Main User Interface of the 'Add' dialog
-
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QDialog,
                              QLabel,
                              QLineEdit,
@@ -53,6 +53,7 @@ class AddGestureDialog(QDialog):
         self.valueLineEdit.setPlaceholderText('Value')
         self.okPushButton.setText('&OK')
         self.okPushButton.setEnabled(False)
+        self.setWindowIcon(QIcon(':g-key-32.png'))
         self.setWindowTitle('Add Gesture')
         self.resize(310, 71)
 
