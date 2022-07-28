@@ -7,7 +7,7 @@
 import os
 
 __appname__ = 'gestures'
-__version__ = '2.0.4-beta'
+__version__ = '2.0.5-beta'
 _name = f'{__appname__}-{__version__}'
 
 block_cipher = None
@@ -32,7 +32,7 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name=_name,
+          name=__appname__,
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
