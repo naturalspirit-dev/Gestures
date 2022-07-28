@@ -26,12 +26,16 @@ class NewGesturesTableView(QTableView):
         super().__init__(parent)
         self.gesturesTableModel = GesturesTableModel(self)
         self.sortingProxyModel = QSortFilterProxyModel()
+        self._set_model()
         self._set_properties()
 
-    def _set_properties(self):
+    def _set_model(self):
 
         self.sortingProxyModel.setSourceModel(self.gesturesTableModel)
         self.setModel(self.sortingProxyModel)
+
+    def _set_properties(self):
+
         self.setSortingEnabled(True)
         self.sortByColumn(0, Qt.AscendingOrder)
         self.horizontalHeader().setStretchLastSection(True)
@@ -39,18 +43,10 @@ class NewGesturesTableView(QTableView):
         self.resizeColumnsToContents()
         self.resizeRowsToContents()
 
-    def _set_model(self, model: GesturesTableModel):
-
-        self.sortingProxyModel.setSourceModel(model)
-        self.sortingProxyModel.sort(self.sortingProxyModel.sortColumn(), Qt.AscendingOrder)
-        self.setModel(self.sortingProxyModel)
-
     def addRecord(self, gesture: KeyboardGesture):
 
         self.gesturesTableModel.addRecord(self.sortingProxyModel.rowCount(), gesture)
-        self.sortingProxyModel.setSourceModel(self.gesturesTableModel)
-        self.setModel(self.sortingProxyModel)
-
+        self._set_model()
         self.resizeColumnToContents(2)              # Value column
         self.resizeColumnToContents(3)              # Date Created column
         self.resizeRowsToContents()
@@ -59,15 +55,13 @@ class NewGesturesTableView(QTableView):
 
         row = self.sortingProxyModel.mapToSource(self.currentIndex()).row()
         self.gesturesTableModel.updateRecord(row, gesture)
-        self.sortingProxyModel.setSourceModel(self.gesturesTableModel)
-        self.setModel(self.sortingProxyModel)
+        self._set_model()
 
     def removeRecord(self, index: int):
 
         row = self.sortingProxyModel.mapToSource(self.currentIndex()).row()
         self.gesturesTableModel.removeRecord(row)
-        self.sortingProxyModel.setSourceModel(self.gesturesTableModel)
-        self.setModel(self.sortingProxyModel)
+        self._set_model()
 
     def recordCount(self, index):
 
