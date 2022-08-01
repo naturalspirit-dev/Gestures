@@ -6,7 +6,7 @@ from src.domain.services import keyboardGestureService
 from src.gui.dialogs.messageboxes import RemoveMessageBox, AboutMessageBox
 from src.gui.widgets.menubar import GesturesMenuBar
 from src.gui.widgets.statusbar import GesturesStatusBar
-from src.gui.widgets.tableview import NewGesturesTableView
+from src.gui.widgets.tableview import GesturesTableView
 from src.resources import gestures_resources
 from src.resources.constant import __appname__
 
@@ -39,7 +39,7 @@ class GesturesMainWindow(QMainWindow):
     def _set_widgets(self):
 
         self.gesturesMenuBar = GesturesMenuBar(self)
-        self.gesturesTableView = NewGesturesTableView(self)
+        self.gesturesTableView = GesturesTableView(self)
         self.gesturesStatusBar = GesturesStatusBar(self)
         self.setMenuBar(self.gesturesMenuBar)
         self.setCentralWidget(self.gesturesTableView)
