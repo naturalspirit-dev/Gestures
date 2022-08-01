@@ -6,7 +6,7 @@
     Author: mokachokokarbon
  """
 
-from src.gui.main.main_ui import GesturesMainApplication
+from src.gui.main.application import GesturesMainApplication
 
 
 if __name__ == '__main__':
