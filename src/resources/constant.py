@@ -15,6 +15,4 @@ __orgdomain__ = 'jerobado.com'
 __version__ = '2.0.5-beta'
 __author__ = 'Jero Bado'
 
-APP = QApplication(sys.argv)
-APP.setOrganizationName(__orgname__)
-APP.setApplicationName(__appname__)
+APP = QApplication(sys.argv)    # app doesn't run when this is removed
