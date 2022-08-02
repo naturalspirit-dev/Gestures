@@ -4,11 +4,11 @@ import logging
 import os
 import platform
 import sys
-
-from PyQt5.QtCore import QT_VERSION_STR
-from PyQt5.Qt import PYQT_VERSION_STR
-from sip import SIP_VERSION_STR
-from src.resources.constant import (__version__,
+from src.resources.constant import (__appname__,
+                                    __version__,
+                                    python_version,
+                                    PYQT_VERSION_STR,
+                                    QT_VERSION_STR,
                                     KEYBOARD_VERSION)
 from src.gui.dialogs.messageboxes import DDayMessageBox
 
@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG,
                     datefmt='%Y-%m-%d %H:%M:%S')
 
 
-def dislay_welcome_message() -> None:
+def display_welcome_message() -> None:
 
     message = """
     Gestures, an application for people who just love to type.
@@ -41,12 +41,11 @@ def display_platform_details() -> None:
 def display_dependency_details() -> None:
 
     logging.info('Displaying dependency details...')
-    logging.info(f'Gestures {__version__}')
-    logging.info(f'Python {platform.python_version()}')
+    logging.info(f'{__appname__} {__version__}')
+    logging.info(f'Python {python_version()}')
     logging.info(f'PyQt {PYQT_VERSION_STR}')
     logging.info(f'keyboard {KEYBOARD_VERSION}')
     logging.info(f'Qt {QT_VERSION_STR}')
-    logging.info(f'SIP {SIP_VERSION_STR}')
 
 
 def valid_license() -> bool:
@@ -61,7 +60,7 @@ if valid_license():   # Gestures' end of usage
     if dialog.exec():
         sys.exit(0)
 else:
-    dislay_welcome_message()
+    display_welcome_message()
     display_platform_details()
     display_dependency_details()
     # then start executing main.py...
