@@ -1,18 +1,24 @@
 # Initiating spin! ~Cooper, Interstellar, 2014
 
+import logging
 import os
 import platform
 import sys
+
+from PyQt5.QtCore import QT_VERSION_STR
+from PyQt5.Qt import PYQT_VERSION_STR
+from sip import SIP_VERSION_STR
+from src.resources.constant import (__version__,
+                                    KEYBOARD_VERSION)
 from src.gui.dialogs.messageboxes import DDayMessageBox
 
-import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s: <%(funcName)s> %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
-    
-from src.resources.constant import __version__
 
-def welcome_message() -> None:
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s: %(funcName)s() %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
+
+
+def dislay_welcome_message() -> None:
 
     message = """
     Gestures, an application for people who just love to type.
@@ -23,31 +29,24 @@ def welcome_message() -> None:
     print(message)
 
 
-def platform_check() -> None:
-    """ Identify the application's current environment. """
+def display_platform_details() -> None:
 
-    logging.info(f'User -> {os.getlogin()}')
-    logging.info(f'Machine -> {platform.machine()}')
-    logging.info(f'Platform -> {platform.platform()}')
-    logging.info(f'System -> {platform.system()}')
+    logging.info('Displaying platform details...')
+    logging.info(f'User: {os.getlogin()}')
+    logging.info(f'Machine: {platform.machine()}')
+    logging.info(f'Platform: {platform.platform()}')
+    logging.info(f'System: {platform.system()}')
 
 
-def dependency_check() -> None:
-    """ Check tools version for debugging. """
+def display_dependency_details() -> None:
 
-    from PyQt5.QtCore import QT_VERSION_STR
-    from PyQt5.Qt import PYQT_VERSION_STR
-    from sip import SIP_VERSION_STR
-    from src.resources.constant import (__version__,
-                                        KEYBOARD_VERSION)
-    from src.gui.main.application import __version__
-
-    logging.info(f'Gestures version -> {__version__}')
-    logging.info(f'Python version -> {sys.version[:5]}')
-    logging.info(f'PyQt version -> {PYQT_VERSION_STR}')
-    logging.info(f'keyboard version -> {KEYBOARD_VERSION}')
-    logging.info(f'Qt version -> {QT_VERSION_STR}')
-    logging.info(f'SIP version -> {SIP_VERSION_STR}')
+    logging.info('Displaying dependency details...')
+    logging.info(f'Gestures {__version__}')
+    logging.info(f'Python {platform.python_version()}')
+    logging.info(f'PyQt {PYQT_VERSION_STR}')
+    logging.info(f'keyboard {KEYBOARD_VERSION}')
+    logging.info(f'Qt {QT_VERSION_STR}')
+    logging.info(f'SIP {SIP_VERSION_STR}')
 
 
 def valid_license() -> bool:
@@ -62,7 +61,7 @@ if valid_license():   # Gestures' end of usage
     if dialog.exec():
         sys.exit(0)
 else:
-    welcome_message()
-    platform_check()
-    dependency_check()
+    dislay_welcome_message()
+    display_platform_details()
+    display_dependency_details()
     # then start executing main.py...
