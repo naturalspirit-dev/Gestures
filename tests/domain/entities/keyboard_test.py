@@ -48,7 +48,7 @@ class TestKeyboardGesture(unittest.TestCase):
         result = type(gesture.empty())
         self.assertEqual(bool, result, 'return type should be a <bool> type')
 
-    def test_duplicate_if_true(self):
+    def test_duplicate_on_create_if_true(self):
 
         original_gesture = KeyboardGesture(shorthand='original',
                                            value='gesture',
@@ -63,7 +63,7 @@ class TestKeyboardGesture(unittest.TestCase):
         result = original_gesture.duplicate(duplicate_gesture)
         self.assertTrue(result, 'shorthand property should be equal')
 
-    def test_duplicate_if_false(self):
+    def test_duplicate_on_create_if_false(self):
 
         original_gesture = KeyboardGesture(shorthand='original',
                                            value='gesture',
@@ -78,7 +78,7 @@ class TestKeyboardGesture(unittest.TestCase):
         result = original_gesture.duplicate(different_gesture)
         self.assertFalse(result, 'shorthand property should NOT be equal')
 
-    def test_duplicate_multiple_parameters_if_true(self):
+    def test_duplicate_on_update_if_true(self):
 
         new_gesture = KeyboardGesture(shorthand='existing',
                                       value='gesture',
@@ -97,6 +97,46 @@ class TestKeyboardGesture(unittest.TestCase):
 
         result = new_gesture.duplicate(existing_gesture, selected_gesture)
         self.assertTrue(result, "new_gesture's shorthand property should be equal to existing_gesture's shorthand property")
+
+    def test_duplicate_on_update_if_false(self):
+
+        new_gesture = KeyboardGesture(shorthand='existing',
+                                      value='gesture',
+                                      date_created=datetime.today().strftime('%x %X %p'),
+                                      date_updated=datetime.today().strftime('%x %X %p'))
+
+        selected_gesture = KeyboardGesture(shorthand='selected',
+                                           value='gesture',
+                                           date_created=datetime.today().strftime('%x %X %p'),
+                                           date_updated=datetime.today().strftime('%x %X %p'))
+
+        existing_gesture = KeyboardGesture(shorthand='not found',
+                                           value='gesture',
+                                           date_created=datetime.today().strftime('%x %X %p'),
+                                           date_updated=datetime.today().strftime('%x %X %p'))
+
+        result = new_gesture.duplicate(existing_gesture, selected_gesture)
+        self.assertFalse(result, "new_gesture's shorthand property should NOT be equal to existing_gesture's shorthand property")
+
+    def test_duplicate_on_update_if_false_if_updating_itself(self):
+
+        new_gesture = KeyboardGesture(shorthand='selected',
+                                      value='new value',
+                                      date_created=datetime.today().strftime('%x %X %p'),
+                                      date_updated=datetime.today().strftime('%x %X %p'))
+
+        selected_gesture = KeyboardGesture(shorthand='selected',
+                                           value='old value',
+                                           date_created=datetime.today().strftime('%x %X %p'),
+                                           date_updated=datetime.today().strftime('%x %X %p'))
+
+        existing_gesture = KeyboardGesture(shorthand='not found',
+                                           value='gesture',
+                                           date_created=datetime.today().strftime('%x %X %p'),
+                                           date_updated=datetime.today().strftime('%x %X %p'))
+
+        result = new_gesture.duplicate(existing_gesture, selected_gesture)
+        self.assertFalse(result, "new_gesture's shorthand property should be equal to selected_gesture's shorthand property")
 
     def test_duplicate_return_type_if_bool(self):
 
