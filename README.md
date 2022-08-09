@@ -1,11 +1,10 @@
 ![Hey! Gestures](images/g-key-32.png) **Gestures**
 ---
-An application for people who just loved to type.
+_Gestures_ is a desktop application that can programmatically typed custom or commonly used abbreviations.
 
 Feature(s) and Benefits
 ---
-* Abbreviate commonly typed phrases such as passwords, emails, numbers, etc.
-* Open favorite websites by a simple key press on the keyboard
+* Automatically typed commonly used strings such as passwords, emails, numbers, etc.
 
 Usage
 ---
