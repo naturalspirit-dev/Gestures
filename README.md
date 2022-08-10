@@ -2,6 +2,8 @@
 ---
 _Gestures_ is a desktop application that can programmatically typed custom or commonly used abbreviations.
 
+![Gestures Demo](images/gestures-demo.gif)
+
 Feature(s) and Benefits
 ---
 * Automatically typed commonly used strings such as passwords, emails, numbers, etc.
