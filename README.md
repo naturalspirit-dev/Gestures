@@ -15,25 +15,18 @@ Usage
 2. In the _Add Gesture_ dialog, fill out the **Shorthand** and **Value** text fields
 3. Press the **OK** button
 
-To use a gesture, put your cursor to a text editor or any text field wherein you can type. Then, typed the `Shorthand` + `space` key and the `Value` of that Shorthand will be automatically typed-written. 
+To use a gesture, put your cursor to a text editor or any text field wherein you can type. Then, typed the **Shorthand** + `space` key and the **Value** of that Shorthand will be automatically typed-written. 
 
 ***Updating a gesture***
-
-There are two ways to update a gesture via double-clicking the cell or using the `Update` button:
-
-_Via double-click_
-1. Double-click the cell you want to update either gesture or meaning.
-2. Press `Enter` to accept your amendments.
-
-_Via `Update` button_
-1. Press the `Update` button.
-2. Type the gesture and its new meaning, then hit OK.
-
-Note: The `Update` button will only update the meaning of the gesture. If you want to update the gesture, use the first method.  
+1. Select a row you want to update in the table
+2. Go to **Edit** menu and select **Update** sub-menu
+3. In the _Update Gesture_ dialog, update either the Shorthand or Value field that you want to change
+4. Press the **OK** button
 
 ***Removing a gesture***
-1. Click on the row you want to remove.
-2. Press the `Remove` button and it will be remove instantly.
+1. Select a row you want to remove in the table
+2. Go to **Edit** menu and select **Delete** sub-menu
+3. In the _Delete Gesture_ dialog, click **Yes** if you want to proceed, and **No** if you want to cancel
 
 Software Requirements
 ---
