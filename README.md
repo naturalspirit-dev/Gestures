@@ -11,9 +11,11 @@ Feature(s) and Benefits
 Usage
 ---
 ***Adding a gesture***
-1. Press the `Add` button.
-2. Enter the gesture and its equivalent meaning, then hit OK.
-3. Type the gesture + `space` and the meaning will be type written.
+1. Go to **File** menu and select **New (Ctrl+N)** sub-menu 
+2. In the _Add Gesture_ dialog, fill out the **Shorthand** and **Value** text fields
+3. Press the **OK** button
+
+To use a gesture, put your cursor to a text editor or any text field wherein you can type. Then, typed the `Shorthand` + `space` key and the `Value` of that Shorthand will be automatically typed-written. 
 
 ***Updating a gesture***
 
