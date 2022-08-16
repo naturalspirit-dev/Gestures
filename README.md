@@ -4,6 +4,13 @@ _Gestures_ is a desktop application that can programmatically typed custom or co
 
 ![Gestures Demo](images/gestures-demo.gif)
 
+Downloads
+---
+
+| Version      | Release date | Platform             |
+|--------------|--------------|----------------------|
+| Gestures 2.0 | 1 Sep 2022   | Windows 10/11 64-bit |
+
 Feature(s) and Benefits
 ---
 * Automatically typed commonly used strings such as passwords, emails, numbers, etc.
