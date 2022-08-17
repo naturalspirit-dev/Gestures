@@ -36,7 +36,7 @@ AboutMessageBox.setIconPixmap(QPixmap(':/g-key-32.png'))
 AboutMessageBox.setWindowTitle(f'About {__appname__}')
 AboutMessageBox.setText(f'<b>{__appname__} {__version__}</b>')
 about_template = Template("""
-<p>An application for people who just loved to type.</p>
+<p>Gestures is a desktop application that can programmatically typed custom or commonly used strings.</p>
 <hr>
 <p>
     <b>Dependencies</b><br><br>

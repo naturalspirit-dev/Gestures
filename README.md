@@ -1,6 +1,6 @@
 ![Hey! Gestures](images/g-key-32.png) **Gestures**
 ---
-_Gestures_ is a desktop application that can programmatically typed custom or commonly used abbreviations.
+_Gestures_ is a desktop application that can programmatically typed custom or commonly used strings.
 
 ![Gestures Demo](images/gestures-demo.gif)
 
