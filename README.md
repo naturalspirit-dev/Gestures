@@ -7,9 +7,9 @@ _Gestures_ is a desktop application that can programmatically typed custom or co
 Downloads
 ---
 
-| Version      | Release date | Platform             |
-|--------------|--------------|----------------------|
-| Gestures 2.0 | 1 Sep 2022   | Windows 10/11 64-bit |
+| Version        | Release date | Platform                                                                                           |
+|----------------|--------------|----------------------------------------------------------------------------------------------------|
+| Gestures 2.0.5 | 1 Sep 2022   | Windows 10/11 [64-bit](https://github.com/jerobado/Gestures/releases/download/v2.0.5/gestures.exe) |
 
 Feature(s) and Benefits
 ---
@@ -46,6 +46,8 @@ Software Requirements
 System Requirements
 ---
 - OS: Windows 10/11 64-bit
+- Memory: 30 MB
+- Storage: 60 MB
 
 Credits
 ---
