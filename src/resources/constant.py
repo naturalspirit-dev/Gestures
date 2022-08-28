@@ -12,7 +12,7 @@ from keyboard import version as KEYBOARD_VERSION
 __appname__ = 'Gestures'
 __orgname__ = 'Jero Bado'
 __orgdomain__ = 'jerobado.com'
-__version__ = '2.0.5-beta'
+__version__ = '2.0.5'
 __author__ = 'Jero Bado'
 
 APP = QApplication(sys.argv)    # app doesn't run when this is removed

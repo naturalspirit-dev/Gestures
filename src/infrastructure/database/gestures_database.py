@@ -7,8 +7,10 @@ from src.domain.entities.keyboard import KeyboardGesture
 
 class GesturesDatabase:
 
-    database_filename = 'gestures-dev.db'
+    database_filename = 'gestures.db'
+    # database_filename = 'gestures-dev.db'
     # database_filename = 'gestures-test.db'  # for UAT
+    # database_filename = 'gestures-demo.db'  # for demo
 
     def __init__(self):
 
